@@ -53,6 +53,8 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:main"))
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -69,6 +71,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("com.google.dagger:hilt-compiler:2.44")
+    implementation(Libs.HILT)
+    kapt(Libs.HILT_COMPILER)
+//    implementation(Libs.HILT)
+//    implementation(Libs.HILT_COMPILER)
 }
