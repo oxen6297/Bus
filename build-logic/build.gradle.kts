@@ -3,7 +3,7 @@ plugins {
     `kotlin-dsl-precompiled-script-plugins`
 }
 
-java{
+java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
@@ -13,11 +13,19 @@ dependencies {
     implementation(libs.kotlin.gradlePlugin)
 }
 
-gradlePlugin{
+gradlePlugin {
     plugins {
-        register("AndroidApplication"){
+        register("AndroidApplication") {
             id = "sb.park.application"
             implementationClass = "sb.park.bus.build_logic.ApplicationConventionPlugin"
+        }
+        register("AndroidData") {
+            id = "sb.park.data"
+            implementationClass = "sb.park.bus.build_logic.DataConventionPlugin"
+        }
+        register("AndroidFeatureMain") {
+            id = "sb.park.feature.main"
+            implementationClass = "sb.park.bus.build_logic.FeatureMainConventionPlugin"
         }
     }
 }
