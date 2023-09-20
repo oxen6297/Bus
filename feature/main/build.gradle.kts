@@ -1,5 +1,5 @@
 plugins {
-    id("sb.park.feature.main")
+    id("sb.park.feature")
 }
 
 android {

@@ -6,7 +6,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import sb.park.bus.build_logic.project.configureKotlinAndroid
 
-internal class DataConventionPlugin: Plugin<Project> {
+internal class CorePlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target){
             with(pluginManager){

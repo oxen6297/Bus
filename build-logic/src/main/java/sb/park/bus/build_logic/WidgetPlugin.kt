@@ -6,7 +6,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import sb.park.bus.build_logic.project.configureKotlinAndroid
 
-class FeatureMainConventionPlugin : Plugin<Project> {
+class WidgetPlugin  : Plugin<Project> {
     override fun apply(target: Project) {
         with(target){
             with(pluginManager){
@@ -14,21 +14,7 @@ class FeatureMainConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
             extensions.configure<LibraryExtension> {
-                defaultConfig {
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                }
                 configureKotlinAndroid(this)
-                buildFeatures {
-                    compose = true
-                }
-                composeOptions {
-                    kotlinCompilerExtensionVersion = "1.4.3"
-                }
-                packaging {
-                    resources {
-                        excludes += "/META-INF/{AL2.0,LGPL2.1}"
-                    }
-                }
             }
         }
     }

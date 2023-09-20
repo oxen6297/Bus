@@ -1,5 +1,5 @@
 plugins {
-    id("sb.park.data")
+    id("sb.park.core")
 }
 
 android {
