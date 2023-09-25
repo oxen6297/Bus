@@ -51,72 +51,81 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SearchTextField()
+                    MainScreen()
                 }
             }
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
     @Composable
-    private fun SearchTextField() {
-        var text by remember { mutableStateOf(TextFieldValue("")) }
-        val keyboardController = LocalSoftwareKeyboardController.current
+    private fun MainScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp)
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                TextField(
-                    value = text,
-                    onValueChange = { newText -> text = newText },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color.LightGray,
-                            shape = RoundedCornerShape(15.dp)
-                        ),
-                    singleLine = true,
-                    placeholder = {
-                        Text(
-                            text = stringResource(id = R.string.text_hint),
-                            style = TextStyle(
-                                color = Color.LightGray,
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Light
-                            )
-                        )
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.White,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        cursorColor = Color.Gray
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            clickSearchBtn()
-                            keyboardController?.hide()
-                        }
+                SearchTextField()
+                SearchIconButton(modifier = Modifier.align(Alignment.CenterEnd))
+            }
+        }
+    }
+
+    @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+    @Composable
+    private fun SearchTextField() {
+        var text by remember { mutableStateOf(TextFieldValue("")) }
+        val keyboardController = LocalSoftwareKeyboardController.current
+        TextField(
+            value = text,
+            onValueChange = { newText -> text = newText },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .border(
+                    width = 1.dp,
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(15.dp)
+                ),
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.text_hint),
+                    style = TextStyle(
+                        color = Color.LightGray,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Light
                     )
                 )
-                IconButton(
-                    onClick = { clickSearchBtn() },
-                    modifier = Modifier
-                        .size(48.dp)
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 15.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null,
-                        tint = Color.Gray
-                    )
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                cursorColor = Color.Gray
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    clickSearchBtn()
+                    keyboardController?.hide()
                 }
-            }
+            )
+        )
+    }
+
+    @Composable
+    private fun SearchIconButton(modifier: Modifier) {
+        IconButton(
+            onClick = { clickSearchBtn() },
+            modifier = modifier
+                .size(48.dp)
+                .padding(end = 15.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                tint = Color.Gray
+            )
         }
     }
 
