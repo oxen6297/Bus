@@ -19,6 +19,5 @@ include(
     ":app",
     ":core:data",
     ":core:domain",
-    ":feature:main",
-    ":widget"
+    ":feature:main"
 )

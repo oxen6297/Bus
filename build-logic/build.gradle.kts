@@ -22,10 +22,6 @@ gradlePlugin {
             id = "sb.park.feature"
             implementationClass = "sb.park.bus.build_logic.FeaturePlugin"
         }
-        register("AndroidWidget") {
-            id = "sb.park.widget"
-            implementationClass = "sb.park.bus.build_logic.WidgetPlugin"
-        }
     }
 }
 

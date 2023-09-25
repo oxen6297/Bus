@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("sb.park.core")
 }
@@ -13,4 +15,8 @@ dependencies{
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.espresso)
+    implementation(libs.retrofit.android)
+    implementation(libs.retrofit.gson)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }
