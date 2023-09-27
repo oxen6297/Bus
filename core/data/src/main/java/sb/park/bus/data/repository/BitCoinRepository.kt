@@ -2,6 +2,6 @@ package sb.park.bus.data.repository
 
 import sb.park.bus.data.model.BitCoinModel
 
-internal interface BitCoinRepository {
+interface BitCoinRepository {
     suspend fun getData(): BitCoinModel
 }
