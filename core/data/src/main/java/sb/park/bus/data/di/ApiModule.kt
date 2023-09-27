@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import sb.park.bus.data.BitApi
 import sb.park.bus.data.repository.BitCoinRepository
-import sb.park.bus.data.repository.DefaultBitCoinRepository
+import sb.park.bus.data.repository.BitCoinRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -28,6 +28,7 @@ internal object ApiModule {
         val okHttpClient = OkHttpClient.Builder().build()
 
         return Retrofit.Builder()
+            .baseUrl("https://api.bithumb.com/public/ticker/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
@@ -39,5 +40,5 @@ internal object ApiModule {
 
     @Singleton
     @Provides
-    fun provideRepository(bitApi: BitApi): BitCoinRepository = DefaultBitCoinRepository(bitApi)
+    fun provideRepository(bitApi: BitApi): BitCoinRepository = BitCoinRepositoryImpl(bitApi)
 }
