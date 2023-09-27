@@ -8,6 +8,8 @@ android {
 
 
 dependencies {
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
     implementation(libs.androidx.core)
     implementation(libs.compose.activity)
     implementation(libs.androidx.lifecycle.runtime)
@@ -24,4 +26,6 @@ dependencies {
     androidTestImplementation(libs.compose.test.ui)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.test.manifest)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }

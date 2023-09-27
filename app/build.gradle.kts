@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:main"))
+    implementation(projects.feature.main)
     implementation(libs.androidx.core)
     implementation(libs.compose.activity)
     implementation(libs.androidx.lifecycle.runtime)

@@ -12,6 +12,8 @@ class FeaturePlugin : Plugin<Project> {
             with(pluginManager){
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("dagger.hilt.android.plugin")
+                apply("kotlin-kapt")
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
