@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text_hint">버스 번호를 입력하세요.</string>
+    <string name="bit_coin">버스 기다리면서 확인하는 비트코인 정보</string>
+    <string name="fluctate_rate">최근 24시간 변동률</string>
+    <string name="max_price">고가</string>
+    <string name="min_price">저가</string>
+    <string name="toast">오류가 발생했습니다 잠시 후 다시 시도해주세요.</string>
 </resources>
