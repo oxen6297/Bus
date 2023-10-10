@@ -19,6 +19,8 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.preview)
     implementation(libs.androidx.material)
+    implementation(libs.hilt.navigation)
+    implementation(libs.androidx.navigation)
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.espresso)

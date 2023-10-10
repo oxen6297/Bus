@@ -5,6 +5,7 @@ lifecycle = "2.6.2"
 room = "2.5.2"
 retrofit = "2.9.0"
 hilt = "2.44"
+hiltNavigation="1.0.0-alpha03"
 compose = "1.7.2"
 viewmodelCompose = "2.6.1"
 kotlin = "1.8.10"
@@ -14,6 +15,7 @@ testJunit = "1.1.5"
 espresso = "3.5.1"
 composeBom = "2023.03.00"
 ui = "1.2.0"
+navigation = "2.5.3"
 
 material = "1.9.0"
 appcompat = "1.6.1"
@@ -39,6 +41,7 @@ android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidCore" }
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodelCompose" }
@@ -60,6 +63,7 @@ compose-animation = { group = "androidx.compose.animation", name = "animation-co
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
 room-android = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-copmiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
