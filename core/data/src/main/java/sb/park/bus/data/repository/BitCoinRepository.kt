@@ -1,7 +1,7 @@
 package sb.park.bus.data.repository
 
-import sb.park.bus.data.model.CoinBaseModel
+import sb.park.bus.data.model.BaseResponse
 
 interface BitCoinRepository {
-    suspend fun getData(): CoinBaseModel
+    suspend fun getData(): BaseResponse
 }

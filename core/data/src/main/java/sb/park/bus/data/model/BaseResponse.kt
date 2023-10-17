@@ -1,6 +1,6 @@
 package sb.park.bus.data.model
 
-data class CoinBaseModel(
+data class BaseResponse(
     val status: String,
-    val data: BitCoinModel
+    val data: BitCoinResponse
 )

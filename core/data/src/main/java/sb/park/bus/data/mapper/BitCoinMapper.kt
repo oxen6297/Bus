@@ -1,21 +1,21 @@
 package sb.park.bus.data.mapper
 
 import android.annotation.SuppressLint
-import sb.park.bus.data.model.BitCoinModel
-import sb.park.bus.data.model.CoinBaseModel
+import sb.park.bus.data.model.BaseResponse
+import sb.park.bus.data.model.BitCoinResponse
 import java.text.SimpleDateFormat
 import java.util.Date
 
-internal fun CoinBaseModel.toData(): CoinBaseModel = CoinBaseModel(
+internal fun BaseResponse.toData(): BaseResponse = BaseResponse(
     status = this.status,
     data = this.data.toData()
 )
 
 @SuppressLint("SimpleDateFormat")
-internal fun BitCoinModel.toData(): BitCoinModel {
+internal fun BitCoinResponse.toData(): BitCoinResponse {
     val regex = "(\\d)(?=(\\d{3})+\$)".toRegex()
 
-    return BitCoinModel(
+    return BitCoinResponse(
         changeRatio = "${this.changeRatio}%",
         maxPrice = "${this.maxPrice.replace(regex,"\$1,")} 원",
         minPrice = "${this.minPrice.replace(regex,"\$1,")} 원",

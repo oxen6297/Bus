@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import sb.park.bus.data.model.CoinBaseModel
+import sb.park.bus.data.model.BaseResponse
 import sb.park.bus.domain.usecase.BitCoinUseCase
 import sb.park.bus.feature.main.theme.UiState
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class BitCoinViewModel @Inject constructor(private val bitCoinUseCase: BitCoinUseCase) :
     ViewModel() {
 
-    private val _bitCoinFlow = MutableStateFlow<UiState<CoinBaseModel>>(UiState.Loading)
+    private val _bitCoinFlow = MutableStateFlow<UiState<BaseResponse>>(UiState.Loading)
     val bitCoinFlow = _bitCoinFlow.asStateFlow()
 
     init {

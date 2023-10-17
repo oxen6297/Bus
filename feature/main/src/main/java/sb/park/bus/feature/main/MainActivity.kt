@@ -34,7 +34,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import sb.park.bus.data.model.CoinBaseModel
+import sb.park.bus.data.model.BaseResponse
 import sb.park.bus.feature.main.navigation.NavScreen
 import sb.park.bus.feature.main.theme.BusTheme
 import sb.park.bus.feature.main.theme.UiState
@@ -112,7 +112,7 @@ class MainActivity : ComponentActivity() {
         val bitCoinFlow by viewModel.bitCoinFlow.collectAsState()
         when (bitCoinFlow) {
             is UiState.Success -> {
-                val bitCoinModel = (bitCoinFlow as UiState.Success<CoinBaseModel>).data.data
+                val bitCoinModel = (bitCoinFlow as UiState.Success<BaseResponse>).data.data
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 )

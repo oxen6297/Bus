@@ -1,6 +1,6 @@
 package sb.park.bus.data.model
 
-data class BusIdModel(
+data class BusIdResponse(
     val routeId: Long,
     val routeName: String,
     val Num: Int,

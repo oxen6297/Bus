@@ -1,11 +1,11 @@
 package sb.park.bus.data.repository
 
-import sb.park.bus.data.BitApi
+import sb.park.bus.data.BitCoinService
 import sb.park.bus.data.mapper.toData
-import sb.park.bus.data.model.CoinBaseModel
+import sb.park.bus.data.model.BaseResponse
 import javax.inject.Inject
 
-internal class BitCoinRepositoryImpl @Inject constructor(private val bitApi: BitApi) :
+internal class BitCoinRepositoryImpl @Inject constructor(private val bitCoinService: BitCoinService) :
     BitCoinRepository {
-    override suspend fun getData(): CoinBaseModel = bitApi.getData().toData()
+    override suspend fun getData(): BaseResponse = bitCoinService.getData().toData()
 }
