@@ -12,7 +12,7 @@ internal fun BaseResponse.toData(): BaseResponse = BaseResponse(
 )
 
 @SuppressLint("SimpleDateFormat")
-internal fun BitCoinResponse.toData(): BitCoinResponse {
+private fun BitCoinResponse.toData(): BitCoinResponse {
     val regex = "(\\d)(?=(\\d{3})+\$)".toRegex()
 
     return BitCoinResponse(
