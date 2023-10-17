@@ -1,8 +1,11 @@
 package sb.park.bus.feature.main
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,62 +25,52 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import sb.park.bus.feature.main.theme.BusTheme
-
-@Composable
-fun SearchScreen() {
-    SearchTextField()
-}
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun SearchTextField() {
+fun SearchScreen() {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     val keyboardController = LocalSoftwareKeyboardController.current
-    TextField(
-        value = text,
-        onValueChange = { newText -> text = newText },
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .border(
-                width = 1.dp,
-                color = Color.LightGray,
-                shape = RoundedCornerShape(15.dp)
-            ),
-        singleLine = true,
-        placeholder = {
-            Text(
-                text = stringResource(id = R.string.text_hint),
-                style = TextStyle(
+            .fillMaxSize()
+            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+    ) {
+        TextField(
+            value = text,
+            onValueChange = { newText -> text = newText },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .border(
+                    width = 1.dp,
                     color = Color.LightGray,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Light
+                    shape = RoundedCornerShape(15.dp)
+                ),
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.text_hint),
+                    style = TextStyle(
+                        color = Color.LightGray,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Light
+                    )
                 )
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                cursorColor = Color.Gray
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                }
             )
-        },
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color.White,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            cursorColor = Color.Gray
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboardController?.hide()
-            }
         )
-    )
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    BusTheme {
-        SearchScreen()
     }
 }

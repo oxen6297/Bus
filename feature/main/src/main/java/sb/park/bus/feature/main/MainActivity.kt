@@ -60,7 +60,6 @@ class MainActivity : ComponentActivity() {
                             SearchScreen()
                         }
                     }
-                    MainScreen(navController)
                 }
             }
         }
