@@ -39,6 +39,7 @@ import sb.park.bus.feature.main.navigation.NavScreen
 import sb.park.bus.feature.main.theme.BusTheme
 import sb.park.bus.feature.main.theme.UiState
 import sb.park.bus.feature.main.viewmodels.BitCoinViewModel
+import sb.park.bus.feature.main.widget.Progressbar
 import sb.park.bus.feature.main.widget.TextCoin
 
 @AndroidEntryPoint
@@ -149,7 +150,7 @@ class MainActivity : ComponentActivity() {
             }
 
             is UiState.Loading -> {
-                //TODO progressbar
+                Progressbar()
             }
         }
     }
