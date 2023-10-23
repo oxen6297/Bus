@@ -1,4 +1,4 @@
-package sb.park.bus.data.model
+package sb.park.bus.data.response
 
 import com.google.gson.annotations.SerializedName
 

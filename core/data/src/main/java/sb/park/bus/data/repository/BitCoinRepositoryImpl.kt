@@ -1,8 +1,8 @@
 package sb.park.bus.data.repository
 
-import sb.park.bus.data.BitCoinService
+import sb.park.bus.data.service.BitCoinService
 import sb.park.bus.data.mapper.toData
-import sb.park.bus.data.model.BaseResponse
+import sb.park.bus.data.response.BaseResponse
 import javax.inject.Inject
 
 internal class BitCoinRepositoryImpl @Inject constructor(private val bitCoinService: BitCoinService) :

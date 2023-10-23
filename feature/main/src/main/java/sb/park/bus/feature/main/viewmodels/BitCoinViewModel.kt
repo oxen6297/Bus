@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import sb.park.bus.data.model.BaseResponse
+import sb.park.bus.data.response.BaseResponse
 import sb.park.bus.domain.usecase.BitCoinUseCase
 import sb.park.bus.feature.main.theme.UiState
 import javax.inject.Inject

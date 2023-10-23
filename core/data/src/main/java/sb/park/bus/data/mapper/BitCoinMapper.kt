@@ -1,8 +1,8 @@
 package sb.park.bus.data.mapper
 
 import android.annotation.SuppressLint
-import sb.park.bus.data.model.BaseResponse
-import sb.park.bus.data.model.BitCoinResponse
+import sb.park.bus.data.response.BaseResponse
+import sb.park.bus.data.response.BitCoinResponse
 import java.text.SimpleDateFormat
 import java.util.Date
 

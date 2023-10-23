@@ -34,7 +34,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import sb.park.bus.data.model.BaseResponse
+import sb.park.bus.data.response.BaseResponse
 import sb.park.bus.feature.main.navigation.NavScreen
 import sb.park.bus.feature.main.theme.BusTheme
 import sb.park.bus.feature.main.theme.UiState
