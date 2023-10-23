@@ -1,4 +1,4 @@
-package sb.park.bus.data.model
+package sb.park.bus.data.response
 
 data class BusIdResponse(
     val routeId: Long,
