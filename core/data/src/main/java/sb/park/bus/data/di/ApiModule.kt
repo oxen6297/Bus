@@ -8,7 +8,9 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import sb.park.bus.data.BitCoinService
+import sb.park.bus.data.service.BitCoinService
+import sb.park.bus.data.service.BusLocationService
+import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.BIT_COIN
 import sb.park.bus.data.util.BUS
 import javax.inject.Qualifier
@@ -36,8 +38,8 @@ internal object ApiModule {
 
     @Singleton
     @Provides
-    @BusLocRetrofit
-    fun provideBusLocRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    @BusRetrofit
+    fun provideBusRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BUS)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
         .client(okHttpClient)
@@ -45,7 +47,24 @@ internal object ApiModule {
 
     @Singleton
     @Provides
-    fun provideApiService(@BitCoinRetrofit retrofit: Retrofit): BitCoinService = retrofit.create(BitCoinService::class.java)
+    fun provideBitCoinService(@BitCoinRetrofit retrofit: Retrofit): BitCoinService =
+        retrofit.create(
+            BitCoinService::class.java
+        )
+
+    @Singleton
+    @Provides
+    fun provideBusLocationService(@BusRetrofit retrofit: Retrofit): BusLocationService =
+        retrofit.create(
+            BusLocationService::class.java
+        )
+
+    @Singleton
+    @Provides
+    fun provideBusStationService(@BusRetrofit retrofit: Retrofit): BusStationService =
+        retrofit.create(
+            BusStationService::class.java
+        )
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -53,5 +72,5 @@ internal object ApiModule {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
-    private annotation class BusLocRetrofit
+    private annotation class BusRetrofit
 }
