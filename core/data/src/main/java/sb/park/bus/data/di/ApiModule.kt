@@ -9,10 +9,12 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import sb.park.bus.data.service.BitCoinService
+import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.service.BusLocationService
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.BIT_COIN
 import sb.park.bus.data.util.BUS
+import sb.park.bus.data.util.BUS_ID
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -47,6 +49,15 @@ internal object ApiModule {
 
     @Singleton
     @Provides
+    @BusRetrofit
+    fun provideBusIdRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BUS_ID)
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+        .client(okHttpClient)
+        .build()
+
+    @Singleton
+    @Provides
     fun provideBitCoinService(@BitCoinRetrofit retrofit: Retrofit): BitCoinService =
         retrofit.create(
             BitCoinService::class.java
@@ -66,6 +77,13 @@ internal object ApiModule {
             BusStationService::class.java
         )
 
+    @Singleton
+    @Provides
+    fun provideBusIdService(@BusIdRetrofit retrofit: Retrofit): BusIdService =
+        retrofit.create(
+            BusIdService::class.java
+        )
+
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     private annotation class BitCoinRetrofit
@@ -73,4 +91,8 @@ internal object ApiModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     private annotation class BusRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    private annotation class BusIdRetrofit
 }
