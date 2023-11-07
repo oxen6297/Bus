@@ -49,7 +49,7 @@ internal object ApiModule {
 
     @Singleton
     @Provides
-    @BusRetrofit
+    @BusIdRetrofit
     fun provideBusIdRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BUS_ID)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
