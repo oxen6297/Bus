@@ -6,5 +6,7 @@ import javax.inject.Inject
 
 internal class BusIdRepositoryImpl @Inject constructor(private val busIdService: BusIdService) :
     BusIdRepository {
-    override suspend fun getData(busNumber: String): List<BusIdResponse> = busIdService.getBusId()
+    override suspend fun getData(busNumber: String): List<BusIdResponse> {
+        return busIdService.getBusId().filter { it.routeName == busNumber }
+    }
 }
