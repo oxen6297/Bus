@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *>) {
     commonExtension.apply {
-        compileSdk = 33
+        compileSdk = 34
 
         defaultConfig {
             minSdk = 26
@@ -19,7 +19,7 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
             targetCompatibility = JavaVersion.VERSION_17
         }
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = "17"
         }
     }
 }

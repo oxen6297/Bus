@@ -1,5 +1,6 @@
 plugins {
     id("sb.park.feature")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -8,26 +9,23 @@ android {
 
 
 dependencies {
-    implementation(projects.core.domain)
     implementation(projects.core.data)
     implementation(libs.androidx.core)
-    implementation(libs.compose.activity)
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.lifecycle.compose)
-    implementation(platform(libs.compose.platform))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.preview)
-    implementation(libs.androidx.material)
-    implementation(libs.hilt.navigation)
+    implementation(libs.google.material)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.databinding)
+    implementation(libs.bumptech.glide)
+    implementation(libs.jake.timber)
+    implementation(libs.google.material)
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.espresso)
-    androidTestImplementation(platform(libs.compose.platform))
-    androidTestImplementation(libs.compose.test.ui)
-    debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.compose.test.manifest)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }
