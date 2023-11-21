@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.bumptech.glide)
     implementation(libs.jake.timber)
     implementation(libs.google.material)
+    implementation(libs.retrofit.gson)
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.espresso)
