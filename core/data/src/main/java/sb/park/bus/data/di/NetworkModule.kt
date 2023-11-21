@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import sb.park.bus.data.service.BitCoinService
@@ -20,13 +21,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object ApiModule {
+internal object NetworkModule {
+
+    private val httpLoggingInterceptor = HttpLoggingInterceptor {
+        error(it)
+    }.setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        val okHttpClientBuilder = OkHttpClient.Builder()
-        return okHttpClientBuilder.build()
+        return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
     }
 
     @Singleton
