@@ -4,6 +4,6 @@ import retrofit2.http.GET
 import sb.park.bus.data.response.BusIdResponse
 
 interface BusIdService {
-    @GET("/Bus/core/data/src/main/assets/Bus.json")
+    @GET("oxen6297/Bus/master/Bus.json")
     suspend fun getBusId(): List<BusIdResponse>
 }
