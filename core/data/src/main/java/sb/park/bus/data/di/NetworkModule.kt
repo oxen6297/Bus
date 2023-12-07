@@ -16,6 +16,7 @@ import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.BIT_COIN
 import sb.park.bus.data.util.BUS
 import sb.park.bus.data.util.BUS_ID
+import timber.log.Timber
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -24,8 +25,8 @@ import javax.inject.Singleton
 internal object NetworkModule {
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor {
-        error(it)
-    }.setLevel(HttpLoggingInterceptor.Level.BODY)
+        Timber.e(it)
+    }.setLevel(HttpLoggingInterceptor.Level.BASIC)
 
     @Singleton
     @Provides
