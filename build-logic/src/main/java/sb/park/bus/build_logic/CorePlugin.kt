@@ -31,6 +31,7 @@ internal class CorePlugin : Plugin<Project> {
                 }
                 buildFeatures {
                     dataBinding = true
+                    viewBinding = true
                 }
                 packaging {
                     resources {

@@ -35,6 +35,7 @@ internal class ApplicationPlugin : Plugin<Project> {
                 }
                 buildFeatures {
                     dataBinding = true
+                    viewBinding = true
                 }
                 defaultConfig.targetSdk = 34
                 packaging {

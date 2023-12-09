@@ -32,6 +32,7 @@ class FeaturePlugin : Plugin<Project> {
                 }
                 buildFeatures {
                     dataBinding = true
+                    viewBinding = true
                 }
                 packaging {
                     resources {
