@@ -19,6 +19,6 @@ private fun BitCoinResponse.toData(): BitCoinResponse {
         changeRatio = "${this.changeRatio}%",
         maxPrice = "${this.maxPrice.replace(regex,"\$1,")} 원",
         minPrice = "${this.minPrice.replace(regex,"\$1,")} 원",
-        date = SimpleDateFormat("yyyy-MM-dd").format(Date(this.date.toLong()))
+        date = "기준일: ${SimpleDateFormat("yyyy-MM-dd").format(Date(this.date.toLong()))}"
     )
 }
