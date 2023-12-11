@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_padding">20dp</dimen>
+
+    <dimen name="edit_height">45dp</dimen>
+    <dimen name="edit_text_size">13sp</dimen>
+    <dimen name="text_timestamp_size">10sp</dimen>
+
+    <dimen name="icon_size">20dp</dimen>
+</resources>
