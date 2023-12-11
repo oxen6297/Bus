@@ -18,7 +18,7 @@ class BitCoinViewModel @Inject constructor(private val bitCoinRepository: BitCoi
     private val _bitCoinFlow = MutableStateFlow<ApiResult<BaseResponse>>(ApiResult.Loading)
     val bitCoinFlow = _bitCoinFlow.asStateFlow()
 
-    init {
+    fun getCoinData() {
         viewModelScope.launch {
             try {
                 _bitCoinFlow.emit(ApiResult.Success(bitCoinRepository.getData()))
