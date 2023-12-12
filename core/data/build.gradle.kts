@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("sb.park.core")
@@ -23,4 +22,7 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.room.android)
+    implementation(libs.room.ktx)
+    kapt(libs.room.copmiler)
 }
