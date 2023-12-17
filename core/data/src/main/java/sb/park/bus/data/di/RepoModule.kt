@@ -12,6 +12,8 @@ import sb.park.bus.data.repository.BusLocationRepository
 import sb.park.bus.data.repository.BusLocationRepositoryImpl
 import sb.park.bus.data.repository.BusStationRepository
 import sb.park.bus.data.repository.BusStationRepositoryImpl
+import sb.park.bus.data.repository.FavoriteRepository
+import sb.park.bus.data.repository.FavoriteRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,4 +30,7 @@ internal abstract class RepoModule {
 
     @Binds
     abstract fun provideBusIdRepository(busIdRepositoryImpl: BusIdRepositoryImpl): BusIdRepository
+
+    @Binds
+    abstract fun provideFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository
 }
