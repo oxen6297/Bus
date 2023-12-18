@@ -5,6 +5,9 @@
     <string name="max_price">고가</string>
     <string name="min_price">저가</string>
     <string name="favorite">즐겨찾기</string>
+    <string name="text_no_result">검색 결과가 없습니다.</string>
 
     <string name="toast_error">"에러가 발생하였습니다. 잠시 후 다시 시도해주세요."</string>
+
+    <string name="text_arrow"> &#60; - &#62; </string>
 </resources>
