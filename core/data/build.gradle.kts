@@ -25,4 +25,6 @@ dependencies {
     implementation(libs.room.android)
     implementation(libs.room.ktx)
     kapt(libs.room.copmiler)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.kotlin.serialization)
 }
