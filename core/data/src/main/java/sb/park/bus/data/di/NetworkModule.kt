@@ -17,6 +17,7 @@ import sb.park.bus.data.util.BIT_COIN
 import sb.park.bus.data.util.BUS
 import sb.park.bus.data.util.BUS_ID
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -31,7 +32,12 @@ internal object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+        return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+            .callTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
     }
 
     @Singleton
