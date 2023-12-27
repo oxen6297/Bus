@@ -37,11 +37,34 @@
             app:layout_constraintTop_toTopOf="@id/text_search"
             tools:ignore="ContentDescription" />
 
+        <include
+            android:id="@+id/include_loading"
+            layout="@layout/include_loading_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_bus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/text_search" />
+
+        <TextView
+            android:id="@+id/text_no_result"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/text_no_result"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recyclerview_bus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
