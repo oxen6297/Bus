@@ -23,8 +23,8 @@ class SearchAdapter : ListAdapter<BusStationResponse, SearchAdapter.ViewHolder>(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
             bus = getItem(position)
-            textStartStation.text = getItem(0).stationNm
-            textEndStation.text = getItem(itemCount - 1).stationNm
+            textStartStation.text = getItem(0).direction
+            textEndStation.text = getItem(itemCount - 1).direction
         }
     }
 
