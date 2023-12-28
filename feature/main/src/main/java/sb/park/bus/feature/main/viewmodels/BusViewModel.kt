@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import sb.park.bus.data.repository.BusIdRepository
 import sb.park.bus.data.repository.BusStationRepository
 import sb.park.bus.data.response.BusIdResponse
-import sb.park.bus.data.response.BusStationResponse
+import sb.park.bus.data.response.BusSearchResponse
 import sb.park.bus.feature.main.ApiResult
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class BusViewModel @Inject constructor(
     private val _bus = MutableStateFlow<ApiResult<List<BusIdResponse>>>(ApiResult.Loading)
     val bus = _bus.asStateFlow()
 
-    private val _station = MutableStateFlow<ApiResult<List<BusStationResponse>>>(ApiResult.Loading)
+    private val _station = MutableStateFlow<ApiResult<List<BusSearchResponse>>>(ApiResult.Loading)
     val station = _station.asStateFlow()
 
     fun getBusList(busNumber: String) {
@@ -38,7 +38,7 @@ class BusViewModel @Inject constructor(
     fun getStationList(busId: String) {
         viewModelScope.launch {
             try {
-                _station.emit(ApiResult.Success(busStationRepository.getData(busId)))
+                _station.emit(ApiResult.Success(busStationRepository.getSearch(busId)))
             } catch (e: Exception) {
                 _station.emit(ApiResult.Error(e))
             }

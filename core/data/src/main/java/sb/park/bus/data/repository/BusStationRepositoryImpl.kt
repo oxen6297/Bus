@@ -2,6 +2,8 @@ package sb.park.bus.data.repository
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import sb.park.bus.data.mapper.toSearch
+import sb.park.bus.data.response.BusSearchResponse
 import sb.park.bus.data.response.BusStationResponse
 import sb.park.bus.data.service.BusStationService
 import javax.inject.Inject
@@ -15,5 +17,9 @@ class BusStationRepositoryImpl @Inject constructor(private val busStationService
         ).distinctBy {
             it.direction
         }
+    }
+
+    override suspend fun getSearch(busId: String): List<BusSearchResponse> {
+        return getData(busId).toSearch()
     }
 }
