@@ -7,7 +7,7 @@
 
         <variable
             name="bus"
-            type="sb.park.bus.data.response.BusStationResponse" />
+            type="sb.park.bus.data.response.BusSearchResponse" />
 
 
     </data>
@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
+            android:text="@{bus.startDirection}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
 
@@ -48,6 +49,7 @@
             android:id="@+id/text_end_station"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{bus.endDirection}"
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/text_arrow"
