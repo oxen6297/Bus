@@ -9,5 +9,5 @@ data class BusStationResponse(
     val gpsY: String,
     val direction: String,
     val beginTm: String,
-    val lastTm: String,
+    val lastTm: String
 )
