@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import sb.park.bus.data.repository.BitCoinRepository
 import sb.park.bus.data.response.BaseResponse
-import sb.park.bus.feature.main.ApiResult
+import sb.park.bus.data.ApiResult
 import javax.inject.Inject
 
 @HiltViewModel
