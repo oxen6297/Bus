@@ -10,7 +10,7 @@ import sb.park.bus.data.repository.BusIdRepository
 import sb.park.bus.data.repository.BusStationRepository
 import sb.park.bus.data.response.BusIdResponse
 import sb.park.bus.data.response.BusSearchResponse
-import sb.park.bus.feature.main.ApiResult
+import sb.park.bus.data.ApiResult
 import javax.inject.Inject
 
 @HiltViewModel
