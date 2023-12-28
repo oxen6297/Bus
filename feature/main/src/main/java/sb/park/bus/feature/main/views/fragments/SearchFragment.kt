@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import sb.park.bus.feature.main.ApiResult
+import sb.park.bus.data.ApiResult
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.SearchAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
