@@ -5,10 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import sb.park.bus.data.ApiResult
 import sb.park.bus.data.repository.BitCoinRepository
 import sb.park.bus.data.response.BaseResponse
-import sb.park.bus.data.ApiResult
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,10 +21,8 @@ class BitCoinViewModel @Inject constructor(private val bitCoinRepository: BitCoi
 
     fun getCoinData() {
         viewModelScope.launch {
-            try {
-                _bitCoinFlow.emit(ApiResult.Success(bitCoinRepository.getData()))
-            } catch (e: Exception) {
-                _bitCoinFlow.emit(ApiResult.Error(e))
+            bitCoinRepository.getData().collectLatest {
+                _bitCoinFlow.emit(it)
             }
         }
     }
