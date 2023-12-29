@@ -16,19 +16,19 @@ inline fun <reified T> ApiResult<T>.onLoading(loading: () -> Unit) {
     }
 }
 
-inline fun <reified T> ApiResult<T>.onSuccess(success: (data: T) -> Unit) {
+inline fun <reified T> ApiResult<T>.onSuccess(action: (data: T) -> Unit) {
     if (this is ApiResult.Success) {
-        success(data)
+        action(data)
     }
 }
 
-inline fun <reified T> ApiResult<T>.onError(failed: (Throwable) -> Unit) {
+inline fun <reified T> ApiResult<T>.onError(error: (Throwable) -> Unit) {
     if (this is ApiResult.Error) {
-        failed(e)
+        error(e)
     }
 }
 
-fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
+internal fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
     try {
         emit(ApiResult.Success(service()))
     } catch (e: Exception) {
