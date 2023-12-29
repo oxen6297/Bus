@@ -5,18 +5,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import sb.park.bus.data.onLoading
 import sb.park.bus.data.onError
+import sb.park.bus.data.onLoading
 import sb.park.bus.data.onSuccess
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.common.base.BaseFragment
+import sb.park.bus.feature.main.common.error
 import sb.park.bus.feature.main.databinding.FragmentHomeBinding
 import sb.park.bus.feature.main.extensions.hide
+import sb.park.bus.feature.main.extensions.repeatOnStarted
 import sb.park.bus.feature.main.extensions.show
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.viewmodels.BitCoinViewModel
@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun fetchCoinData(context: Context) {
-        lifecycleScope.launch {
+        repeatOnStarted {
             mainViewModel.bitCoinFlow.collectLatest { result ->
                 result.apply {
                     onSuccess {
@@ -54,6 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         binding.includeLoading.root.hide()
                     }
                     onError {
+                        context.error(it.message!!)
                         context.showToast(it.message!!)
                         binding.includeLoading.root.hide()
                     }
