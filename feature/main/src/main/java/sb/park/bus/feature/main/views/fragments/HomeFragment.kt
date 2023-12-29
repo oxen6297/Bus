@@ -10,7 +10,9 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import sb.park.bus.data.ApiResult
+import sb.park.bus.data.onLoading
+import sb.park.bus.data.onError
+import sb.park.bus.data.onSuccess
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentHomeBinding
@@ -35,28 +37,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, this)
         }
 
-        mainViewModel.getCoinData()
-        fetchCoinData(view.context)
-
         binding.textSearch.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
+
+        mainViewModel.getCoinData()
+        fetchCoinData(view.context)
     }
 
     private fun fetchCoinData(context: Context) {
         lifecycleScope.launch {
-            mainViewModel.bitCoinFlow.collectLatest {
-                when (it) {
-                    is ApiResult.Loading -> binding.includeLoading.root.show()
-                    is ApiResult.Success -> binding.apply {
-                        includeLoading.root.hide()
-                        coin = it.data.data
-                    }
-
-                    is ApiResult.Error -> {
+            mainViewModel.bitCoinFlow.collectLatest { result ->
+                result.apply {
+                    onSuccess {
+                        binding.coin = it.data
                         binding.includeLoading.root.hide()
-                        context.showToast(getString(R.string.toast_error))
                     }
+                    onError {
+                        context.showToast(it.message!!)
+                        binding.includeLoading.root.hide()
+                    }
+                    onLoading { binding.includeLoading.root.show() }
                 }
             }
         }
