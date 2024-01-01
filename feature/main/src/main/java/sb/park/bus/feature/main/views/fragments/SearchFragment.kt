@@ -8,7 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import sb.park.bus.data.ApiResult
+import sb.park.bus.data.onError
+import sb.park.bus.data.onLoading
+import sb.park.bus.data.onSuccess
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.SearchAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
@@ -42,20 +44,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun fetchBusData(context: Context) {
         lifecycleScope.launch {
-            busViewModel.bus.collect {
-                when (it) {
-                    is ApiResult.Loading -> binding.includeLoading.root.show()
-                    is ApiResult.Success -> {
-                        it.data.forEach { busIdResponse ->
+            busViewModel.busIdFlow.collect { result ->
+                result.apply {
+                    onSuccess {
+                        it.forEach { busIdResponse ->
                             busViewModel.getStationList(busIdResponse.routeId.toString())
                         }
                     }
-
-                    is ApiResult.Error -> {
+                    onError {
                         binding.includeLoading.root.hide()
-                        context.error(it.e.toString())
+                        context.error(it.message!!)
                         context.showToast(getString(R.string.toast_error))
                     }
+                    onLoading { binding.includeLoading.root.show() }
                 }
             }
         }
@@ -63,19 +64,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun fetchStationData(context: Context) {
         lifecycleScope.launch {
-            busViewModel.station.collect {
-                when (it) {
-                    is ApiResult.Loading -> binding.includeLoading.root.show()
-                    is ApiResult.Success -> {
-                        searchAdapter.submitList(it.data)
+            busViewModel.stationFlow.collect { result ->
+                result.apply {
+                    onSuccess {
+                        searchAdapter.submitList(it)
                         binding.includeLoading.root.hide()
                     }
-
-                    is ApiResult.Error -> {
+                    onError {
                         binding.includeLoading.root.hide()
-                        context.error(it.e.toString())
+                        context.error(it.message!!)
                         context.showToast(getString(R.string.toast_error))
                     }
+                    onLoading { binding.includeLoading.root.show() }
                 }
             }
         }
