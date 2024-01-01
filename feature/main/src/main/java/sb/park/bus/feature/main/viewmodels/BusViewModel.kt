@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import sb.park.bus.data.repository.BusIdRepository
 import sb.park.bus.data.repository.BusStationRepository
@@ -19,28 +20,25 @@ class BusViewModel @Inject constructor(
     private val busStationRepository: BusStationRepository
 ) : ViewModel() {
 
-    private val _bus = MutableStateFlow<ApiResult<List<BusIdResponse>>>(ApiResult.Loading)
-    val bus = _bus.asStateFlow()
+    private val _busIdFlow = MutableStateFlow<ApiResult<List<BusIdResponse>>>(ApiResult.Loading)
+    val busIdFlow = _busIdFlow.asStateFlow()
 
-    private val _station = MutableStateFlow<ApiResult<List<BusSearchResponse>>>(ApiResult.Loading)
-    val station = _station.asStateFlow()
+    private val _stationFlow =
+        MutableStateFlow<ApiResult<List<BusSearchResponse>>>(ApiResult.Loading)
+    val stationFlow = _stationFlow.asStateFlow()
 
     fun getBusList(busNumber: String) {
         viewModelScope.launch {
-            try {
-                _bus.emit(ApiResult.Success(busIdRepository.getData(busNumber)))
-            } catch (e: Exception) {
-                _bus.emit(ApiResult.Error(e))
+            busIdRepository.getData(busNumber).collectLatest {
+                _busIdFlow.emit(it)
             }
         }
     }
 
     fun getStationList(busId: String) {
         viewModelScope.launch {
-            try {
-                _station.emit(ApiResult.Success(busStationRepository.getSearch(busId)))
-            } catch (e: Exception) {
-                _station.emit(ApiResult.Error(e))
+            busStationRepository.getSearch(busId).collectLatest {
+                _stationFlow.emit(it)
             }
         }
     }
