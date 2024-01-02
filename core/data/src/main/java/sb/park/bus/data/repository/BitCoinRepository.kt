@@ -5,5 +5,5 @@ import sb.park.bus.data.ApiResult
 import sb.park.bus.data.response.BaseResponse
 
 interface BitCoinRepository {
-    suspend fun getData(): Flow<ApiResult<BaseResponse>>
+    fun getData(): Flow<ApiResult<BaseResponse>>
 }

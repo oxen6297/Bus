@@ -16,7 +16,7 @@ internal class BitCoinRepositoryImpl @Inject constructor(
     private val bitCoinService: BitCoinService,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BitCoinRepository {
-    override suspend fun getData(): Flow<ApiResult<BaseResponse>> = safeFlow {
+    override fun getData(): Flow<ApiResult<BaseResponse>> = safeFlow {
         bitCoinService.getData().toData()
     }.flowOn(coroutineDispatcher)
 }
