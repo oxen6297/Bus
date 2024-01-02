@@ -8,7 +8,8 @@ internal fun List<BusStationResponse>.toSearch(): List<BusSearchResponse> {
         BusSearchResponse(
             busRouteNm = get(0).busRouteNm,
             startDirection = get(0).direction,
-            endDirection = get(lastIndex).direction
+            endDirection = get(lastIndex).direction,
+            routeType = get(lastIndex).routeType
         )
     )
 }
