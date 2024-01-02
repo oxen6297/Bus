@@ -6,9 +6,15 @@
 
     <data>
 
+        <import type="sb.park.bus.data.ApiResultKt" />
+
         <variable
             name="coin"
             type="sb.park.bus.data.response.BitCoinResponse" />
+
+        <variable
+            name="vm"
+            type="sb.park.bus.feature.main.viewmodels.BitCoinViewModel" />
 
     </data>
 
@@ -17,16 +23,16 @@
         android:layout_height="match_parent"
         android:padding="@dimen/default_padding">
 
-        <include
+        <ProgressBar
             android:id="@+id/include_loading"
-            layout="@layout/include_loading_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{vm.uiState}" />
 
         <TextView
             android:id="@+id/text_search"
@@ -80,12 +86,13 @@
                 android:id="@+id/text_change_ratio_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{coin.changeRatio}"
+                android:text="@{vm.bitCoinFlow.changeRatio}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/edit_text_size"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
 
             <TextView
                 android:id="@+id/text_max_price_title"
@@ -103,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="@{coin.maxPrice}"
+                android:text="@{vm.bitCoinFlow.maxPrice}"
                 android:textColor="@color/red"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="@{coin.minPrice}"
+                android:text="@{vm.bitCoinFlow.minPrice}"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@{coin.date}"
+                android:text="@{vm.bitCoinFlow.date}"
                 android:textSize="@dimen/text_timestamp_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_min_price_content" />
