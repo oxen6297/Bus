@@ -4,10 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
-sealed interface ApiResult<out T> {
-    object Loading : ApiResult<Nothing>
-    data class Success<out T>(val data: T) : ApiResult<T>
-    data class Error(val e: Throwable) : ApiResult<Nothing>
+sealed class ApiResult<out T> {
+    object Loading : ApiResult<Nothing>()
+    data class Success<out T>(val data: T) : ApiResult<T>()
+    data class Error(val e: Throwable) : ApiResult<Nothing>()
 }
 
 inline fun <reified T> ApiResult<T>.onLoading(loading: () -> Unit) {
@@ -26,6 +26,18 @@ inline fun <reified T> ApiResult<T>.onError(error: (Throwable) -> Unit) {
     if (this is ApiResult.Error) {
         error(e)
     }
+}
+
+fun <T> ApiResult<T>.throwableOrNull(): Throwable? = if (this is ApiResult.Error) {
+    e
+} else {
+    null
+}
+
+fun <T> ApiResult<T>.successOrNull(): T? = if (this is ApiResult.Success<T>) {
+    data
+} else {
+    null
 }
 
 internal fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
