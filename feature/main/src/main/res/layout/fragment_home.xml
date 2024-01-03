@@ -9,10 +9,6 @@
         <import type="sb.park.bus.data.ApiResultKt" />
 
         <variable
-            name="coin"
-            type="sb.park.bus.data.response.BitCoinResponse" />
-
-        <variable
             name="vm"
             type="sb.park.bus.feature.main.viewmodels.BitCoinViewModel" />
 
