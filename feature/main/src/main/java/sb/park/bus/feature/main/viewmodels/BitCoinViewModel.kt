@@ -17,13 +17,13 @@ class BitCoinViewModel @Inject constructor(bitCoinRepository: BitCoinRepository)
 
     val uiState = bitCoinRepository.getData().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading
     )
 
     val bitCoinFlow = uiState.map { it.successOrNull()?.data }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.WhileSubscribed(5000L),
         initialValue = null
     )
 }
