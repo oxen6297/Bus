@@ -5,5 +5,5 @@ import sb.park.bus.data.ApiResult
 import sb.park.bus.data.response.BusIdResponse
 
 interface BusIdRepository {
-    suspend fun getData(busNumber: String): Flow<ApiResult<List<BusIdResponse>>>
+    fun getData(busNumber: String): Flow<ApiResult<List<BusIdResponse>>>
 }

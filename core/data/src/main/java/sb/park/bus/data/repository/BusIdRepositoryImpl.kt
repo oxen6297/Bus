@@ -17,7 +17,7 @@ internal class BusIdRepositoryImpl @Inject constructor(
     private val busIdService: BusIdService,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusIdRepository {
-    override suspend fun getData(busNumber: String): Flow<ApiResult<List<BusIdResponse>>> = safeFlow {
+    override fun getData(busNumber: String): Flow<ApiResult<List<BusIdResponse>>> = safeFlow {
         Gson().fromJson<List<BusIdResponse>>(
             busIdService.getBusId(),
             object : TypeToken<List<BusIdResponse>>() {}.type

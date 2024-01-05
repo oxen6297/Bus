@@ -19,7 +19,7 @@ class BusStationRepositoryImpl @Inject constructor(
     private val busStationService: BusStationService,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
-    override suspend fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>> =
+    override fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>> =
         safeFlow {
             Gson().fromJson<List<BusStationResponse>?>(
                 busStationService.getData(busRouteId = busId).msgBody.itemList,
@@ -29,7 +29,7 @@ class BusStationRepositoryImpl @Inject constructor(
             }
         }.flowOn(coroutineDispatcher)
 
-    override suspend fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> =
+    override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> =
         safeFlow {
             Gson().fromJson<List<BusStationResponse>?>(
                 busStationService.getData(busRouteId = busId).msgBody.itemList,
