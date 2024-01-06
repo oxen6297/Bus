@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.data.response.BusSearchResponse
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
 
-class SearchAdapter : ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(DiffCallback()) {
+class SearchAdapter : ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -28,19 +28,21 @@ class SearchAdapter : ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(D
 
     class ViewHolder(val binding: ItemBusSearchBinding) : RecyclerView.ViewHolder(binding.root)
 
-    class DiffCallback : DiffUtil.ItemCallback<BusSearchResponse>() {
-        override fun areItemsTheSame(
-            oldItem: BusSearchResponse,
-            newItem: BusSearchResponse
-        ): Boolean {
-            return oldItem.busRouteNm == newItem.busRouteNm
-        }
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<BusSearchResponse>() {
+            override fun areItemsTheSame(
+                oldItem: BusSearchResponse,
+                newItem: BusSearchResponse
+            ): Boolean {
+                return oldItem.busRouteNm == newItem.busRouteNm
+            }
 
-        override fun areContentsTheSame(
-            oldItem: BusSearchResponse,
-            newItem: BusSearchResponse
-        ): Boolean {
-            return oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: BusSearchResponse,
+                newItem: BusSearchResponse
+            ): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }
