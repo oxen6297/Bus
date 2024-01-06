@@ -1,7 +1,9 @@
 package sb.park.bus.feature.main.utils
 
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -34,5 +36,13 @@ object BindingAdapters {
     @Suppress("UNCHECKED_CAST")
     fun bindSubmitList(view: RecyclerView, itemList: List<Any>?) {
         (view.adapter as ListAdapter<Any, *>).submitList(itemList)
+    }
+
+    @JvmStatic
+    @BindingAdapter("search")
+    fun bindDoAfterTextChange(editText: EditText, action: (String) -> Unit) {
+        editText.doAfterTextChanged {
+            action(it.toString())
+        }
     }
 }
