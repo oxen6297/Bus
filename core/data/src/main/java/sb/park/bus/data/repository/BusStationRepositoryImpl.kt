@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flowOn
 import sb.park.bus.data.ApiResult
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
+import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.mapper.toSearch
 import sb.park.bus.data.response.BusSearchResponse
 import sb.park.bus.data.response.BusStationResponse
@@ -34,7 +35,9 @@ class BusStationRepositoryImpl @Inject constructor(
             Gson().fromJson<List<BusStationResponse>?>(
                 busStationService.getData(busRouteId = busId).msgBody.itemList,
                 object : TypeToken<List<BusStationResponse>>() {}.type
-            ).distinctBy {
+            ).map {
+                it.toData()
+            }.distinctBy {
                 it.direction
             }.toSearch()
         }.flowOn(coroutineDispatcher)
