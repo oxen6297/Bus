@@ -40,9 +40,9 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("search")
-    fun bindDoAfterTextChange(editText: EditText, action: (String) -> Unit) {
+    fun bindDoAfterTextChange(editText: EditText, action: () -> Unit) {
         editText.doAfterTextChanged {
-            action(it.toString())
+            action()
         }
     }
 }
