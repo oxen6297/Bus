@@ -10,24 +10,6 @@ sealed class ApiResult<out T> {
     data class Error(val e: Throwable) : ApiResult<Nothing>()
 }
 
-inline fun <reified T> ApiResult<T>.onLoading(loading: () -> Unit) {
-    if (this is ApiResult.Loading) {
-        loading()
-    }
-}
-
-inline fun <reified T> ApiResult<T>.onSuccess(action: (data: T) -> Unit) {
-    if (this is ApiResult.Success) {
-        action(data)
-    }
-}
-
-inline fun <reified T> ApiResult<T>.onError(error: (Throwable) -> Unit) {
-    if (this is ApiResult.Error) {
-        error(e)
-    }
-}
-
 fun <T> ApiResult<T>.throwableOrNull(): Throwable? = if (this is ApiResult.Error) {
     e
 } else {
