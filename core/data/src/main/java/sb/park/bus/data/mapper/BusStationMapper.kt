@@ -14,6 +14,6 @@ internal fun BusStationResponse.toData(): BusStationResponse = BusStationRespons
     beginTm = beginTm,
     lastTm = lastTm,
     routeType = BusType.values().find {
-        it.type == routeType
-    }?.typeName ?: ""
+        routeType == it.type
+    }?.typeName ?: routeType
 )
