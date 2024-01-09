@@ -7,9 +7,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.SingleClick
@@ -28,10 +25,6 @@ fun View.isShow(): Boolean {
 
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
-}
-
-inline fun <reified T> JsonElement.toList(): List<T> {
-    return Gson().fromJson(this, object : TypeToken<List<T>>() {}.type)
 }
 
 fun View.singleClickListener(click: (View) -> Unit) {
