@@ -18,6 +18,12 @@ object BindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("no_data")
+    fun bindDataIsNullTextView(view: View, isNull: Any?) {
+        view.visibility = if (isNull == null) View.VISIBLE else View.GONE
+    }
+
+    @JvmStatic
     @BindingAdapter("toast")
     fun bindToast(view: View, throwable: Throwable?) {
         throwable?.message?.let { errorMessage ->
@@ -40,9 +46,15 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("search")
-    fun bindDoAfterTextChange(editText: EditText, action: () -> Unit) {
+    fun bindDoAfterTextChange(editText: EditText, action: AfterTextChangedListener) {
         editText.doAfterTextChanged {
-            action()
+            it?.let {
+                action.onAfterTextChanged(it.toString())
+            }
         }
     }
+}
+
+interface AfterTextChangedListener {
+    fun onAfterTextChanged(text: String)
 }
