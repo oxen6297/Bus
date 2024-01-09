@@ -1,7 +1,5 @@
 package sb.park.bus.data.repository
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -14,6 +12,7 @@ import sb.park.bus.data.response.BusSearchResponse
 import sb.park.bus.data.response.BusStationResponse
 import sb.park.bus.data.safeFlow
 import sb.park.bus.data.service.BusStationService
+import sb.park.bus.data.util.toList
 import javax.inject.Inject
 
 class BusStationRepositoryImpl @Inject constructor(
@@ -22,23 +21,21 @@ class BusStationRepositoryImpl @Inject constructor(
 ) : BusStationRepository {
     override fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>> =
         safeFlow {
-            Gson().fromJson<List<BusStationResponse>?>(
-                busStationService.getData(busRouteId = busId).msgBody.itemList,
-                object : TypeToken<List<BusStationResponse>>() {}.type
-            ).distinctBy {
-                it.direction
-            }
+            busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
+                .map {
+                    it.toData()
+                }.distinctBy {
+                    it.direction
+                }
         }.flowOn(coroutineDispatcher)
 
     override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> =
         safeFlow {
-            Gson().fromJson<List<BusStationResponse>?>(
-                busStationService.getData(busRouteId = busId).msgBody.itemList,
-                object : TypeToken<List<BusStationResponse>>() {}.type
-            ).map {
-                it.toData()
-            }.distinctBy {
-                it.direction
-            }.toSearch()
+            busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
+                .map {
+                    it.toData()
+                }.distinctBy {
+                    it.direction
+                }.toSearch()
         }.flowOn(coroutineDispatcher)
 }
