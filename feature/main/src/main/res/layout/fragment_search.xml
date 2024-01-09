@@ -32,13 +32,12 @@
             android:maxLines="1"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="@={vm.busNumber}"
             android:textColorHint="@color/gray"
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:search="@{()->vm.fetchUiState()}"
+            app:search="@{(text) -> vm.getData(text)}"
             tools:ignore="Autofill,TextFields" />
 
         <ImageButton
@@ -81,9 +80,12 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/text_no_result"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/recyclerview_bus" />
+            app:layout_constraintTop_toTopOf="@+id/recyclerview_bus"
+            app:no_data="@{ApiResultKt.successOrNull(vm.uiState)}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
