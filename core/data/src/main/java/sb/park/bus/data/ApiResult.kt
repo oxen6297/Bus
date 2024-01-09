@@ -23,10 +23,10 @@ fun <T> ApiResult<T>.successOrNull(): T? = if (this is ApiResult.Success<T>) {
 }
 
 internal fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
-    try {
+    runCatching {
         emit(ApiResult.Success(service()))
-    } catch (e: Exception) {
-        emit(ApiResult.Error(e))
+    }.getOrElse {
+        emit(ApiResult.Error(it))
     }
 }.onStart {
     emit(ApiResult.Loading)
