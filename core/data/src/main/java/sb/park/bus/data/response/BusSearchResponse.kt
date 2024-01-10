@@ -1,8 +1,10 @@
 package sb.park.bus.data.response
 
+import com.google.gson.annotations.SerializedName
+
 data class BusSearchResponse(
-    val busRouteNm: String,
-    val startDirection: String,
-    val endDirection: String,
-    val routeType: String
+    @SerializedName("busRouteNm")val busRouteNm: String,
+    @SerializedName("startDirection")val startDirection: String,
+    @SerializedName("endDirection")val endDirection: String,
+    @SerializedName("routeType")val routeType: String
 )

@@ -3,12 +3,13 @@ package sb.park.bus.data.response
 import com.google.gson.annotations.SerializedName
 
 data class BusIdResponse(
-    val routeId: Long,
-    val routeName: String,
+    @SerializedName("routeId") val routeId: Long,
+    @SerializedName("routeName") val routeName: String,
     @SerializedName("Num") val num: Int,
-    val nodeId: Long,
-    val arsId: String,
-    val stopName: String,
-    val latitude: Double,
-    val longitude: Double
+    @SerializedName("nodeId") val nodeId: Long,
+    @SerializedName("arsId") val arsId: String,
+
+    @SerializedName("stopName") val stopName: String,
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double
 )

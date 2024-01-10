@@ -1,16 +1,20 @@
 package sb.park.bus.data.response
 
+import com.google.gson.annotations.SerializedName
+
 data class BusLocationResponse(
-    val sectOrd: String,
-    val sectionId: String,
-    val dataTm: String,
-    val gpsX: String,
-    val gpsY: String,
-    val vehId: String,
-    val plainNo: String,
-    val nextStTm: String,
-    val isrunyn: String,
-    val islastyn: String,
-    val congetion: String,
-    val nextStId: String,
+    @SerializedName("sectOrd") val sectOrd: String,
+    @SerializedName("sectionId") val sectionId: String,
+    @SerializedName("dataTm") val dataTm: String,
+    @SerializedName("gpsX") val gpsX: String,
+    @SerializedName("gpsY") val gpsY: String,
+
+    @SerializedName("vehId") val vehId: String,
+    @SerializedName("plainNo") val plainNo: String,
+    @SerializedName("nextStTm") val nextStTm: String,
+    @SerializedName("isrunyn") val isrunyn: String,
+    @SerializedName("islastyn") val islastyn: String,
+
+    @SerializedName("congetion") val congetion: String,
+    @SerializedName("nextStId") val nextStId: String,
 )
