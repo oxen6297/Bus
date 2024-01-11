@@ -36,8 +36,8 @@
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:search="@{(text)->vm.getSearch(text)}"
             app:layout_constraintTop_toTopOf="parent"
-            app:search="@{(text) -> vm.getData(text)}"
             tools:ignore="Autofill,TextFields" />
 
         <ImageButton
@@ -66,12 +66,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_bus"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="15dp"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_search"
-            app:submitList="@{vm.busStationFlow}"
+            app:submitList="@{vm.busIdFlow}"
             app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
 
         <TextView
@@ -85,7 +86,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="@+id/recyclerview_bus"
-            app:no_data="@{ApiResultKt.successOrNull(vm.uiState)}" />
+            app:no_data="@{vm.uiState}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
