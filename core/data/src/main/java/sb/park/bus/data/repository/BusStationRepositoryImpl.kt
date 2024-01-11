@@ -19,23 +19,21 @@ class BusStationRepositoryImpl @Inject constructor(
     private val busStationService: BusStationService,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
-    override fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>> =
-        safeFlow {
-            busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
-                .map {
-                    it.toData()
-                }.distinctBy {
-                    it.direction
-                }
-        }.flowOn(coroutineDispatcher)
+    override fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
+        busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
+            .map {
+                it.toData()
+            }.distinctBy {
+                it.direction
+            }
+    }.flowOn(coroutineDispatcher)
 
-    override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> =
-        safeFlow {
-            busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
-                .map {
-                    it.toData()
-                }.distinctBy {
-                    it.direction
-                }.toSearch()
-        }.flowOn(coroutineDispatcher)
+    override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
+        busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
+            .map {
+                it.toData()
+            }.distinctBy {
+            it.direction
+        }.toSearch()
+    }.flowOn(coroutineDispatcher)
 }
