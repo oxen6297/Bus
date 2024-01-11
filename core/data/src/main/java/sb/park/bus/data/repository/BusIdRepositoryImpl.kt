@@ -18,7 +18,7 @@ internal class BusIdRepositoryImpl @Inject constructor(
 ) : BusIdRepository {
     override fun getData(busNumber: String): Flow<ApiResult<List<BusIdResponse>>> = safeFlow {
         busIdService.getBusId().toList<BusIdResponse>().filter {
-            it.routeName == busNumber
+            it.routeName.startsWith(busNumber)
         }.distinctBy {
             it.routeId
         }
