@@ -3,11 +3,13 @@ package sb.park.bus.feature.main.utils
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.data.ApiResult
+import sb.park.bus.data.successOrNull
 
 object BindingAdapters {
 
@@ -19,8 +21,8 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("no_data")
-    fun bindDataIsNullTextView(view: View, isNull: Any?) {
-        view.visibility = if (isNull == null) View.VISIBLE else View.GONE
+    fun bindDataIsNullTextView(view: View, apiResult: ApiResult<*>) {
+        view.isVisible = apiResult.successOrNull() == null && apiResult !is ApiResult.Loading
     }
 
     @JvmStatic
@@ -48,7 +50,7 @@ object BindingAdapters {
     @BindingAdapter("search")
     fun bindDoAfterTextChange(editText: EditText, action: AfterTextChangedListener) {
         editText.doAfterTextChanged {
-            it?.let {
+            if (!it.isNullOrBlank()) {
                 action.onAfterTextChanged(it.toString())
             }
         }
