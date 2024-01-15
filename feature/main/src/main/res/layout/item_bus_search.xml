@@ -7,7 +7,7 @@
 
         <variable
             name="bus"
-            type="sb.park.bus.data.response.BusIdResponse" />
+            type="sb.park.bus.data.response.BusSearchResponse" />
 
 
     </data>
@@ -17,15 +17,53 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/text_bus_number"
+            android:id="@+id/text_bus_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:text="@{bus.routeName}"
+            android:text="@{bus.routeType}"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/text_bus_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="@{bus.busRouteNm}"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/text_bus_type"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_start_station"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{bus.startDirection}"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
+
+        <TextView
+            android:id="@+id/text_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/text_arrow"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/text_start_station"
+            app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
+
+        <TextView
+            android:id="@+id/text_end_station"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{bus.endDirection}"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/text_arrow"
+            app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
