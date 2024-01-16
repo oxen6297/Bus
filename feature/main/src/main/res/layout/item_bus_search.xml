@@ -20,8 +20,10 @@
             android:id="@+id/text_bus_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="@{bus.routeType}"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
+            android:textSize="@dimen/edit_text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,8 +34,10 @@
             android:layout_marginStart="3dp"
             android:text="@{bus.busRouteNm}"
             android:textColor="@color/black"
+            android:textSize="@dimen/text_title_size"
+            app:layout_constraintBottom_toBottomOf="@+id/text_bus_type"
             app:layout_constraintStart_toEndOf="@+id/text_bus_type"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/text_bus_type" />
 
         <TextView
             android:id="@+id/text_start_station"
@@ -43,27 +47,30 @@
             android:text="@{bus.startDirection}"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
+            app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
 
-        <TextView
-            android:id="@+id/text_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/img_arrow"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="5dp"
-            android:text="@string/text_arrow"
+            android:importantForAccessibility="no"
+            android:src="@drawable/arrows"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/text_start_station"
-            app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
+            app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
 
         <TextView
             android:id="@+id/text_end_station"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="5dp"
             android:text="@{bus.endDirection}"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/text_arrow"
-            app:layout_constraintTop_toBottomOf="@+id/text_bus_number" />
+            app:layout_constraintStart_toEndOf="@+id/img_arrow"
+            app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
