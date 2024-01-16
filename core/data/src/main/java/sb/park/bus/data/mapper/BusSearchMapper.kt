@@ -6,7 +6,7 @@ import sb.park.bus.data.response.BusStationResponse
 internal fun List<BusStationResponse>.toSearch(): List<BusSearchResponse> {
     return listOf(
         BusSearchResponse(
-            busRouteNm = get(0).busRouteNm,
+            busRouteNm = "${get(0).busRouteNm}번",
             startDirection = get(0).direction,
             endDirection = get(lastIndex).direction,
             routeType = get(lastIndex).routeType
