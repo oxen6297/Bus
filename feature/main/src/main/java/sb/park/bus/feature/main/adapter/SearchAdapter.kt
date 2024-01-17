@@ -13,7 +13,8 @@ import sb.park.bus.data.response.BusSearchResponse
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
 
-class SearchAdapter : ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(diffCallback) {
+class SearchAdapter(private val clickListener: (String) -> Unit) :
+    ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -48,6 +49,12 @@ class SearchAdapter : ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(d
                         view?.clipToOutline = true
                         outline?.setRoundRect(0, 0, view!!.width, view.height, 10f)
                     }
+                }
+            }
+
+            layoutSearch.setOnClickListener {
+                bus?.let {
+                    clickListener(it.busId)
                 }
             }
         }
