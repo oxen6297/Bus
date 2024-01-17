@@ -16,6 +16,7 @@ class FeaturePlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
                 apply("dagger.hilt.android.plugin")
                 apply("kotlin-kapt")
+                apply("androidx.navigation.safeargs.kotlin")
             }
             extensions.configure<LibraryExtension> {
                 compileSdk = 34

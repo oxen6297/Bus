@@ -1,6 +1,5 @@
 plugins {
     id("sb.park.feature")
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -14,6 +13,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.google.material)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.androidx.safeargs)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle)

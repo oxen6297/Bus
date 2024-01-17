@@ -5,7 +5,7 @@ lifecycle = "2.6.2"
 room = "2.6.0"
 retrofit = "2.9.0"
 hilt = "2.48"
-kotlin = "1.8.10"
+kotlin = "1.9.0"
 androidGradlePlugin = "8.0.2"
 junit = "4.13.2"
 testJunit = "1.1.5"
@@ -23,12 +23,6 @@ appcompat = "1.6.1"
 
 material = "1.10.0"
 
-compileSdk = "33"
-minSdk = "26"
-targetSdk = "33"
-versionCode = "1"
-versionName = "1.0"
-compose = "1.0.0"
 kotlinxSerializationJson = "1.5.1"
 retrofitKotlinxSerializationJson = "1.0.0"
 
@@ -40,6 +34,7 @@ android-dynamic = { id = "com.android.dynamic-feature", version.ref = "androidGr
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+navigation = { id = "androidx.navigation.safeargs.kotlin" , version.ref = "navigation"}
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -71,6 +66,7 @@ retrofit-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor
 jake-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 bumptech-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
-androidx-navigationUi = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+androidx-safeargs = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }

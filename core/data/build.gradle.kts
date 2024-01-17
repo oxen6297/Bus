@@ -14,7 +14,6 @@ dependencies {
     implementation(libs.jake.timber)
     implementation(libs.retrofit.logging)
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.google.material)
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.espresso)
