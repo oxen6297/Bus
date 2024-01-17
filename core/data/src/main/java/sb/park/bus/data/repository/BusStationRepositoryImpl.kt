@@ -34,6 +34,6 @@ class BusStationRepositoryImpl @Inject constructor(
                 it.toData()
             }.distinctBy {
             it.direction
-        }.toSearch()
+        }.toSearch(busId)
     }.flowOn(coroutineDispatcher)
 }
