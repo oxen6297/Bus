@@ -14,7 +14,6 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.navigation.ui)
-    implementation(libs.androidx.safeargs)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle)
