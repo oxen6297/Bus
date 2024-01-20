@@ -3,6 +3,7 @@ package sb.park.bus.feature.main.views.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.SearchAdapter
@@ -20,7 +21,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         binding.apply {
             vm = busViewModel
-            adapter = SearchAdapter()
+            adapter = SearchAdapter(::moveDetailFragment)
         }
+    }
+
+    private fun moveDetailFragment(busId: String) {
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToDetailFragment(busId)
+        )
     }
 }
