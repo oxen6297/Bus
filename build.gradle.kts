@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.kotlin.gradlePlugin)
+        classpath(libs.androidx.safeargs)
     }
 }
 
