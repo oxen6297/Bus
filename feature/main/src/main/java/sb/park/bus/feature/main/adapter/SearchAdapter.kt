@@ -27,11 +27,10 @@ class SearchAdapter(private val clickListener: (String) -> Unit) :
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
             bus = getItem(position)
-            val busTypeColor = BusType.values().find {
+            val busTypeColor = BusType.entries.find {
                 it.typeName == bus?.routeType
             }?.color!!
 
