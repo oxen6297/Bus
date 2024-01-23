@@ -1,16 +1,17 @@
 package sb.park.bus.feature.main.adapter
 
 import android.graphics.Outline
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.data.BusType
 import sb.park.bus.data.response.BusSearchResponse
-import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
 
 class SearchAdapter(private val clickListener: (String) -> Unit) :
@@ -26,21 +27,14 @@ class SearchAdapter(private val clickListener: (String) -> Unit) :
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
             bus = getItem(position)
-            val busTypeColor = when (bus?.routeType) {
-                BusType.PORT.typeName -> R.color.sky_blue
-                BusType.COUNTRY.typeName -> R.color.yellow
-                BusType.GANSEON.typeName -> R.color.blue
-                BusType.JISEON.typeName -> R.color.green
-                BusType.CYCLE.typeName -> R.color.red
-                BusType.WIDE.typeName -> R.color.purple
-                BusType.INCHEON.typeName -> R.color.mint
-                BusType.GYUNGGI.typeName -> R.color.black
-                BusType.COMMON.typeName -> R.color.dark_gray
-                else -> R.color.black
-            }
+            val busTypeColor = BusType.values().find {
+                it.typeName == bus?.routeType
+            }?.color!!
+
 
             textBusType.apply {
                 setBackgroundColor(root.context.getColor(busTypeColor))
