@@ -15,7 +15,7 @@ import sb.park.bus.data.successOrNull
 import javax.inject.Inject
 
 @HiltViewModel
-class BusViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val busIdRepository: BusIdRepository,
     private val busStationRepository: BusStationRepository
 ) : ViewModel() {
