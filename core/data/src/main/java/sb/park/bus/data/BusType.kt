@@ -1,9 +1,9 @@
 package sb.park.bus.data
 
-import androidx.annotation.ColorRes
+import androidx.annotation.ColorInt
 import sb.park.bus.core.data.R
 
-enum class BusType(val type: String, val typeName: String, @ColorRes val color: Int) {
+enum class BusType(val type: String, val typeName: String, @ColorInt val color: Int) {
     PORT("1", "공항", R.color.sky_blue),
     COUNTRY("2", "마을", R.color.yellow),
     GANSEON("3", "간선", R.color.blue),
