@@ -1,12 +1,10 @@
 package sb.park.bus.feature.main.adapter
 
 import android.graphics.Outline
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +31,6 @@ class SearchAdapter(private val clickListener: (String) -> Unit) :
             val busTypeColor = BusType.entries.find {
                 it.typeName == bus?.routeType
             }?.color!!
-
 
             textBusType.apply {
                 setBackgroundColor(root.context.getColor(busTypeColor))
