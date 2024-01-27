@@ -5,7 +5,6 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import sb.park.bus.build_logic.project.configureKotlinAndroid
 import sb.park.bus.build_logic.project.kotlinOptions
 
 internal class ApplicationPlugin : Plugin<Project> {

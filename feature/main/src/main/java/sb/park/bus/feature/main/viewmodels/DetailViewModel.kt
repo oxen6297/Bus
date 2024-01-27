@@ -6,13 +6,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import sb.park.bus.data.ApiResult
-import sb.park.bus.data.repository.BusStationRepository
-import sb.park.bus.data.successOrNull
+import sb.park.domain.usecases.BusStationUseCase
+import sb.park.model.ApiResult
+import sb.park.model.successOrNull
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
-    busStationRepository: BusStationRepository,
+    busStationUseCase: BusStationUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -20,7 +20,7 @@ class DetailViewModel @Inject constructor(
         savedStateHandle.get<String>("busId") ?: throw NullPointerException()
     }
 
-    val uiState = busStationRepository.getData(busId).stateIn(
+    val uiState = busStationUseCase(busId).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading

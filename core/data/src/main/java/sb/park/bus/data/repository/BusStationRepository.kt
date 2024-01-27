@@ -1,9 +1,9 @@
 package sb.park.bus.data.repository
 
 import kotlinx.coroutines.flow.Flow
-import sb.park.bus.data.ApiResult
-import sb.park.bus.data.response.BusSearchResponse
-import sb.park.bus.data.response.BusStationResponse
+import sb.park.model.ApiResult
+import sb.park.model.response.BusSearchResponse
+import sb.park.model.response.BusStationResponse
 
 interface BusStationRepository {
     fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>>

@@ -5,7 +5,7 @@ import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import sb.park.bus.data.ApiResult
+import sb.park.model.ApiResult
 import java.lang.reflect.Type
 
 class ApiResultCall<R>(

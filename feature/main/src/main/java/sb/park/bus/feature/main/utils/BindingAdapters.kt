@@ -8,8 +8,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import sb.park.bus.data.ApiResult
-import sb.park.bus.data.successOrNull
+import sb.park.model.ApiResult
+import sb.park.model.successOrNull
 
 object BindingAdapters {
 

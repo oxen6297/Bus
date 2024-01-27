@@ -7,7 +7,7 @@
 
         <variable
             name="bus"
-            type="sb.park.bus.data.response.BusSearchResponse" />
+            type="sb.park.model.response.BusSearchResponse" />
 
 
     </data>

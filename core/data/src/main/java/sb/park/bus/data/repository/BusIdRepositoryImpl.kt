@@ -3,11 +3,11 @@ package sb.park.bus.data.repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import sb.park.bus.data.ApiResult
+import sb.park.model.ApiResult
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
-import sb.park.bus.data.response.BusIdResponse
-import sb.park.bus.data.safeFlow
+import sb.park.model.response.BusIdResponse
+import sb.park.model.safeFlow
 import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.util.toList
 import javax.inject.Inject

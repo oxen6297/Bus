@@ -1,8 +1,8 @@
 package sb.park.bus.data.mapper
 
 import android.annotation.SuppressLint
-import sb.park.bus.data.response.BaseResponse
-import sb.park.bus.data.response.BitCoinResponse
+import sb.park.model.response.BaseResponse
+import sb.park.model.response.BitCoinResponse
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -17,8 +17,8 @@ private fun BitCoinResponse.toData(): BitCoinResponse {
 
     return BitCoinResponse(
         changeRatio = "${this.changeRatio}%",
-        maxPrice = "${this.maxPrice.replace(regex,"\$1,")} 원",
-        minPrice = "${this.minPrice.replace(regex,"\$1,")} 원",
+        maxPrice = "${this.maxPrice.replace(regex, "\$1,")} 원",
+        minPrice = "${this.minPrice.replace(regex, "\$1,")} 원",
         date = "기준일: ${SimpleDateFormat("yyyy-MM-dd").format(Date(this.date.toLong()))}"
     )
 }

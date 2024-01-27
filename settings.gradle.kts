@@ -18,5 +18,7 @@ rootProject.name = "Bus"
 include(
     ":app",
     ":core:data",
+    ":core:domain",
+    ":core:model",
     ":feature:main"
 )

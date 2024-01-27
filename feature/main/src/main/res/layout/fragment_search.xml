@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="sb.park.bus.data.ApiResultKt" />
+        <import type="sb.park.model.ApiResultKt" />
 
         <variable
             name="vm"

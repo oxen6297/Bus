@@ -6,16 +6,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import sb.park.bus.data.ApiResult
-import sb.park.bus.data.repository.BitCoinRepository
-import sb.park.bus.data.successOrNull
+import sb.park.domain.usecases.BitCoinUseCase
+import sb.park.model.ApiResult
+import sb.park.model.successOrNull
 import javax.inject.Inject
 
 @HiltViewModel
-class BitCoinViewModel @Inject constructor(bitCoinRepository: BitCoinRepository) :
+class BitCoinViewModel @Inject constructor(bitCoinUseCase: BitCoinUseCase) :
     ViewModel() {
 
-    val uiState = bitCoinRepository.getData().stateIn(
+    val uiState = bitCoinUseCase().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading

@@ -3,7 +3,7 @@ package sb.park.bus.data.call
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
-import sb.park.bus.data.ApiResult
+import sb.park.model.ApiResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

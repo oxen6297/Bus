@@ -7,17 +7,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import sb.park.bus.data.ApiResult
-import sb.park.bus.data.repository.BusIdRepository
-import sb.park.bus.data.repository.BusStationRepository
-import sb.park.bus.data.response.BusSearchResponse
-import sb.park.bus.data.successOrNull
+import sb.park.domain.usecases.BusIdUseCase
+import sb.park.domain.usecases.BusSearchUseCase
+import sb.park.model.ApiResult
+import sb.park.model.response.BusSearchResponse
+import sb.park.model.successOrNull
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val busIdRepository: BusIdRepository,
-    private val busStationRepository: BusStationRepository
+    private val busIdUseCase: BusIdUseCase,
+    private val busSearchUseCase: BusSearchUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ApiResult<Any>>(ApiResult.Loading)
@@ -28,7 +28,7 @@ class SearchViewModel @Inject constructor(
 
     fun getData(text: String) {
         viewModelScope.launch {
-            busIdRepository.getData(text).collectLatest { idState ->
+            busIdUseCase(text).collectLatest { idState ->
                 when (idState) {
                     is ApiResult.Loading -> _uiState.emit(ApiResult.Loading)
                     is ApiResult.Error -> _uiState.emit(ApiResult.Error(idState.e))
@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
                             _uiState.emit(ApiResult.Success(null))
                         }
                         idState.successOrNull()?.forEach { response ->
-                            busStationRepository.getSearch(response.routeId.toString())
+                            busSearchUseCase(response.routeId.toString())
                                 .collectLatest { searchState ->
                                     if (searchState is ApiResult.Error) {
                                         _uiState.emit(ApiResult.Error(searchState.e))

@@ -2,7 +2,7 @@ package sb.park.bus.data.call
 
 import retrofit2.Call
 import retrofit2.CallAdapter
-import sb.park.bus.data.ApiResult
+import sb.park.model.ApiResult
 import java.lang.reflect.Type
 
 internal class ApiResultCallAdapter<R>(

@@ -1,4 +1,4 @@
-package sb.park.bus.data
+package sb.park.model
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,7 +22,7 @@ fun <T> ApiResult<T>.successOrNull(): T? = if (this is ApiResult.Success<T>) {
     null
 }
 
-internal fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
+fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
     runCatching {
         emit(ApiResult.Success(service()))
     }.getOrElse {
