@@ -24,8 +24,10 @@ fun <T> ApiResult<T>.successOrNull(): T? = if (this is ApiResult.Success<T>) {
 
 fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
     runCatching {
-        emit(ApiResult.Success(service()))
-    }.getOrElse {
+        service()
+    }.onSuccess {
+        emit(ApiResult.Success(it))
+    }.onFailure {
         emit(ApiResult.Error(it))
     }
 }.onStart {
