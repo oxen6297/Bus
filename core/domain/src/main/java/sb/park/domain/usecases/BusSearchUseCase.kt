@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 class BusSearchUseCase @Inject constructor(private val busStationRepository: BusStationRepository) {
 
-    operator fun invoke(busId: String): Flow<ApiResult<List<BusSearchResponse>>> =
+    operator fun invoke(busId: String): Flow<ApiResult<Set<BusSearchResponse>>> =
         busStationRepository.getSearch(busId)
 }
