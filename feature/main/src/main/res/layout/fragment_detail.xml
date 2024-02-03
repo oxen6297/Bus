@@ -43,14 +43,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:text="@{vm.busData.routeType}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_back"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/text_bus_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:text="@{vm.busData.busRouteNm}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_title_size"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -88,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
+            android:text="@{vm.busData.startDirection}"
             android:textColor="@color/black"
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintEnd_toStartOf="@+id/img_arrow"
@@ -109,6 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
+            android:text="@{vm.busData.endDirection}"
             android:textColor="@color/black"
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintStart_toEndOf="@+id/img_arrow"
