@@ -21,15 +21,17 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val bus by lazy {
-        savedStateHandle.get<BusSearchResponse>("bus") ?: throw NullPointerException()
-    }
+    private val _bus = savedStateHandle.getLiveData<BusSearchResponse>("bus")
+    val bus: LiveData<BusSearchResponse>
+        get() = _bus
+
 
     private val _busData = MutableLiveData<BusSearchResponse>()
     val busData: LiveData<BusSearchResponse>
         get() = _busData
 
-    val uiState = busStationUseCase(bus.busId).stateIn(
+
+    val uiState = busStationUseCase(bus.value?.busId!!).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading
@@ -40,8 +42,4 @@ class DetailViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = null
     )
-
-    init {
-        _busData.value = bus
-    }
 }
