@@ -12,7 +12,7 @@ import sb.park.model.BusType
 import sb.park.model.response.BusSearchResponse
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
 
-class SearchAdapter(private val clickListener: (String) -> Unit) :
+class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
     ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,7 +44,7 @@ class SearchAdapter(private val clickListener: (String) -> Unit) :
 
             layoutSearch.setOnClickListener {
                 bus?.let {
-                    clickListener(it.busId)
+                    clickListener(it)
                 }
             }
         }
