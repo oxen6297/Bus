@@ -42,8 +42,8 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("submitList")
     @Suppress("UNCHECKED_CAST")
-    fun bindSubmitList(view: RecyclerView, itemList: Set<Any>?) {
-        (view.adapter as ListAdapter<Any, *>).submitList(itemList?.toList())
+    fun bindSubmitList(view: RecyclerView, itemList: List<Any>?) {
+        (view.adapter as ListAdapter<Any, *>).submitList(itemList)
     }
 
     @JvmStatic
