@@ -1,7 +1,6 @@
 package sb.park.bus.feature.main.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,12 +23,6 @@ class DetailViewModel @Inject constructor(
     private val _bus = savedStateHandle.getLiveData<BusSearchResponse>("bus")
     val bus: LiveData<BusSearchResponse>
         get() = _bus
-
-
-    private val _busData = MutableLiveData<BusSearchResponse>()
-    val busData: LiveData<BusSearchResponse>
-        get() = _busData
-
 
     val uiState = busStationUseCase(bus.value?.busId!!).stateIn(
         scope = viewModelScope,
