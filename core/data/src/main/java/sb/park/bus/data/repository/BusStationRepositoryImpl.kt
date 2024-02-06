@@ -21,11 +21,6 @@ class BusStationRepositoryImpl @Inject constructor(
 ) : BusStationRepository {
     override fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
         busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
-            .map {
-                it.toData()
-            }.distinctBy {
-                it.direction
-            }
     }.flowOn(coroutineDispatcher)
 
     override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
