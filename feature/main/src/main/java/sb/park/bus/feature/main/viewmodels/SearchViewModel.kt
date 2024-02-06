@@ -23,7 +23,7 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<ApiResult<Any>>(ApiResult.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val _busData = MutableStateFlow<Set<BusSearchResponse>?>(emptySet())
+    private val _busData = MutableStateFlow<List<BusSearchResponse>?>(emptyList())
     val busData = _busData.asStateFlow()
 
     fun getData(text: String) {
@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
                     is ApiResult.Error -> _uiState.emit(ApiResult.Error(idState.e))
                     is ApiResult.Success -> {
                         if (idState.successOrNull().isNullOrEmpty()) {
-                            _busData.emit(emptySet())
+                            _busData.emit(emptyList())
                             _uiState.emit(ApiResult.Success(null))
                         }
                         idState.successOrNull()?.forEach { response ->
