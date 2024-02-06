@@ -6,9 +6,15 @@
 
     <data>
 
+        <import type="sb.park.model.ApiResultKt" />
+
         <variable
             name="vm"
             type="sb.park.bus.feature.main.viewmodels.DetailViewModel" />
+
+        <variable
+            name="adapter"
+            type="sb.park.bus.feature.main.adapter.StationAdapter" />
 
     </data>
 
@@ -124,6 +130,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:adapter="@{adapter}"
+            app:submitList="@{vm.stationFlow}"
+            app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
