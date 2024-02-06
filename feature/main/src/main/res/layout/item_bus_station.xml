@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,17 +11,18 @@
 
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/default_padding">
+        android:paddingStart="@dimen/default_padding"
+        android:paddingEnd="@dimen/default_padding">
 
         <ImageView
             android:id="@+id/img_bus_station"
             android:layout_width="@dimen/large_icon_size"
             android:layout_height="@dimen/large_icon_size"
+            android:importantForAccessibility="no"
             android:src="@drawable/vertical_line"
             app:tint="@color/gray" />
 
