@@ -1,11 +1,12 @@
 package sb.park.model
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
 sealed class ApiResult<out T> {
-    object Loading : ApiResult<Nothing>()
+    data object Loading : ApiResult<Nothing>()
     data class Success<out T>(val data: T?) : ApiResult<T>()
     data class Error(val e: Throwable) : ApiResult<Nothing>()
 }
@@ -22,14 +23,10 @@ fun <T> ApiResult<T>.successOrNull(): T? = if (this is ApiResult.Success<T>) {
     null
 }
 
-fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow {
-    runCatching {
-        service()
-    }.onSuccess {
-        emit(ApiResult.Success(it))
-    }.onFailure {
-        emit(ApiResult.Error(it))
-    }
+fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow<ApiResult<T>> {
+    emit(ApiResult.Success(service()))
 }.onStart {
     emit(ApiResult.Loading)
+}.catch {
+    emit(ApiResult.Error(it))
 }
