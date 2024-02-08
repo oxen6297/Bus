@@ -82,6 +82,7 @@
                     android:layout_width="@dimen/icon_size"
                     android:layout_height="@dimen/icon_size"
                     android:layout_marginEnd="20dp"
+                    app:isFavorite="@{vm.isFavorite()}"
                     android:background="@drawable/white_star"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
