@@ -20,7 +20,7 @@ class SearchViewModel @Inject constructor(
     private val busSearchUseCase: BusSearchUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ApiResult<Any>>(ApiResult.Loading)
+    private val _uiState = MutableStateFlow<ApiResult<Any>>(ApiResult.Success(null))
     val uiState = _uiState.asStateFlow()
 
     private val _busData = MutableStateFlow<List<BusSearchResponse>?>(emptyList())
