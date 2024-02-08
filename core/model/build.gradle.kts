@@ -9,4 +9,7 @@ android {
 
 dependencies {
     implementation(libs.retrofit.gson)
+    implementation(libs.room.android)
+    implementation(libs.room.ktx)
+    kapt(libs.room.copmiler)
 }
