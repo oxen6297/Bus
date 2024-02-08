@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import sb.park.model.response.FavoriteEntity
 
 @Dao
 interface FavoriteDao {
@@ -13,8 +14,8 @@ interface FavoriteDao {
     @Query("SELECT * FROM FavoriteEntity ORDER BY id")
     suspend fun getFavorite(): List<FavoriteEntity>
 
-    @Query("DELETE FROM FavoriteEntity WHERE id = :id")
-    suspend fun deleteFavorite(id: Int)
+    @Query("DELETE FROM FavoriteEntity WHERE busId = :busId")
+    suspend fun deleteFavorite(busId: String)
 
     @Query("DELETE FROM FavoriteEntity")
     suspend fun deleteAll()
