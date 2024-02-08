@@ -1,7 +1,7 @@
 package sb.park.bus.data.repository
 
 import sb.park.bus.data.room.FavoriteDao
-import sb.park.bus.data.room.FavoriteEntity
+import sb.park.model.response.FavoriteEntity
 import javax.inject.Inject
 
 class FavoriteRepositoryImpl @Inject constructor(private val favoriteDao: FavoriteDao) :
@@ -14,7 +14,7 @@ class FavoriteRepositoryImpl @Inject constructor(private val favoriteDao: Favori
         return favoriteDao.getFavorite()
     }
 
-    override suspend fun deleteFavorite(id: Int) {
+    override suspend fun deleteFavorite(id: String) {
         favoriteDao.deleteFavorite(id)
     }
 

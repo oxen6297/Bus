@@ -1,7 +1,7 @@
 package sb.park.domain.usecases
 
 import sb.park.bus.data.repository.FavoriteRepository
-import sb.park.bus.data.room.FavoriteEntity
+import sb.park.model.response.FavoriteEntity
 import javax.inject.Inject
 
 class FavoriteUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {
@@ -11,7 +11,7 @@ class FavoriteUseCase @Inject constructor(private val favoriteRepository: Favori
 
     suspend fun getFavorite(): List<FavoriteEntity> = favoriteRepository.getFavorite()
 
-    suspend fun deleteFavorite(id: Int) = favoriteRepository.deleteFavorite(id)
+    suspend fun deleteFavorite(id: String) = favoriteRepository.deleteFavorite(id)
 
     suspend fun deleteAll() = favoriteRepository.deleteAll()
 }
