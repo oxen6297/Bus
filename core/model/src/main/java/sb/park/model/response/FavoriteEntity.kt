@@ -1,4 +1,4 @@
-package sb.park.bus.data.room
+package sb.park.model.response
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
