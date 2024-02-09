@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="sb.park.bus.feature.main.viewmodels.BitCoinViewModel" />
+            type="sb.park.bus.feature.main.viewmodels.HomeViewModel" />
 
     </data>
 
@@ -150,12 +150,22 @@
             android:id="@+id/text_favorite_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:text="@string/favorite"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_bit_coin" />
+
+        <TextView
+            android:id="@+id/text_delete_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_all"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/edit_text_size"
+            app:layout_constraintBottom_toBottomOf="@+id/text_favorite_title"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_favorite"
