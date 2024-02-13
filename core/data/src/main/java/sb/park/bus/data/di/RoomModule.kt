@@ -2,6 +2,8 @@ package sb.park.bus.data.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,9 +19,21 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideFavoriteDatabase(@ApplicationContext context: Context): FavoriteDatabase =
-        Room.databaseBuilder(context, FavoriteDatabase::class.java, "bus-favorite").build()
+        Room.databaseBuilder(context, FavoriteDatabase::class.java, "bus-favorite").addMigrations(
+            MIGRATION_1_TO_2
+        ).build()
 
     @Singleton
     @Provides
     fun provideFavoriteDao(db: FavoriteDatabase): FavoriteDao = db.favoriteDao()
+
+    private val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.apply {
+                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN startDirection TEXT NOT NULL DEFAULT ''")
+                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN endDirection TEXT NOT NULL DEFAULT ''")
+                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN busType TEXT NOT NULL DEFAULT ''")
+            }
+        }
+    }
 }
