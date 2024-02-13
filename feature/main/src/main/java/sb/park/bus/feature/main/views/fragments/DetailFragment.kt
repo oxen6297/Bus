@@ -38,8 +38,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         viewModel.deleteFavorite()
                     }
                 } else {
-                    view.context.showToast("즐겨찾기에 추가하였습니다.")
-                    viewModel.addFavorite()
+                    viewModel.addFavorite { view.context.showToast("즐겨찾기에 추가하였습니다.") }
                 }
             }
         }

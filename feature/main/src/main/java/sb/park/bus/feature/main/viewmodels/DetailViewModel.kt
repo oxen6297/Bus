@@ -19,6 +19,7 @@ import sb.park.model.ApiResult
 import sb.park.model.response.BusSearchResponse
 import sb.park.model.response.FavoriteEntity
 import sb.park.model.successOrNull
+import sb.park.model.throwableOrNull
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,18 +41,17 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            runCatching {
-                favoriteUseCase.getFavorite()
-            }.onSuccess { favoriteList ->
-                favoriteList.forEach {
-                    if (it.busId == bus.value?.busId) {
+            favoriteUseCase.getFavorite().map {
+                it.successOrNull()?.forEach { favoriteList ->
+                    if (favoriteList.busId == bus.value?.busId) {
                         _isFavorite.emit(true)
                     } else {
                         _isFavorite.emit(false)
                     }
                 }
-            }.onFailure {
-                _errorFlow.emit(it)
+                it.throwableOrNull()?.let { error ->
+                    _errorFlow.emit(error)
+                }
             }
         }
     }
@@ -80,17 +80,21 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun addFavorite() {
+    fun addFavorite(showToast: () -> Unit) {
         viewModelScope.launch {
             runCatching {
                 favoriteUseCase.insertFavorite(
                     FavoriteEntity(
                         busNumber = bus.value?.busRouteNm!!,
-                        busId = bus.value?.busId!!
+                        busId = bus.value?.busId!!,
+                        startDirection = bus.value?.startDirection!!,
+                        endDirection = bus.value?.endDirection!!,
+                        busType = bus.value?.routeType!!
                     )
                 )
             }.onSuccess {
                 _isFavorite.emit(true)
+                showToast()
             }.onFailure {
                 _errorFlow.emit(it)
             }
