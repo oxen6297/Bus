@@ -3,8 +3,10 @@ package sb.park.bus.feature.main.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,14 +35,23 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite = _isFavorite.asStateFlow()
 
+    private val _errorFlow = MutableSharedFlow<Throwable>()
+    val errorFlow = _errorFlow.asLiveData()
+
     init {
         viewModelScope.launch {
-            favoriteUseCase.getFavorite().forEach {
-                if (it.busId == bus.value?.busId) {
-                    _isFavorite.emit(true)
-                } else {
-                    _isFavorite.emit(false)
+            runCatching {
+                favoriteUseCase.getFavorite()
+            }.onSuccess { favoriteList ->
+                favoriteList.forEach {
+                    if (it.busId == bus.value?.busId) {
+                        _isFavorite.emit(true)
+                    } else {
+                        _isFavorite.emit(false)
+                    }
                 }
+            }.onFailure {
+                _errorFlow.emit(it)
             }
         }
     }
@@ -59,20 +70,30 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite() {
         viewModelScope.launch {
-            _isFavorite.emit(false)
-            favoriteUseCase.deleteFavorite(bus.value?.busId!!)
+            runCatching {
+                favoriteUseCase.deleteFavorite(bus.value?.busId!!)
+            }.onSuccess {
+                _isFavorite.emit(false)
+            }.onFailure {
+                _errorFlow.emit(it)
+            }
         }
     }
 
     fun addFavorite() {
         viewModelScope.launch {
-            _isFavorite.emit(true)
-            favoriteUseCase.insertFavorite(
-                FavoriteEntity(
-                    busNumber = bus.value?.busRouteNm!!,
-                    busId = bus.value?.busId!!
+            runCatching {
+                favoriteUseCase.insertFavorite(
+                    FavoriteEntity(
+                        busNumber = bus.value?.busRouteNm!!,
+                        busId = bus.value?.busId!!
+                    )
                 )
-            )
+            }.onSuccess {
+                _isFavorite.emit(true)
+            }.onFailure {
+                _errorFlow.emit(it)
+            }
         }
     }
 }

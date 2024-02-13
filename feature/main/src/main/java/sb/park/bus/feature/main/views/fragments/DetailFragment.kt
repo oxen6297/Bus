@@ -11,6 +11,7 @@ import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
+import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.StationItemDecoration
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
 
@@ -31,7 +32,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 findNavController().popBackStack()
             }
 
-            btnFavorite.setOnClickListener {
+            btnFavorite.singleClickListener {
                 if (viewModel.isFavorite.value) {
                     view.context.customDialog("즐겨찾기에서 삭제하시겠습니까?") {
                         viewModel.deleteFavorite()
