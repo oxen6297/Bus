@@ -12,6 +12,10 @@
             name="vm"
             type="sb.park.bus.feature.main.viewmodels.HomeViewModel" />
 
+        <variable
+            name="adapter"
+            type="sb.park.bus.feature.main.adapter.FavoriteAdapter" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -172,9 +176,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_favorite_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_favorite_title"
+            app:submitList="@{vm.favoriteFlow}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
