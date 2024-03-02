@@ -13,6 +13,7 @@ internal fun BusStationResponse.toData(): BusStationResponse = BusStationRespons
     direction = direction,
     beginTm = beginTm,
     lastTm = lastTm,
+    section = section,
     routeType = BusType.entries.find {
         routeType == it.type
     }?.typeName ?: routeType
