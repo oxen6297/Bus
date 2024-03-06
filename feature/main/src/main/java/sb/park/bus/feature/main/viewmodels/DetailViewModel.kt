@@ -13,9 +13,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import sb.park.domain.usecases.BusLocationUseCase
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
+import sb.park.model.response.BusLocationResponse
 import sb.park.model.response.BusSearchResponse
 import sb.park.model.response.FavoriteEntity
 import sb.park.model.successOrNull
@@ -25,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     busStationUseCase: BusStationUseCase,
+    private val busLocationUseCase: BusLocationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -38,6 +41,22 @@ class DetailViewModel @Inject constructor(
 
     private val _errorFlow = MutableSharedFlow<Throwable>()
     val errorFlow = _errorFlow.asLiveData()
+
+    private val _locationFlow =
+        MutableStateFlow<ApiResult<List<BusLocationResponse>>>(ApiResult.Loading)
+    val locationFlow = _locationFlow.asStateFlow()
+
+    val uiState = busStationUseCase(bus.value?.busId!!).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = ApiResult.Loading
+    )
+
+    val stationFlow = uiState.map { it.successOrNull() }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = null
+    )
 
     init {
         viewModelScope.launch {
@@ -55,18 +74,6 @@ class DetailViewModel @Inject constructor(
             }
         }
     }
-
-    val uiState = busStationUseCase(bus.value?.busId!!).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = ApiResult.Loading
-    )
-
-    val stationFlow = uiState.map { it.successOrNull() }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = null
-    )
 
     fun deleteFavorite() {
         viewModelScope.launch {
