@@ -37,6 +37,9 @@ class SearchViewModel @Inject constructor(
                             _busData.emit(emptyList())
                             _uiState.emit(ApiResult.Success(null))
                         }
+
+                        val searchList: MutableList<BusSearchResponse> = mutableListOf()
+
                         idState.successOrNull()?.forEach { response ->
                             busSearchUseCase(response.routeId.toString())
                                 .collectLatest { searchState ->
@@ -44,11 +47,14 @@ class SearchViewModel @Inject constructor(
                                         _uiState.emit(ApiResult.Error(searchState.e))
                                     }
                                     if (searchState is ApiResult.Success) {
-                                        _busData.emit(searchState.successOrNull())
-                                        _uiState.emit(ApiResult.Success(searchState.data))
+                                        searchState.successOrNull()?.forEach {
+                                            searchList.add(it)
+                                        }
                                     }
                                 }
                         }
+                        _busData.emit(searchList)
+                        _uiState.emit(ApiResult.Success(searchList))
                     }
                 }
             }
