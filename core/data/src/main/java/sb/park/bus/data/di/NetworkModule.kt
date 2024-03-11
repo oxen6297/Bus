@@ -19,7 +19,7 @@ import sb.park.bus.data.util.BUS
 import sb.park.bus.data.util.BUS_ID
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import javax.inject.Qualifier
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -30,20 +30,22 @@ internal object NetworkModule {
         Timber.e(it)
     }.setLevel(HttpLoggingInterceptor.Level.BASIC)
 
+    private const val TIME_OUT = 30L
+
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
-            .callTimeout(30, TimeUnit.SECONDS)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .callTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
             .build()
     }
 
     @Singleton
     @Provides
-    @BitCoinRetrofit
+    @Named("BitCoin")
     fun provideBitCoinRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BIT_COIN)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -53,7 +55,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    @BusRetrofit
+    @Named("Bus")
     fun provideBusRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BUS)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -62,7 +64,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    @BusIdRetrofit
+    @Named("BusId")
     fun provideBusIdRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BUS_ID)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -71,41 +73,29 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBitCoinService(@BitCoinRetrofit retrofit: Retrofit): BitCoinService =
+    fun provideBitCoinService(@Named("BitCoin") retrofit: Retrofit): BitCoinService =
         retrofit.create(
             BitCoinService::class.java
         )
 
     @Singleton
     @Provides
-    fun provideBusLocationService(@BusRetrofit retrofit: Retrofit): BusLocationService =
+    fun provideBusLocationService(@Named("Bus") retrofit: Retrofit): BusLocationService =
         retrofit.create(
             BusLocationService::class.java
         )
 
     @Singleton
     @Provides
-    fun provideBusStationService(@BusRetrofit retrofit: Retrofit): BusStationService =
+    fun provideBusStationService(@Named("Bus") retrofit: Retrofit): BusStationService =
         retrofit.create(
             BusStationService::class.java
         )
 
     @Singleton
     @Provides
-    fun provideBusIdService(@BusIdRetrofit retrofit: Retrofit): BusIdService =
+    fun provideBusIdService(@Named("BusId") retrofit: Retrofit): BusIdService =
         retrofit.create(
             BusIdService::class.java
         )
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    private annotation class BitCoinRetrofit
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    private annotation class BusRetrofit
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    private annotation class BusIdRetrofit
 }
