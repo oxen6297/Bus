@@ -1,5 +1,6 @@
 package sb.park.model
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -28,5 +29,6 @@ fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow<ApiResult<
 }.onStart {
     emit(ApiResult.Loading)
 }.catch {
+    it.printStackTrace()
     emit(ApiResult.Error(it))
 }
