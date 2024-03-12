@@ -165,6 +165,7 @@
             android:id="@+id/text_delete_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="@{vm.clickable}"
             android:text="@string/delete_all"
             android:textColor="@color/gray"
             android:textSize="@dimen/edit_text_size"
