@@ -14,4 +14,12 @@ data class FavoriteEntity(
     @ColumnInfo val startDirection: String,
     @ColumnInfo val endDirection: String,
     @ColumnInfo val busType: String
-) : Serializable
+) : Serializable {
+    operator fun invoke(): BusSearchResponse = BusSearchResponse(
+        busId = this.busId,
+        busRouteNm = this.busNumber,
+        startDirection = this.startDirection,
+        endDirection = this.endDirection,
+        routeType = this.busType
+    )
+}

@@ -14,7 +14,6 @@ import sb.park.bus.feature.main.databinding.FragmentHomeBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.viewmodels.HomeViewModel
-import sb.park.model.response.BusSearchResponse
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -45,15 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             vm = viewModel
             adapter = FavoriteAdapter {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                        BusSearchResponse(
-                            busId = it.busId,
-                            busRouteNm = it.busNumber,
-                            startDirection = it.startDirection,
-                            endDirection = it.endDirection,
-                            routeType = it.busType
-                        )
-                    )
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(it())
                 )
             }
             recyclerviewFavorite.layoutManager = GridLayoutManager(view.context, 2)
