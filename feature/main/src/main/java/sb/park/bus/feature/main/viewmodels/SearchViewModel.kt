@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
                     is ApiResult.Success -> {
                         if (idState.successOrNull().isNullOrEmpty()) {
                             _busData.emit(emptyList())
-                            _uiState.emit(ApiResult.Success(null))
+                            _uiState.emit(ApiResult.Success(idState.successOrNull()))
                         }
 
                         val searchList: MutableList<BusSearchResponse> = mutableListOf()
@@ -57,7 +57,7 @@ class SearchViewModel @Inject constructor(
                             }
                         }
                         _busData.emit(searchList)
-                        _uiState.emit(ApiResult.Success(searchList.ifEmpty { null }))
+                        _uiState.emit(ApiResult.Success(searchList))
                     }
                 }
             }
