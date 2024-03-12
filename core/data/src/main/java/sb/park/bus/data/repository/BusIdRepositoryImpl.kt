@@ -17,10 +17,10 @@ internal class BusIdRepositoryImpl @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusIdRepository {
     override fun getData(busNumber: String): Flow<ApiResult<List<BusIdResponse>>> = safeFlow {
-        busIdService.getBusId().toList<BusIdResponse>().asSequence().filter {
-            it.routeName.startsWith(busNumber)
-        }.distinctBy {
+        busIdService.getBusId().toList<BusIdResponse>().asSequence().distinctBy {
             it.routeId
+        }.filter {
+            it.routeName.startsWith(busNumber)
         }.toList()
     }.flowOn(coroutineDispatcher)
 }
