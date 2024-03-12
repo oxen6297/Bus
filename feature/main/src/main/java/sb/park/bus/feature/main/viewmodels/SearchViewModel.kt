@@ -49,9 +49,9 @@ class SearchViewModel @Inject constructor(
                                     }
 
                                     is ApiResult.Success -> {
-                                        searchState.successOrNull()?.forEach {
-                                            searchList.add(it)
-                                        }
+                                        searchList.addAll(
+                                            searchState.successOrNull() ?: emptyList()
+                                        )
                                     }
                                 }
                             }
