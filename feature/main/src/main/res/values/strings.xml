@@ -4,12 +4,17 @@
     <string name="fluctate_rate">최근 24시간 변동률</string>
     <string name="max_price">고가</string>
     <string name="min_price">저가</string>
+
     <string name="seoul">서울</string>
     <string name="favorite">즐겨찾기</string>
     <string name="delete_all">전체 삭제</string>
     <string name="text_no_result">검색 결과가 없습니다.</string>
 
-    <string name="toast_error">"에러가 발생하였습니다. 잠시 후 다시 시도해주세요."</string>
+    <string name="popup_delete_all">즐겨찾기 전체삭제를 하시겠습니까?</string>
+    <string name="popup_delete">즐겨찾기에서 삭제하시겠습니까?</string>
+
+    <string name="toast_error">에러가 발생하였습니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="toast_delete">즐겨찾기에 추가하였습니다.</string>
 
     <string name="text_arrow"> &#60; - &#62; </string>
 </resources>

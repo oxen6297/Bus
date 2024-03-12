@@ -34,11 +34,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
             btnFavorite.singleClickListener {
                 if (viewModel.isFavorite.value) {
-                    view.context.customDialog("즐겨찾기에서 삭제하시겠습니까?") {
+                    view.context.customDialog(getString(R.string.popup_delete)) {
                         viewModel.deleteFavorite()
                     }
                 } else {
-                    viewModel.addFavorite { view.context.showToast("즐겨찾기에 추가하였습니다.") }
+                    viewModel.addFavorite {
+                        view.context.showToast(getString(R.string.toast_delete))
+                    }
                 }
             }
         }
