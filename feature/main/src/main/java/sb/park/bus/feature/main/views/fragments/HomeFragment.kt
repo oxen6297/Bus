@@ -12,6 +12,7 @@ import sb.park.bus.feature.main.adapter.FavoriteAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentHomeBinding
 import sb.park.bus.feature.main.extensions.customDialog
+import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.viewmodels.HomeViewModel
 import sb.park.model.response.BusSearchResponse
 
@@ -23,13 +24,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        object : OnBackPressedCallback(true) {
+        val backPressedCallback = object : OnBackPressedCallback(true) {
+            private var clickTime = 0L
             override fun handleOnBackPressed() {
-                requireActivity().finishAffinity()
+                if (System.currentTimeMillis() - clickTime >= 1000L) {
+                    clickTime = System.currentTimeMillis()
+                    view.context.showToast(getString(R.string.toast_back))
+                } else {
+                    requireActivity().finishAffinity()
+                }
             }
-        }.apply {
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, this)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            backPressedCallback
+        )
 
         binding.apply {
             vm = viewModel
