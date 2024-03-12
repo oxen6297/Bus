@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusLocationUseCase
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
@@ -32,7 +33,7 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _bus = savedStateHandle.getLiveData<BusSearchResponse>("bus")
+    private val _bus = savedStateHandle.getLiveData<BusSearchResponse>(KeyFile.BUS_KEY)
     val bus: LiveData<BusSearchResponse>
         get() = _bus
 
