@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_8_solid_f5f5f5">
