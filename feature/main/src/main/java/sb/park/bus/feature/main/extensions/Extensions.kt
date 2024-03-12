@@ -25,8 +25,8 @@ fun View.singleClickListener(click: (View) -> Unit) {
 
 fun Context.customDialog(
     titleText: String,
-    confirmBtnText: String = "확인",
-    cancelBtnText: String = "취소",
+    confirmBtnText: String = getString(R.string.confirm),
+    cancelBtnText: String = getString(R.string.cancel),
     clickCancel: (View) -> Unit = {},
     clickConfirm: (View) -> Unit
 ): CustomDialogBuilder = CustomDialogBuilder(this).apply {
