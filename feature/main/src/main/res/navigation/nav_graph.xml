@@ -15,6 +15,9 @@
             app:exitAnim="@anim/animation_left_out"
             app:popEnterAnim="@anim/animation_left_to_right"
             app:popExitAnim="@anim/animation_right_out" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 
     <fragment
