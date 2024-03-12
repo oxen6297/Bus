@@ -28,7 +28,8 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("no_data")
     fun bindDataIsNullTextView(view: View, apiResult: ApiResult<*>) {
-        view.isVisible = apiResult.successOrNull() == null && apiResult !is ApiResult.Loading
+        view.isVisible =
+            (apiResult.successOrNull() as List<*>?).isNullOrEmpty() && apiResult !is ApiResult.Loading
     }
 
     @JvmStatic
