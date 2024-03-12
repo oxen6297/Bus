@@ -3,7 +3,6 @@ package sb.park.bus.feature.main.utils
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
