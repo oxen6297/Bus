@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.feature.main.databinding.ItemFavoriteBinding
 import sb.park.model.response.FavoriteEntity
 
-class FavoriteAdapter : ListAdapter<FavoriteEntity, FavoriteAdapter.ViewHolder>(diffCallback) {
+class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
+    ListAdapter<FavoriteEntity, FavoriteAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -21,7 +22,12 @@ class FavoriteAdapter : ListAdapter<FavoriteEntity, FavoriteAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.favorite = getItem(position)
+        holder.binding.apply {
+            favorite = getItem(position)
+            layoutFavorite.setOnClickListener {
+                clickListener(getItem(position))
+            }
+        }
     }
 
     class ViewHolder(val binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root)

@@ -13,6 +13,7 @@ import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentHomeBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.viewmodels.HomeViewModel
+import sb.park.model.response.BusSearchResponse
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -32,13 +33,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.apply {
             vm = viewModel
-            adapter = FavoriteAdapter()
+            adapter = FavoriteAdapter {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                        BusSearchResponse(
+                            busId = it.busId,
+                            busRouteNm = it.busNumber,
+                            startDirection = it.startDirection,
+                            endDirection = it.endDirection,
+                            routeType = it.busType
+                        )
+                    )
+                )
+            }
             recyclerviewFavorite.layoutManager = GridLayoutManager(view.context, 2)
             textSearch.setOnClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             }
             textDeleteFavorite.setOnClickListener {
-                view.context.customDialog("즐겨찾기 전체삭제를 하시겠습니까?") {
+                view.context.customDialog(getString(R.string.popup_delete_all)) {
                     viewModel.deleteAll()
                 }
             }
