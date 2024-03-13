@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -61,7 +62,7 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            favoriteUseCase.getFavorite().map {
+            favoriteUseCase.getFavorite().collectLatest {
                 it.successOrNull()?.forEach { favoriteList ->
                     if (favoriteList.busId == bus.value?.busId) {
                         _isFavorite.emit(true)
