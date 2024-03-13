@@ -33,7 +33,7 @@ class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
             }?.color!!
 
             textBusType.apply {
-                setBackgroundColor(root.context.getColor(busTypeColor))
+                setBackgroundColor(context.getColor(busTypeColor))
                 outlineProvider = object : ViewOutlineProvider() {
                     override fun getOutline(view: View?, outline: Outline?) {
                         view?.clipToOutline = true
