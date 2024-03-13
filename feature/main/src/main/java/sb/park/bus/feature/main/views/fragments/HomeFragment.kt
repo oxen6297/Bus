@@ -41,16 +41,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
 
         binding.apply {
-            vm = viewModel
+            vm = viewModel.apply {
+                getFavorite()
+            }
+
             adapter = FavoriteAdapter {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToDetailFragment(it())
                 )
             }
+
             recyclerviewFavorite.layoutManager = GridLayoutManager(view.context, 2)
+
             textSearch.setOnClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             }
+
             textDeleteFavorite.setOnClickListener {
                 view.context.customDialog(getString(R.string.popup_delete_all)) {
                     viewModel.deleteAll()
