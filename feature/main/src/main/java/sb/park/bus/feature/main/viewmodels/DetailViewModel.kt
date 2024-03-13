@@ -66,8 +66,6 @@ class DetailViewModel @Inject constructor(
                 it.successOrNull()?.forEach { favoriteList ->
                     if (favoriteList.busId == bus.value?.busId) {
                         _isFavorite.emit(true)
-                    } else {
-                        _isFavorite.emit(false)
                     }
                 }
                 it.throwableOrNull()?.let { error ->
