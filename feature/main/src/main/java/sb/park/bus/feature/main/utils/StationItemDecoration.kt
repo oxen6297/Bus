@@ -12,8 +12,8 @@ class StationItemDecoration : RecyclerView.ItemDecoration() {
             color = parent.context.getColor(R.color.gray)
         }
 
-        for (i in 0 until parent.childCount) {
-            val child = parent.getChildAt(i)
+        for (position in 0 until parent.childCount - 1) {
+            val child = parent.getChildAt(position)
             val params = child.layoutParams as RecyclerView.LayoutParams
 
             c.drawRect(
