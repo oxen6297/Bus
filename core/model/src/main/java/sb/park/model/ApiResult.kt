@@ -24,7 +24,7 @@ fun <T> ApiResult<T>.successOrNull(): T? = if (this is ApiResult.Success<T>) {
     null
 }
 
-fun <T> safeFlow(service: suspend () -> T): Flow<ApiResult<T>> = flow<ApiResult<T>> {
+inline fun <T> safeFlow(crossinline service: suspend () -> T): Flow<ApiResult<T>> = flow<ApiResult<T>> {
     emit(ApiResult.Success(service()))
 }.onStart {
     emit(ApiResult.Loading)
