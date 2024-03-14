@@ -7,8 +7,8 @@ internal fun List<BusStationResponse>.toSearch(busId: String): Set<BusSearchResp
     return setOf(
         BusSearchResponse(
             busId = busId,
-            busRouteNm = "${get(0).busRouteNm}번",
-            startDirection = get(0).direction,
+            busRouteNm = "${first().busRouteNm}번",
+            startDirection = first().direction,
             endDirection = get(lastIndex).direction,
             routeType = get(lastIndex).routeType
         )
