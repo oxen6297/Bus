@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BusIdUseCase
 import sb.park.domain.usecases.BusSearchUseCase
 import sb.park.model.ApiResult
+import sb.park.model.response.BusIdResponse
 import sb.park.model.response.BusSearchResponse
 import sb.park.model.successOrNull
 import javax.inject.Inject
@@ -39,31 +40,34 @@ class SearchViewModel @Inject constructor(
                         if (idState.successOrNull().isNullOrEmpty()) {
                             _busData.emit(emptyList())
                             _uiState.emit(ApiResult.Success(idState.successOrNull()))
+                        } else {
+                            getSearch(idState.successOrNull())
                         }
-
-                        val searchList: MutableList<BusSearchResponse> = mutableListOf()
-
-                        idState.successOrNull()?.forEach { response ->
-                            busSearchUseCase(response.routeId.toString()).collectLatest { searchState ->
-                                when (searchState) {
-                                    is ApiResult.Loading -> {}
-                                    is ApiResult.Error -> {
-                                        _uiState.emit(ApiResult.Error(searchState.e))
-                                    }
-
-                                    is ApiResult.Success -> {
-                                        searchList.addAll(
-                                            searchState.successOrNull() ?: emptyList()
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                        _busData.emit(searchList)
-                        _uiState.emit(ApiResult.Success(searchList))
                     }
                 }
             }
         }
+    }
+
+    private suspend fun getSearch(idList: List<BusIdResponse>?) {
+        val searchList: MutableList<BusSearchResponse> = mutableListOf()
+
+        idList?.forEach {
+            busSearchUseCase(it.routeId.toString()).collectLatest { searchState ->
+                when (searchState) {
+                    is ApiResult.Loading -> {}
+                    is ApiResult.Error -> {
+                        _uiState.emit(ApiResult.Error(searchState.e))
+                    }
+
+                    is ApiResult.Success -> {
+                        searchList.addAll(searchState.successOrNull() ?: emptyList())
+                    }
+                }
+            }
+        }
+
+        _busData.emit(searchList)
+        _uiState.emit(ApiResult.Success(searchList))
     }
 }
