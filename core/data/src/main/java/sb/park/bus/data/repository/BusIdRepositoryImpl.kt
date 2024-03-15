@@ -20,7 +20,7 @@ internal class BusIdRepositoryImpl @Inject constructor(
         busIdService.getBusId().toList<BusIdResponse>().asSequence().distinctBy {
             it.routeId
         }.filter {
-            it.routeName.startsWith(busNumber)
+            it.routeName.startsWith(busNumber, ignoreCase = true)
         }.toList()
     }.flowOn(coroutineDispatcher)
 }
