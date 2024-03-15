@@ -9,8 +9,8 @@ internal fun List<BusStationResponse>.toSearch(busId: String): Set<BusSearchResp
             busId = busId,
             busRouteNm = "${first().busRouteNm}번",
             startDirection = first().direction,
-            endDirection = get(lastIndex).direction,
-            routeType = get(lastIndex).routeType
+            endDirection = last().direction,
+            routeType = last().routeType
         )
     )
 }
