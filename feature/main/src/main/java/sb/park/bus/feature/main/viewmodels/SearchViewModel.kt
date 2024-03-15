@@ -3,9 +3,11 @@ package sb.park.bus.feature.main.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BusIdUseCase
 import sb.park.domain.usecases.BusSearchUseCase
@@ -26,9 +28,10 @@ class SearchViewModel @Inject constructor(
     private val _busData = MutableStateFlow<List<BusSearchResponse>?>(emptyList())
     val busData = _busData.asStateFlow()
 
+    @OptIn(FlowPreview::class)
     fun getData(text: String) {
         viewModelScope.launch {
-            busIdUseCase(text).collectLatest { idState ->
+            busIdUseCase(text).debounce(500).collectLatest { idState ->
                 when (idState) {
                     is ApiResult.Loading -> _uiState.emit(ApiResult.Loading)
                     is ApiResult.Error -> _uiState.emit(ApiResult.Error(idState.e))
