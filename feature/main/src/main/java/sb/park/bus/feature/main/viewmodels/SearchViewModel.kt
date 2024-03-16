@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BusIdUseCase
 import sb.park.domain.usecases.BusSearchUseCase
@@ -23,11 +26,15 @@ class SearchViewModel @Inject constructor(
     private val busSearchUseCase: BusSearchUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ApiResult<Any>>(ApiResult.Success(null))
+    private val _uiState =
+        MutableStateFlow<ApiResult<List<BusSearchResponse>>>(ApiResult.Success(emptyList()))
     val uiState = _uiState.asStateFlow()
 
-    private val _busData = MutableStateFlow<List<BusSearchResponse>?>(emptyList())
-    val busData = _busData.asStateFlow()
+    val busFlow = _uiState.map { it.successOrNull() }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = emptyList()
+    )
 
     @OptIn(FlowPreview::class)
     fun getData(text: String) {
@@ -38,8 +45,7 @@ class SearchViewModel @Inject constructor(
                     is ApiResult.Error -> _uiState.emit(ApiResult.Error(idState.e))
                     is ApiResult.Success -> {
                         if (idState.successOrNull().isNullOrEmpty()) {
-                            _busData.emit(emptyList())
-                            _uiState.emit(ApiResult.Success(idState.successOrNull()))
+                            _uiState.emit(ApiResult.Success(emptyList()))
                         } else {
                             getSearch(idState.successOrNull())
                         }
@@ -56,10 +62,7 @@ class SearchViewModel @Inject constructor(
             busSearchUseCase(it.routeId.toString()).collectLatest { searchState ->
                 when (searchState) {
                     is ApiResult.Loading -> {}
-                    is ApiResult.Error -> {
-                        _uiState.emit(ApiResult.Error(searchState.e))
-                    }
-
+                    is ApiResult.Error -> _uiState.emit(ApiResult.Error(searchState.e))
                     is ApiResult.Success -> {
                         searchList.addAll(searchState.successOrNull() ?: emptyList())
                     }
@@ -67,7 +70,6 @@ class SearchViewModel @Inject constructor(
             }
         }
 
-        _busData.emit(searchList)
         _uiState.emit(ApiResult.Success(searchList))
     }
 }

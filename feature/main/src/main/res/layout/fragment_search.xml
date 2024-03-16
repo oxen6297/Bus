@@ -72,7 +72,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_search"
-            app:submitList="@{vm.busData}"
+            app:submitList="@{vm.busFlow}"
             app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
 
         <TextView
