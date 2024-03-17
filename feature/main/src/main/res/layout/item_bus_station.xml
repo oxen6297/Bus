@@ -19,13 +19,37 @@
         android:paddingStart="@dimen/default_padding"
         android:paddingEnd="@dimen/default_padding">
 
-        <ImageView
-            android:id="@+id/img_bus_station"
-            android:layout_width="@dimen/large_icon_size"
-            android:layout_height="@dimen/large_icon_size"
-            android:importantForAccessibility="no"
-            android:src="@drawable/vertical_line"
-            app:tint="@color/gray" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/img_bus_station"
+                android:layout_width="@dimen/large_icon_size"
+                android:layout_height="@dimen/large_icon_size"
+                android:layout_marginStart="5dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/vertical_line"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_c8c8c8" />
+
+            <ImageView
+                android:id="@+id/img_transfer"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:importantForAccessibility="no"
+                android:src="@drawable/transfer"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/text_station"

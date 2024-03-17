@@ -2,6 +2,7 @@ package sb.park.bus.feature.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,10 @@ class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.station = getItem(position)
+        holder.binding.apply {
+            station = getItem(position)
+            imgTransfer.isVisible = getItem(position).isTransfer == "Y"
+        }
     }
 
     class ViewHolder(val binding: ItemBusStationBinding) : RecyclerView.ViewHolder(binding.root)
