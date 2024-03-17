@@ -107,4 +107,8 @@ class DetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun setLeftBtnText(): String = "${bus.value?.startDirection!!} 방향"
+
+    fun setRightBtnText(): String = "${bus.value?.endDirection!!} 방향"
 }
