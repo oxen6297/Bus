@@ -38,7 +38,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/light_gray"
+            android:background="@color/gray_f5f5f5"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:text="@string/seoul"
-            android:textColor="@color/gray"
+            android:textColor="@color/gray_c8c8c8"
             android:textSize="@dimen/text_title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -144,8 +144,33 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/text_end_station" />
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/text_end_station">
+
+            <RadioButton
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_radio_button"
+                android:button="@null"
+                android:checked="true"
+                android:text="@{vm.setLeftBtnText()}"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_radio_button"
+                android:button="@null"
+                android:text="@{vm.setRightBtnText()}"
+                android:gravity="center" />
+
+        </RadioGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_station"
