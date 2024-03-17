@@ -1,6 +1,6 @@
 package sb.park.bus.data.mapper
 
-import sb.park.model.response.BusLocationResponse
+import sb.park.model.response.bus.BusLocationResponse
 
 internal fun BusLocationResponse.toData(): BusLocationResponse = BusLocationResponse(
     sectOrd = this.sectOrd,

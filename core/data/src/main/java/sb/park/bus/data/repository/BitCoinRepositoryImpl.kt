@@ -7,7 +7,7 @@ import sb.park.model.ApiResult
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
-import sb.park.model.response.BaseResponse
+import sb.park.model.response.bitcoin.BaseResponse
 import sb.park.model.safeFlow
 import sb.park.bus.data.service.BitCoinService
 import javax.inject.Inject

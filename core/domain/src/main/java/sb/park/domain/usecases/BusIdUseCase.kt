@@ -3,7 +3,7 @@ package sb.park.domain.usecases
 import kotlinx.coroutines.flow.Flow
 import sb.park.model.ApiResult
 import sb.park.bus.data.repository.BusIdRepository
-import sb.park.model.response.BusIdResponse
+import sb.park.model.response.bus.BusIdResponse
 import javax.inject.Inject
 
 class BusIdUseCase @Inject constructor(private val busIdRepository: BusIdRepository) {

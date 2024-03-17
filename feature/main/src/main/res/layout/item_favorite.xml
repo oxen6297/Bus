@@ -7,7 +7,7 @@
 
         <variable
             name="favorite"
-            type="sb.park.model.response.FavoriteEntity" />
+            type="sb.park.model.response.bus.FavoriteEntity" />
 
     </data>
 

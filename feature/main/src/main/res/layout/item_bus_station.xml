@@ -8,7 +8,7 @@
 
         <variable
             name="station"
-            type="sb.park.model.response.BusStationResponse" />
+            type="sb.park.model.response.bus.BusStationResponse" />
 
     </data>
 

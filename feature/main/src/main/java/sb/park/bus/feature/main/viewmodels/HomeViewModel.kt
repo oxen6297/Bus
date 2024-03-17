@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BitCoinUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
-import sb.park.model.response.FavoriteEntity
+import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
 import javax.inject.Inject
 

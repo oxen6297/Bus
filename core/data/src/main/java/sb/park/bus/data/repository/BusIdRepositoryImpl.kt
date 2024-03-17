@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flowOn
 import sb.park.model.ApiResult
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
-import sb.park.model.response.BusIdResponse
+import sb.park.model.response.bus.BusIdResponse
 import sb.park.model.safeFlow
 import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.util.toList

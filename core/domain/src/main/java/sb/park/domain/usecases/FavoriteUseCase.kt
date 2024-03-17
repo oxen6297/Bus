@@ -3,7 +3,7 @@ package sb.park.domain.usecases
 import kotlinx.coroutines.flow.Flow
 import sb.park.bus.data.repository.FavoriteRepository
 import sb.park.model.ApiResult
-import sb.park.model.response.FavoriteEntity
+import sb.park.model.response.bus.FavoriteEntity
 import javax.inject.Inject
 
 class FavoriteUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {

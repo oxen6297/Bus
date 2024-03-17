@@ -19,9 +19,9 @@ import sb.park.domain.usecases.BusLocationUseCase
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
-import sb.park.model.response.BusLocationResponse
-import sb.park.model.response.BusSearchResponse
-import sb.park.model.response.FavoriteEntity
+import sb.park.model.response.bus.BusLocationResponse
+import sb.park.model.response.bus.BusSearchResponse
+import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
 import sb.park.model.throwableOrNull
 import javax.inject.Inject

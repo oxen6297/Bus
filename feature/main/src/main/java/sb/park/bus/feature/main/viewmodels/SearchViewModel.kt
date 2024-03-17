@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BusIdUseCase
 import sb.park.domain.usecases.BusSearchUseCase
 import sb.park.model.ApiResult
-import sb.park.model.response.BusIdResponse
-import sb.park.model.response.BusSearchResponse
+import sb.park.model.response.bus.BusIdResponse
+import sb.park.model.response.bus.BusSearchResponse
 import sb.park.model.successOrNull
 import javax.inject.Inject
 

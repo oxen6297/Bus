@@ -2,7 +2,7 @@ package sb.park.bus.data.service
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-import sb.park.model.response.BusResponse
+import sb.park.model.response.bus.BusResponse
 import sb.park.bus.data.util.API_KEY
 
 interface BusStationService {

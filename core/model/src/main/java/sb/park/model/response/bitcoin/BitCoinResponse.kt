@@ -1,4 +1,4 @@
-package sb.park.model.response
+package sb.park.model.response.bitcoin
 
 import com.google.gson.annotations.SerializedName
 

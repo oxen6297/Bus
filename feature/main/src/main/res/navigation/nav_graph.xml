@@ -39,6 +39,6 @@
 
         <argument
             android:name="bus"
-            app:argType="sb.park.model.response.BusSearchResponse" />
+            app:argType="sb.park.model.response.bus.BusSearchResponse" />
     </fragment>
 </navigation>

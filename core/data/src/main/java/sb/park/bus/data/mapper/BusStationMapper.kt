@@ -1,7 +1,7 @@
 package sb.park.bus.data.mapper
 
 import sb.park.model.BusType
-import sb.park.model.response.BusStationResponse
+import sb.park.model.response.bus.BusStationResponse
 
 internal fun BusStationResponse.toData(): BusStationResponse = BusStationResponse(
     busRouteNm = busRouteNm,

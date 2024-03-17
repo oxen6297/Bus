@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.model.BusType
-import sb.park.model.response.BusSearchResponse
+import sb.park.model.response.bus.BusSearchResponse
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
 
 class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :

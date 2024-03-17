@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.feature.main.databinding.ItemFavoriteBinding
-import sb.park.model.response.FavoriteEntity
+import sb.park.model.response.bus.FavoriteEntity
 
 class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
     ListAdapter<FavoriteEntity, FavoriteAdapter.ViewHolder>(diffCallback) {

@@ -1,7 +1,7 @@
 package sb.park.bus.data.mapper
 
-import sb.park.model.response.BusSearchResponse
-import sb.park.model.response.BusStationResponse
+import sb.park.model.response.bus.BusSearchResponse
+import sb.park.model.response.bus.BusStationResponse
 
 internal fun List<BusStationResponse>.toSearch(busId: String): Set<BusSearchResponse> {
     return setOf(

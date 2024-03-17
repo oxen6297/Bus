@@ -8,8 +8,8 @@ import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.mapper.toSearch
-import sb.park.model.response.BusSearchResponse
-import sb.park.model.response.BusStationResponse
+import sb.park.model.response.bus.BusSearchResponse
+import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.safeFlow
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.toList

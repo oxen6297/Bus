@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.feature.main.databinding.ItemBusStationBinding
-import sb.park.model.response.BusStationResponse
+import sb.park.model.response.bus.BusStationResponse
 
 class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder>(diffCallback) {
 
