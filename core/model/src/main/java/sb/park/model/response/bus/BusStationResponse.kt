@@ -15,5 +15,6 @@ data class BusStationResponse(
     @SerializedName("lastTm") val lastTm: String,
     @SerializedName("routeType") val routeType: String,
 
-    @SerializedName("section") val section: String
+    @SerializedName("section") val section: String,
+    @SerializedName("transYn") val isTransfer: String
 )
