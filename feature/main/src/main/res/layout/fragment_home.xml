@@ -20,8 +20,27 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/default_padding">
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_begin="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_end="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progressbar"
@@ -36,8 +55,9 @@
 
         <TextView
             android:id="@+id/text_search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/edit_height"
+            android:layout_marginTop="20dp"
             android:background="@drawable/round_8_c8c8c8"
             android:gravity="center_vertical"
             android:hint="@string/text_hint"
@@ -46,8 +66,8 @@
             android:paddingEnd="15dp"
             android:textColorHint="@color/gray"
             android:textSize="@dimen/edit_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="Autofill,TextFields" />
 
@@ -59,17 +79,19 @@
             android:background="@drawable/icon_search"
             android:backgroundTint="@color/gray"
             app:layout_constraintBottom_toBottomOf="@id/text_search"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
             app:layout_constraintTop_toTopOf="@id/text_search"
             tools:ignore="ContentDescription" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_bit_coin"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@drawable/round_8_solid_f5f5f5"
             android:padding="15dp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toBottomOf="@+id/text_search">
 
             <TextView
@@ -158,7 +180,7 @@
             android:text="@string/favorite"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toBottomOf="@+id/layout_bit_coin" />
 
         <TextView
@@ -170,16 +192,18 @@
             android:textColor="@color/gray"
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/text_favorite_title"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_favorite"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toBottomOf="@+id/text_favorite_title"
             app:submitList="@{vm.favoriteFlow}" />
 
