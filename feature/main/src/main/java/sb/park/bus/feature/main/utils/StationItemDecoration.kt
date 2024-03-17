@@ -9,7 +9,7 @@ class StationItemDecoration : RecyclerView.ItemDecoration() {
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val paint = Paint().apply {
-            color = parent.context.getColor(R.color.gray)
+            color = parent.context.getColor(R.color.gray_c8c8c8)
         }
 
         for (position in 0 until parent.childCount - 1) {
