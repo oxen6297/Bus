@@ -43,6 +43,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                     }
                 }
             }
+
+            btnLeft.singleClickListener {
+                recyclerviewStation.smoothScrollToPosition(0)
+            }
+
+            btnRight.singleClickListener {
+                //TODO Focus to Transfer Position
+            }
         }
     }
 }
