@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationAdapter
@@ -49,8 +51,23 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnRight.singleClickListener {
-                //TODO Focus to Transfer Position
+                recyclerviewStation.smoothScrollToPosition(viewModel.getTransferPosition())
             }
+
+            recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val focusPosition =
+                            (recyclerviewStation.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        if (focusPosition < viewModel.getTransferPosition()) {
+                            btnLeft.isChecked = true
+                        } else {
+                            btnRight.isChecked = true
+                        }
+                    }
+                }
+            })
         }
     }
 }
