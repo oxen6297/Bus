@@ -147,6 +147,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
+            android:weightSum="2"
             app:layout_constraintTop_toBottomOf="@+id/text_end_station">
 
             <RadioButton
@@ -157,8 +158,8 @@
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
                 android:checked="true"
-                android:text="@{vm.setLeftBtnText()}"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@{vm.setLeftBtnText()}" />
 
             <RadioButton
                 android:id="@+id/btn_right"
@@ -167,18 +168,20 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
-                android:text="@{vm.setRightBtnText()}"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@{vm.setRightBtnText()}" />
 
         </RadioGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_station"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radio_btn"
