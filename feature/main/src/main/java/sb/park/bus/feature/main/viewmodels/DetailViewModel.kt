@@ -108,7 +108,11 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun setLeftBtnText(): String = "${bus.value?.startDirection!!} 방향"
+    fun setLeftBtnText(): String = "${bus.value?.startDirection ?: " "} 방향"
 
-    fun setRightBtnText(): String = "${bus.value?.endDirection!!} 방향"
+    fun setRightBtnText(): String = "${bus.value?.endDirection ?: " "} 방향"
+
+    fun getTransferPosition(): Int = stationFlow.value?.indexOfFirst {
+        it.isTransfer == "Y"
+    }?.plus(5) ?: ((stationFlow.value?.size ?: 0) / 2)
 }
