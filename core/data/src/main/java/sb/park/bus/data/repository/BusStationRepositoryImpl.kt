@@ -25,10 +25,10 @@ class BusStationRepositoryImpl @Inject constructor(
 
     override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
         busStationService.getData(busRouteId = busId).msgBody.itemList.toList<BusStationResponse>()
-            .map {
-                it.toData()
-            }.distinctBy {
+            .distinctBy {
                 it.direction
-            }.toSearch(busId).toList()
+            }.map {
+            it.toData()
+        }.toSearch(busId).toList()
     }.flowOn(coroutineDispatcher)
 }
