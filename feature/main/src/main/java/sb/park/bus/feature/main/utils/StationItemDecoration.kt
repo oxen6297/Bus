@@ -2,6 +2,7 @@ package sb.park.bus.feature.main.utils
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.feature.main.R
 
@@ -12,15 +13,14 @@ class StationItemDecoration : RecyclerView.ItemDecoration() {
             color = parent.context.getColor(R.color.gray_c8c8c8)
         }
 
-        for (position in 0 until parent.childCount - 1) {
-            val child = parent.getChildAt(position)
-            val params = child.layoutParams as RecyclerView.LayoutParams
+        parent.children.forEach {
+            val params = it.layoutParams as RecyclerView.LayoutParams
 
             c.drawRect(
                 parent.paddingStart.toFloat(),
-                (child.bottom + params.bottomMargin).toFloat(),
+                (it.bottom + params.bottomMargin).toFloat(),
                 parent.width - parent.paddingEnd.toFloat(),
-                (child.bottom + params.bottomMargin).toFloat() + 1,
+                (it.bottom + params.bottomMargin).toFloat() + 1,
                 paint
             )
         }
