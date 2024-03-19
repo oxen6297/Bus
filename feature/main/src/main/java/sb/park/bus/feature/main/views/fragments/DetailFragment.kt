@@ -36,38 +36,52 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
             btnFavorite.singleClickListener {
                 if (viewModel.isFavorite.value) {
-                    view.context.customDialog(getString(R.string.popup_delete)) {
+                    it.context.customDialog(getString(R.string.popup_delete)) {
                         viewModel.deleteFavorite()
                     }
                 } else {
                     viewModel.addFavorite {
-                        view.context.showToast(getString(R.string.toast_delete))
+                        it.context.showToast(getString(R.string.toast_delete))
                     }
                 }
             }
 
             btnLeft.singleClickListener {
-                recyclerviewStation.smoothScrollToPosition(0)
+                recyclerviewStation.smoothScrollToPosition(START_POSITION)
             }
 
             btnRight.singleClickListener {
-                recyclerviewStation.smoothScrollToPosition(viewModel.getTransferPosition())
+                recyclerviewStation.apply {
+                    val layoutManager = layoutManager as LinearLayoutManager
+                    val transferPosition = viewModel.getTransferPosition()
+
+                    if (layoutManager.findFirstVisibleItemPosition() > transferPosition) {
+                        smoothScrollToPosition(transferPosition - OFFSET_POSITION)
+                    } else {
+                        smoothScrollToPosition(transferPosition + OFFSET_POSITION)
+                    }
+                }
             }
 
             recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        val focusPosition =
-                            (recyclerviewStation.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                        if (focusPosition < viewModel.getTransferPosition()) {
-                            btnLeft.isChecked = true
-                        } else {
-                            btnRight.isChecked = true
+                    when (newState) {
+                        RecyclerView.SCROLL_STATE_IDLE -> {
+                            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                            val focusPosition = layoutManager.findLastVisibleItemPosition()
+                            val transferPosition = viewModel.getTransferPosition() + OFFSET_POSITION
+
+                            btnLeft.isChecked = focusPosition < transferPosition
+                            btnRight.isChecked = focusPosition >= transferPosition
                         }
                     }
                 }
             })
         }
+    }
+
+    companion object {
+        private const val START_POSITION = 0
+        private const val OFFSET_POSITION = 5
     }
 }
