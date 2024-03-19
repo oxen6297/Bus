@@ -58,7 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
 
             textDeleteFavorite.setOnClickListener {
-                view.context.customDialog(getString(R.string.popup_delete_all)) {
+                it.context.customDialog(getString(R.string.popup_delete_all)) {
                     viewModel.deleteAll()
                 }
             }
