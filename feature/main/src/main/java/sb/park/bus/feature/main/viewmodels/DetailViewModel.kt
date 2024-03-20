@@ -20,7 +20,6 @@ import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusSearchResponse
-import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
 import javax.inject.Inject
@@ -55,21 +54,9 @@ class DetailViewModel @Inject constructor(
 
     val stationFlow = uiState.map {
         it.successOrNull()?.map { response ->
-            BusStationResponse(
-                busRouteNm = response.busRouteNm,
-                seq = response.seq,
-                stationNm = response.stationNm,
-                stationId = response.stationId,
-                gpsX = response.gpsX,
-                gpsY = response.gpsY,
-                direction = response.direction,
-                beginTm = response.beginTm,
-                lastTm = response.lastTm,
-                routeType = response.routeType,
-                section = response.section,
-                isTransfer = response.isTransfer,
+            response.apply {
                 onFavorite = { addFavorite(FavoriteEntity.Type.STATION.type, response.stationId) }
-            )
+            }
         }
     }.stateIn(
         scope = viewModelScope,
@@ -104,7 +91,7 @@ class DetailViewModel @Inject constructor(
                         startDirection = bus.value?.startDirection!!,
                         endDirection = bus.value?.endDirection!!,
                         busType = bus.value?.routeType!!,
-                        stationId = stationId,
+                        station = stationId,
                         type = type
                     )
                 )
