@@ -71,6 +71,7 @@ class DetailViewModel @Inject constructor(
     fun deleteFavorite() {
         viewModelScope.launch {
             favoriteUseCase.deleteFavorite(bus.value?.busId!!)
+            _isFavorite.emit(false)
         }
     }
 
@@ -83,7 +84,9 @@ class DetailViewModel @Inject constructor(
                         busId = bus.value?.busId!!,
                         startDirection = bus.value?.startDirection!!,
                         endDirection = bus.value?.endDirection!!,
-                        busType = bus.value?.routeType!!
+                        busType = bus.value?.routeType!!,
+                        stationId = null,
+                        type = FavoriteEntity.Type.BUS.type
                     )
                 )
             }.onSuccess {
