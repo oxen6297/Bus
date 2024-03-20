@@ -8,5 +8,7 @@ data class BusSearchResponse(
     @SerializedName("busRouteNm") val busRouteNm: String,
     @SerializedName("startDirection") val startDirection: String,
     @SerializedName("endDirection") val endDirection: String,
-    @SerializedName("routeType") val routeType: String
+    @SerializedName("routeType") val routeType: String,
+    val stationId: String? = null,
+    val type: String = FavoriteEntity.Type.BUS.type
 ) : Serializable
