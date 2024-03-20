@@ -13,7 +13,7 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
     ListAdapter<FavoriteEntity, ViewHolder>(diffCallback) {
 
     override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
+        return getItem(position).type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
