@@ -30,7 +30,7 @@ class SearchViewModel @Inject constructor(
         MutableStateFlow<ApiResult<List<BusSearchResponse>>>(ApiResult.Success(emptyList()))
     val uiState = _uiState.asStateFlow()
 
-    val busFlow = _uiState.map { it.successOrNull() }.stateIn(
+    val busFlow = uiState.map { it.successOrNull() }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = emptyList()
