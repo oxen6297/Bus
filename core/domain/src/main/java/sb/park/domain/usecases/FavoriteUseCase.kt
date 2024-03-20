@@ -11,6 +11,8 @@ class FavoriteUseCase @Inject constructor(private val favoriteRepository: Favori
 
     suspend fun getFavorite(): List<FavoriteEntity> = favoriteRepository.getFavorite()
 
+    suspend fun getStationFavorite(): List<FavoriteEntity> = favoriteRepository.getStationFavorite()
+
     suspend fun deleteFavorite(id: String) = favoriteRepository.deleteFavorite(id)
 
     suspend fun deleteAll() = favoriteRepository.deleteAll()

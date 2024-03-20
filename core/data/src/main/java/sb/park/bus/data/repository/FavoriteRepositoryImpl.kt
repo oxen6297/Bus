@@ -13,6 +13,12 @@ class FavoriteRepositoryImpl @Inject constructor(
 
     override suspend fun getFavorite(): List<FavoriteEntity> = favoriteDao.getFavorite()
 
+    override suspend fun getStationFavorite(): List<FavoriteEntity> {
+        return getFavorite().filter {
+            it.type == FavoriteEntity.Type.STATION.type
+        }
+    }
+
     override suspend fun deleteFavorite(id: String) {
         favoriteDao.deleteFavorite(id)
     }
