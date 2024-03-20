@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -23,7 +22,6 @@ import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusSearchResponse
 import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
-import sb.park.model.throwableOrNull
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,14 +60,9 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            favoriteUseCase.getFavorite().collectLatest {
-                it.successOrNull()?.forEach { favoriteList ->
-                    if (favoriteList.busId == bus.value?.busId) {
-                        _isFavorite.emit(true)
-                    }
-                }
-                it.throwableOrNull()?.let { error ->
-                    _errorFlow.emit(error)
+            favoriteUseCase.getFavorite().forEach { favoriteList ->
+                if (favoriteList.busId == bus.value?.busId) {
+                    _isFavorite.emit(true)
                 }
             }
         }
@@ -77,13 +70,7 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite() {
         viewModelScope.launch {
-            runCatching {
-                favoriteUseCase.deleteFavorite(bus.value?.busId!!)
-            }.onSuccess {
-                _isFavorite.emit(false)
-            }.onFailure {
-                _errorFlow.emit(it)
-            }
+            favoriteUseCase.deleteFavorite(bus.value?.busId!!)
         }
     }
 
@@ -107,10 +94,6 @@ class DetailViewModel @Inject constructor(
             }
         }
     }
-
-    fun setLeftBtnText(): String = "${bus.value?.startDirection ?: " "} 방향"
-
-    fun setRightBtnText(): String = "${bus.value?.endDirection ?: " "} 방향"
 
     fun getTransferPosition(): Int = stationFlow.value?.indexOfFirst {
         it.isTransfer == "Y"

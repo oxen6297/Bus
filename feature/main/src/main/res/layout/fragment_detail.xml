@@ -158,8 +158,7 @@
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
                 android:checked="true"
-                android:gravity="center"
-                android:text="@{vm.setLeftBtnText()}" />
+                android:gravity="center" />
 
             <RadioButton
                 android:id="@+id/btn_right"
@@ -168,8 +167,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
-                android:gravity="center"
-                android:text="@{vm.setRightBtnText()}" />
+                android:gravity="center" />
 
         </RadioGroup>
 

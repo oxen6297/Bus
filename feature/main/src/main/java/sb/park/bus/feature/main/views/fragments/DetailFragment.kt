@@ -1,5 +1,6 @@
 package sb.park.bus.feature.main.views.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     private val viewModel: DetailViewModel by viewModels()
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,19 +48,25 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 }
             }
 
-            btnLeft.singleClickListener {
-                recyclerviewStation.smoothScrollToPosition(START_POSITION)
+            btnLeft.apply {
+                text = viewModel.bus.value?.startDirection + DIRECTION
+                singleClickListener {
+                    recyclerviewStation.smoothScrollToPosition(START_POSITION)
+                }
             }
 
-            btnRight.singleClickListener {
-                recyclerviewStation.apply {
-                    val layoutManager = layoutManager as LinearLayoutManager
-                    val transferPosition = viewModel.getTransferPosition()
+            btnRight.apply {
+                text = viewModel.bus.value?.endDirection + DIRECTION
+                singleClickListener {
+                    recyclerviewStation.apply {
+                        val layoutManager = layoutManager as LinearLayoutManager
+                        val transferPosition = viewModel.getTransferPosition()
 
-                    if (layoutManager.findFirstVisibleItemPosition() > transferPosition) {
-                        smoothScrollToPosition(transferPosition - OFFSET_POSITION)
-                    } else {
-                        smoothScrollToPosition(transferPosition + OFFSET_POSITION)
+                        if (layoutManager.findFirstVisibleItemPosition() > transferPosition) {
+                            smoothScrollToPosition(transferPosition - OFFSET_POSITION)
+                        } else {
+                            smoothScrollToPosition(transferPosition + OFFSET_POSITION)
+                        }
                     }
                 }
             }
@@ -83,5 +91,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     companion object {
         private const val START_POSITION = 0
         private const val OFFSET_POSITION = 5
+        private const val DIRECTION = "방향"
     }
 }
