@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
         initialValue = null
     )
 
-    private val _favoriteFlow = MutableStateFlow<List<FavoriteEntity>?>(null)
+    private val _favoriteFlow = MutableStateFlow<List<FavoriteEntity>>(emptyList())
     val favoriteFlow = _favoriteFlow.asStateFlow()
 
     private val _clickable = MutableLiveData(false)
@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             favoriteFlow.collectLatest {
-                _clickable.value = !it.isNullOrEmpty()
+                _clickable.value = it.isNotEmpty()
             }
         }
     }
@@ -59,15 +59,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getFavorite(){
+    fun getFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.getFavorite().stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000L),
-                initialValue = null
-            ).collectLatest {
-                _favoriteFlow.emit(it?.successOrNull())
-            }
+            _favoriteFlow.emit(favoriteUseCase.getFavorite())
         }
     }
 }
