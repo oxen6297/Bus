@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import sb.park.model.response.bus.FavoriteEntity
 
-@Database(entities = [FavoriteEntity::class], version = 2)
+@Database(entities = [FavoriteEntity::class], version = 3)
 abstract class FavoriteDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
 }
