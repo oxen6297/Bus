@@ -40,7 +40,7 @@ internal object RoomModule {
     private val MIGRATION_2_TO_3: Migration = object : Migration(2, 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.apply {
-                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN stationId TEXT")
+                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN station TEXT")
                 execSQL("ALTER TABLE FavoriteEntity ADD COLUMN type Int NOT NULL DEFAULT 0")
             }
         }
