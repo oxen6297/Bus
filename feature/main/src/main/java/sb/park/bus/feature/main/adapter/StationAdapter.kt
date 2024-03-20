@@ -25,6 +25,9 @@ class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder
         holder.binding.apply {
             station = getItem(position)
             imgTransfer.isVisible = getItem(position).isTransfer == "Y"
+            btnFavorite.setOnClickListener {
+                getItem(position).onFavorite.invoke()
+            }
         }
     }
 
