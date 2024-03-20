@@ -21,7 +21,7 @@ internal object RoomModule {
     fun provideFavoriteDatabase(@ApplicationContext context: Context): FavoriteDatabase =
         Room.databaseBuilder(context, FavoriteDatabase::class.java, "bus-favorite").addMigrations(
             MIGRATION_1_TO_2, MIGRATION_2_TO_3
-        ).build()
+        ).fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides
@@ -41,7 +41,7 @@ internal object RoomModule {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.apply {
                 execSQL("ALTER TABLE FavoriteEntity ADD COLUMN stationId TEXT")
-                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN type TEXT NOT NULL DEFAULT 'bus'")
+                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN type Int NOT NULL DEFAULT 0")
             }
         }
     }
