@@ -17,6 +17,7 @@ import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.StationItemDecoration
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
+import sb.park.model.response.bus.FavoriteEntity
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
@@ -42,9 +43,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         viewModel.deleteFavorite()
                     }
                 } else {
-                    viewModel.addFavorite {
-                        it.context.showToast(getString(R.string.toast_delete))
-                    }
+                    viewModel.addFavorite(FavoriteEntity.Type.BUS.type)
                 }
             }
 

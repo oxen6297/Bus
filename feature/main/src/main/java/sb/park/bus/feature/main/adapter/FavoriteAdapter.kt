@@ -4,33 +4,65 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import sb.park.bus.feature.main.databinding.ItemFavoriteBinding
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import sb.park.bus.feature.main.databinding.ItemBusFavoriteBinding
+import sb.park.bus.feature.main.databinding.ItemStationFavoriteBinding
 import sb.park.model.response.bus.FavoriteEntity
 
 class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
-    ListAdapter<FavoriteEntity, FavoriteAdapter.ViewHolder>(diffCallback) {
+    ListAdapter<FavoriteEntity, ViewHolder>(diffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemFavoriteBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-            favorite = getItem(position)
-            layoutFavorite.setOnClickListener {
-                clickListener(getItem(position))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return when (viewType) {
+            FavoriteEntity.Type.BUS.type -> {
+                BusViewHolder(
+                    ItemBusFavoriteBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+
+            else -> {
+                StationViewHolder(
+                    ItemStationFavoriteBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
             }
         }
     }
 
-    class ViewHolder(val binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        when (getItem(position).type) {
+            FavoriteEntity.Type.BUS.type -> {
+                (holder as BusViewHolder).binding.apply {
+                    favorite = getItem(position)
+                    layoutFavorite.setOnClickListener {
+                        clickListener(getItem(position))
+                    }
+                }
+            }
+
+            else -> {
+                (holder as StationViewHolder).binding.apply {
+                    favorite = getItem(position)
+                }
+            }
+        }
+    }
+
+    class BusViewHolder(val binding: ItemBusFavoriteBinding) : ViewHolder(binding.root)
+
+    class StationViewHolder(val binding: ItemStationFavoriteBinding) : ViewHolder(binding.root)
 
 
     companion object {

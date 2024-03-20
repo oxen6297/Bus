@@ -15,7 +15,7 @@ data class FavoriteEntity(
     @ColumnInfo val endDirection: String,
     @ColumnInfo val busType: String,
     @ColumnInfo val stationId: String? = null,
-    @ColumnInfo val type: String,
+    @ColumnInfo val type: Int,
 ) : Serializable {
     fun toSearch(): BusSearchResponse = BusSearchResponse(
         busId = this.busId,
@@ -27,7 +27,7 @@ data class FavoriteEntity(
         type = this.type
     )
 
-    enum class Type(val type: String) {
-        BUS("bus"), STATION("station")
+    enum class Type(val type: Int) {
+        BUS(0), STATION(1)
     }
 }

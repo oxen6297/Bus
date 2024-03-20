@@ -20,6 +20,7 @@ import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusSearchResponse
+import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
 import javax.inject.Inject
@@ -52,10 +53,28 @@ class DetailViewModel @Inject constructor(
         initialValue = ApiResult.Loading
     )
 
-    val stationFlow = uiState.map { it.successOrNull() }.stateIn(
+    val stationFlow = uiState.map {
+        it.successOrNull()?.map { response ->
+            BusStationResponse(
+                busRouteNm = response.busRouteNm,
+                seq = response.seq,
+                stationNm = response.stationNm,
+                stationId = response.stationId,
+                gpsX = response.gpsX,
+                gpsY = response.gpsY,
+                direction = response.direction,
+                beginTm = response.beginTm,
+                lastTm = response.lastTm,
+                routeType = response.routeType,
+                section = response.section,
+                isTransfer = response.isTransfer,
+                onFavorite = { addFavorite(FavoriteEntity.Type.STATION.type, response.stationId) }
+            )
+        }
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = null
+        initialValue = emptyList()
     )
 
     init {
@@ -75,7 +94,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun addFavorite(showToast: () -> Unit) {
+    fun addFavorite(type: Int, stationId: String? = null) {
         viewModelScope.launch {
             runCatching {
                 favoriteUseCase.insertFavorite(
@@ -85,13 +104,12 @@ class DetailViewModel @Inject constructor(
                         startDirection = bus.value?.startDirection!!,
                         endDirection = bus.value?.endDirection!!,
                         busType = bus.value?.routeType!!,
-                        stationId = null,
-                        type = FavoriteEntity.Type.BUS.type
+                        stationId = stationId,
+                        type = type
                     )
                 )
             }.onSuccess {
                 _isFavorite.emit(true)
-                showToast()
             }.onFailure {
                 _errorFlow.emit(it)
             }
