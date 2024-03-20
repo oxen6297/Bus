@@ -14,7 +14,7 @@ data class FavoriteEntity(
     @ColumnInfo val startDirection: String,
     @ColumnInfo val endDirection: String,
     @ColumnInfo val busType: String,
-    @ColumnInfo val stationId: String? = null,
+    @ColumnInfo val station: String? = null,
     @ColumnInfo val type: Int,
 ) : Serializable {
     fun toSearch(): BusSearchResponse = BusSearchResponse(
@@ -23,7 +23,7 @@ data class FavoriteEntity(
         startDirection = this.startDirection,
         endDirection = this.endDirection,
         routeType = this.busType,
-        stationId = this.stationId,
+        stationId = this.station,
         type = this.type
     )
 

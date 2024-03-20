@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class BusStationResponse(
     @SerializedName("busRouteNm") val busRouteNm: String,
     @SerializedName("seq") val seq: String,
-    @SerializedName("stationId") val stationId: String?,
+    @SerializedName("station") val stationId: String,
     @SerializedName("stationNm") val stationNm: String,
     @SerializedName("gpsX") val gpsX: String,
 
