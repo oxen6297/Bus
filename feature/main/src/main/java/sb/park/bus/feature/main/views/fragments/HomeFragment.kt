@@ -47,7 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
             adapter = FavoriteAdapter {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(it())
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(it.toSearch())
                 )
             }
 
