@@ -91,8 +91,8 @@
             android:id="@+id/layout_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:gravity="end">
 
             <ImageButton
                 android:id="@+id/btn_favorite"
@@ -101,6 +101,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/white_star"
                 android:importantForAccessibility="no"
+                android:onClick="@{() -> station.onFavorite.invoke()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
