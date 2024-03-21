@@ -20,7 +20,7 @@ internal object RoomModule {
     @Provides
     fun provideFavoriteDatabase(@ApplicationContext context: Context): FavoriteDatabase =
         Room.databaseBuilder(context, FavoriteDatabase::class.java, "bus-favorite").addMigrations(
-            MIGRATION_1_TO_2, MIGRATION_2_TO_3
+            MIGRATION_1_TO_2, MIGRATION_2_TO_3, MIGRATION_3_TO_4
         ).fallbackToDestructiveMigration().build()
 
     @Singleton
@@ -42,6 +42,14 @@ internal object RoomModule {
             db.apply {
                 execSQL("ALTER TABLE FavoriteEntity ADD COLUMN station TEXT")
                 execSQL("ALTER TABLE FavoriteEntity ADD COLUMN type Int NOT NULL DEFAULT 0")
+            }
+        }
+    }
+
+    private val MIGRATION_3_TO_4: Migration = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.apply {
+                execSQL("ALTER TABLE FavoriteEntity ADD COLUMN stationName TEXT")
             }
         }
     }
