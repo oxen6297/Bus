@@ -1,12 +1,11 @@
 package sb.park.bus.feature.main.viewmodels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,11 +35,8 @@ class DetailViewModel @Inject constructor(
     val bus: LiveData<BusSearchResponse>
         get() = _bus
 
-    private val _isFavorite = MutableStateFlow(false)
-    val isFavorite = _isFavorite.asStateFlow()
-
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    val errorFlow = _errorFlow.asLiveData()
+    private val _isFavorite = MutableLiveData(false)
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
 
     private val _locationFlow =
         MutableStateFlow<ApiResult<List<BusLocationResponse>>>(ApiResult.Loading)
@@ -55,7 +51,9 @@ class DetailViewModel @Inject constructor(
     val stationFlow = uiState.map {
         it.successOrNull()?.map { response ->
             response.apply {
-                onFavorite = { addFavorite(FavoriteEntity.Type.STATION.type, response.stationId) }
+                onFavorite = {
+                    onFavorite(stationId, stationNm)
+                }
             }
         }
     }.stateIn(
@@ -68,7 +66,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             favoriteUseCase.getFavorite().forEach { favoriteList ->
                 if (favoriteList.busId == bus.value?.busId) {
-                    _isFavorite.emit(true)
+                    _isFavorite.value = true
                 }
             }
         }
@@ -77,28 +75,40 @@ class DetailViewModel @Inject constructor(
     fun deleteFavorite() {
         viewModelScope.launch {
             favoriteUseCase.deleteFavorite(bus.value?.busId!!)
-            _isFavorite.emit(false)
+            _isFavorite.value = false
         }
     }
 
-    fun addFavorite(type: Int, stationId: String? = null) {
+    fun addFavorite(type: Int, stationId: String? = null, stationName: String? = null) {
         viewModelScope.launch {
-            runCatching {
-                favoriteUseCase.insertFavorite(
-                    FavoriteEntity(
-                        busNumber = bus.value?.busRouteNm!!,
-                        busId = bus.value?.busId!!,
-                        startDirection = bus.value?.startDirection!!,
-                        endDirection = bus.value?.endDirection!!,
-                        busType = bus.value?.routeType!!,
-                        station = stationId,
-                        type = type
-                    )
+            favoriteUseCase.insertFavorite(
+                FavoriteEntity(
+                    busNumber = bus.value?.busRouteNm!!,
+                    busId = bus.value?.busId!!,
+                    startDirection = bus.value?.startDirection!!,
+                    endDirection = bus.value?.endDirection!!,
+                    busType = bus.value?.routeType!!,
+                    station = stationId,
+                    stationName = stationName,
+                    type = type
                 )
-            }.onSuccess {
-                _isFavorite.emit(true)
-            }.onFailure {
-                _errorFlow.emit(it)
+            )
+            if (type == FavoriteEntity.Type.BUS.type) {
+                _isFavorite.value = true
+            }
+        }
+    }
+
+    private fun onFavorite(stationId: String, stationName: String) {
+        viewModelScope.launch {
+            if (favoriteUseCase.getStationFavorite(stationId)) {
+                favoriteUseCase.deleteStationFavorite(stationId)
+            } else {
+                addFavorite(
+                    FavoriteEntity.Type.STATION.type,
+                    stationId,
+                    stationName
+                )
             }
         }
     }
