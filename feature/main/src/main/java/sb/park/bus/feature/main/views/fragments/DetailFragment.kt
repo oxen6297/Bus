@@ -13,7 +13,6 @@ import sb.park.bus.feature.main.adapter.StationAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
-import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.StationItemDecoration
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
@@ -38,7 +37,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnFavorite.singleClickListener {
-                if (viewModel.isFavorite.value) {
+                if (viewModel.isFavorite.value!!) {
                     it.context.customDialog(getString(R.string.popup_delete)) {
                         viewModel.deleteFavorite()
                     }
