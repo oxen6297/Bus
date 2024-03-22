@@ -19,6 +19,7 @@ import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusSearchResponse
+import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
 import javax.inject.Inject
@@ -51,8 +52,9 @@ class DetailViewModel @Inject constructor(
     val stationFlow = uiState.map {
         it.successOrNull()?.map { response ->
             response.apply {
+                setFavorite(this)
                 onFavorite = {
-                    onFavorite(stationId, stationNm)
+                    onFavorite(this)
                 }
             }
         }
@@ -99,17 +101,23 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun onFavorite(stationId: String, stationName: String) {
+    private fun onFavorite(response: BusStationResponse) {
         viewModelScope.launch {
-            if (favoriteUseCase.getStationFavorite(stationId)) {
-                favoriteUseCase.deleteStationFavorite(stationId)
+            if (favoriteUseCase.getStationFavorite(response.stationId)) {
+                favoriteUseCase.deleteStationFavorite(response.stationId)
             } else {
                 addFavorite(
                     FavoriteEntity.Type.STATION.type,
-                    stationId,
-                    stationName
+                    response.stationId,
+                    response.stationNm
                 )
             }
+        }
+    }
+
+    private fun setFavorite(response: BusStationResponse) {
+        viewModelScope.launch {
+            response.isFavorite = favoriteUseCase.getStationFavorite(response.stationId)
         }
     }
 

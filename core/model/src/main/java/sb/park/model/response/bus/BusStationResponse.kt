@@ -17,6 +17,7 @@ data class BusStationResponse(
 
     @SerializedName("section") val section: String,
     @SerializedName("transYn") val isTransfer: String,
+    var isFavorite: Boolean = false
 ) {
     var onFavorite: () -> Unit = {}
 }
