@@ -83,8 +83,8 @@
                     android:layout_height="@dimen/icon_size"
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/white_star"
-                    android:importantForAccessibility="no"
                     app:isFavorite="@{vm.isFavorite}"
+                    android:importantForAccessibility="no"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

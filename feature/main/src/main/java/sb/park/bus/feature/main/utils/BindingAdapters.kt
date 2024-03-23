@@ -1,6 +1,5 @@
 package sb.park.bus.feature.main.utils
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -14,7 +13,6 @@ import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.extensions.hide
 import sb.park.bus.feature.main.extensions.show
 import sb.park.bus.feature.main.extensions.showToast
-import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.model.ApiResult
 import sb.park.model.successOrNull
 
@@ -59,18 +57,6 @@ object BindingAdapters {
     fun bindSetFavoriteImage(imageButton: ImageButton, isFavorite: Boolean) {
         val imageResource = if (isFavorite) R.drawable.star else R.drawable.white_star
         Glide.with(imageButton.context).load(imageResource).into(imageButton)
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    @JvmStatic
-    @BindingAdapter("click")
-    fun bindClickFavorite(imageButton: ImageButton, onFavorite: () -> Unit) {
-        imageButton.singleClickListener {
-            onFavorite()
-            val imageResource =
-                if (imageButton.background == imageButton.context.getDrawable(R.drawable.white_star)) R.drawable.star else R.drawable.white_star
-            Glide.with(it.context).load(imageResource).into(imageButton)
-        }
     }
 
     @JvmStatic

@@ -52,7 +52,7 @@ class DetailViewModel @Inject constructor(
     val stationFlow = uiState.map {
         it.successOrNull()?.map { response ->
             response.apply {
-                setFavorite(this)
+                setStationFavorite(this)
                 onFavorite = {
                     onFavorite(this)
                 }
@@ -115,7 +115,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun setFavorite(response: BusStationResponse) {
+    private fun setStationFavorite(response: BusStationResponse) {
         viewModelScope.launch {
             response.isFavorite = favoriteUseCase.getStationFavorite(response.stationId)
         }
