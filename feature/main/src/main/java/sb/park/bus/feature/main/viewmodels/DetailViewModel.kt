@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
@@ -43,28 +43,47 @@ class DetailViewModel @Inject constructor(
         MutableStateFlow<ApiResult<List<BusLocationResponse>>>(ApiResult.Loading)
     val locationFlow = _locationFlow.asStateFlow()
 
+    private val _stationFlow = MutableStateFlow<List<BusStationResponse>?>(emptyList())
+    val stationFlow = _stationFlow.asStateFlow()
+
     val uiState = busStationUseCase(bus.value?.busId!!).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading
     )
 
-    val stationFlow = uiState.map {
-        it.successOrNull()?.map { response ->
-            response.apply {
-                setStationFavorite(this)
-                onFavorite = {
-                    onFavorite(this)
+    init {
+        setFavorite()
+        fetchStationFlow()
+    }
+
+    private fun fetchStationFlow() {
+        viewModelScope.launch {
+            uiState.collectLatest {
+                val data = it.successOrNull()?.map { response ->
+                    response.apply {
+                        isFavorite = favoriteUseCase.getStationFavorite(stationId)
+                        onFavorite = {
+                            viewModelScope.launch {
+                                if (favoriteUseCase.getStationFavorite(stationId)) {
+                                    favoriteUseCase.deleteStationFavorite(stationId)
+                                } else {
+                                    addFavorite(
+                                        FavoriteEntity.Type.STATION.type,
+                                        stationId,
+                                        stationNm
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
+                _stationFlow.emit(data)
             }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = emptyList()
-    )
+    }
 
-    init {
+    private fun setFavorite() {
         viewModelScope.launch {
             favoriteUseCase.getFavorite().forEach { favoriteList ->
                 if (favoriteList.busId == bus.value?.busId) {
@@ -98,26 +117,6 @@ class DetailViewModel @Inject constructor(
             if (type == FavoriteEntity.Type.BUS.type) {
                 _isFavorite.value = true
             }
-        }
-    }
-
-    private fun onFavorite(response: BusStationResponse) {
-        viewModelScope.launch {
-            if (favoriteUseCase.getStationFavorite(response.stationId)) {
-                favoriteUseCase.deleteStationFavorite(response.stationId)
-            } else {
-                addFavorite(
-                    FavoriteEntity.Type.STATION.type,
-                    response.stationId,
-                    response.stationNm
-                )
-            }
-        }
-    }
-
-    private fun setStationFavorite(response: BusStationResponse) {
-        viewModelScope.launch {
-            response.isFavorite = favoriteUseCase.getStationFavorite(response.stationId)
         }
     }
 
