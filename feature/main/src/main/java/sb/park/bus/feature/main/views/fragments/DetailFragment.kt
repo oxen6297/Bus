@@ -13,10 +13,10 @@ import sb.park.bus.feature.main.adapter.StationAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
+import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.StationItemDecoration
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
-import sb.park.model.response.bus.FavoriteEntity
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
@@ -42,19 +42,20 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         viewModel.deleteFavorite()
                     }
                 } else {
-                    viewModel.addFavorite(FavoriteEntity.Type.BUS.type)
+                    viewModel.addFavorite()
+                    it.context.showToast(getString(R.string.toast_add_favorite))
                 }
             }
 
             btnLeft.apply {
-                text = viewModel.bus.value?.startDirection + DIRECTION
+                text = viewModel.bus.value?.startDirection + getString(R.string.direction)
                 singleClickListener {
                     recyclerviewStation.smoothScrollToPosition(START_POSITION)
                 }
             }
 
             btnRight.apply {
-                text = viewModel.bus.value?.endDirection + DIRECTION
+                text = viewModel.bus.value?.endDirection + getString(R.string.direction)
                 singleClickListener {
                     recyclerviewStation.apply {
                         val layoutManager = layoutManager as LinearLayoutManager
@@ -89,6 +90,5 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     companion object {
         private const val START_POSITION = 0
         private const val OFFSET_POSITION = 5
-        private const val DIRECTION = "방향"
     }
 }
