@@ -38,7 +38,7 @@
         android:label="DetailFragment">
 
         <argument
-            android:name="bus"
-            app:argType="sb.park.model.response.bus.BusSearchResponse" />
+            android:name="data"
+            app:argType="sb.park.model.response.bus.DeliveryData" />
     </fragment>
 </navigation>
