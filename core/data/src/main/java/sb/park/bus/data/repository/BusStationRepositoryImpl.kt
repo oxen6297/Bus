@@ -30,20 +30,18 @@ class BusStationRepositoryImpl @Inject constructor(
         busStationService.getData(
             busRouteId = deliveryData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
-            favoriteRepository.run {
-                it.toData(isFavorite(it.stationId)) {
-                    CoroutineScope(coroutineDispatcher).launch {
-                        if (isFavorite(it.stationId)) {
-                            deleteStationFavorite(it.stationId)
-                        } else {
-                            insertFavorite(
-                                deliveryData.toFavorite(
-                                    DeliveryData.Type.STATION.type,
-                                    it.stationId,
-                                    it.stationNm
-                                )
+            it.toData(isFavorite(it.stationId)) {
+                CoroutineScope(coroutineDispatcher).launch {
+                    if (isFavorite(it.stationId)) {
+                        favoriteRepository.deleteStationFavorite(it.stationId)
+                    } else {
+                        favoriteRepository.insertFavorite(
+                            deliveryData.toFavorite(
+                                DeliveryData.Type.STATION.type,
+                                it.stationId,
+                                it.stationNm
                             )
-                        }
+                        )
                     }
                 }
             }
