@@ -1,7 +1,6 @@
 package sb.park.model.response.bus
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class BusSearchResponse(
     @SerializedName("busId") val busId: String,
@@ -11,20 +10,16 @@ data class BusSearchResponse(
     @SerializedName("routeType") val routeType: String,
     val stationId: String? = null,
     val stationName: String? = null,
-    val type: Int = FavoriteEntity.Type.BUS.type
-) : Serializable {
-    fun toFavorite(
-        type: Int,
-        stationId: String? = null,
-        stationName: String? = null
-    ): FavoriteEntity = FavoriteEntity(
-        busNumber = busRouteNm,
-        busId = busId,
-        startDirection = startDirection,
-        endDirection = endDirection,
-        busType = routeType,
-        station = stationId,
-        stationName = stationName,
-        type = type
+    val type: Int = DeliveryData.Type.BUS.type
+) {
+    fun toDelivery(): DeliveryData = DeliveryData(
+        busId = this.busId,
+        busRouteNm = this.busRouteNm,
+        startDirection = this.startDirection,
+        endDirection = this.endDirection,
+        routeType = this.routeType,
+        stationId = this.stationId,
+        stationName = this.stationName,
+        type = this.type
     )
 }

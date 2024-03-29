@@ -3,7 +3,6 @@ package sb.park.model.response.bus
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 
 @Entity
 data class FavoriteEntity(
@@ -17,8 +16,8 @@ data class FavoriteEntity(
     @ColumnInfo val station: String? = null,
     @ColumnInfo val stationName: String? = null,
     @ColumnInfo val type: Int,
-) : Serializable {
-    fun toSearch(): BusSearchResponse = BusSearchResponse(
+) {
+    fun toDelivery(): DeliveryData = DeliveryData(
         busId = this.busId,
         busRouteNm = this.busNumber,
         startDirection = this.startDirection,
@@ -28,8 +27,4 @@ data class FavoriteEntity(
         stationName = this.stationName,
         type = this.type
     )
-
-    enum class Type(val type: Int) {
-        BUS(0), STATION(1)
-    }
 }
