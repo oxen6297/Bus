@@ -6,7 +6,7 @@ import sb.park.model.response.bus.BusSearchResponse
 import sb.park.model.response.bus.BusStationResponse
 
 interface BusStationRepository {
-    fun getData(busId: String): Flow<ApiResult<List<BusStationResponse>>>
+    fun getData(data: BusSearchResponse): Flow<ApiResult<List<BusStationResponse>>>
 
     fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>>
 }

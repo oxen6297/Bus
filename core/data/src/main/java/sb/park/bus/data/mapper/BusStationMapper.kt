@@ -3,7 +3,10 @@ package sb.park.bus.data.mapper
 import sb.park.model.BusType
 import sb.park.model.response.bus.BusStationResponse
 
-internal fun BusStationResponse.toData(): BusStationResponse = BusStationResponse(
+internal fun BusStationResponse.toData(
+    isFavorite: Boolean = false,
+    busFavorite: () -> Unit = {}
+): BusStationResponse = BusStationResponse(
     busRouteNm = this.busRouteNm,
     seq = this.seq,
     stationId = this.stationId,
@@ -18,4 +21,7 @@ internal fun BusStationResponse.toData(): BusStationResponse = BusStationRespons
         this.routeType == it.type
     }?.typeName ?: this.routeType,
     isTransfer = this.isTransfer
-)
+).apply {
+    this.isFavorite = isFavorite
+    onFavorite = busFavorite
+}

@@ -12,4 +12,19 @@ data class BusSearchResponse(
     val stationId: String? = null,
     val stationName: String? = null,
     val type: Int = FavoriteEntity.Type.BUS.type
-) : Serializable
+) : Serializable {
+    fun toFavorite(
+        type: Int,
+        stationId: String? = null,
+        stationName: String? = null
+    ): FavoriteEntity = FavoriteEntity(
+        busNumber = busRouteNm,
+        busId = busId,
+        startDirection = startDirection,
+        endDirection = endDirection,
+        busType = routeType,
+        station = stationId,
+        stationName = stationName,
+        type = type
+    )
+}
