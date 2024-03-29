@@ -19,7 +19,7 @@ import sb.park.bus.data.util.BUS
 import sb.park.bus.data.util.BUS_ID
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -45,7 +45,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("BitCoin")
+    @BitCoinRetrofit
     fun provideBitCoinRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BIT_COIN)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -55,7 +55,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("Bus")
+    @BusRetrofit
     fun provideBusRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BUS)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -64,7 +64,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("BusId")
+    @BusIdRetrofit
     fun provideBusIdRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BUS_ID)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -73,29 +73,33 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBitCoinService(@Named("BitCoin") retrofit: Retrofit): BitCoinService =
-        retrofit.create(
-            BitCoinService::class.java
-        )
+    fun provideBitCoinService(@BitCoinRetrofit retrofit: Retrofit): BitCoinService =
+        retrofit.create(BitCoinService::class.java)
 
     @Singleton
     @Provides
-    fun provideBusLocationService(@Named("Bus") retrofit: Retrofit): BusLocationService =
-        retrofit.create(
-            BusLocationService::class.java
-        )
+    fun provideBusLocationService(@BusRetrofit retrofit: Retrofit): BusLocationService =
+        retrofit.create(BusLocationService::class.java)
 
     @Singleton
     @Provides
-    fun provideBusStationService(@Named("Bus") retrofit: Retrofit): BusStationService =
-        retrofit.create(
-            BusStationService::class.java
-        )
+    fun provideBusStationService(@BusRetrofit retrofit: Retrofit): BusStationService =
+        retrofit.create(BusStationService::class.java)
 
     @Singleton
     @Provides
-    fun provideBusIdService(@Named("BusId") retrofit: Retrofit): BusIdService =
-        retrofit.create(
-            BusIdService::class.java
-        )
+    fun provideBusIdService(@BusIdRetrofit retrofit: Retrofit): BusIdService =
+        retrofit.create(BusIdService::class.java)
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    private annotation class BitCoinRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    private annotation class BusRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    private annotation class BusIdRetrofit
 }
