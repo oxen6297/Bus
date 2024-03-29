@@ -14,7 +14,7 @@ import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusSearchResponse
 import sb.park.model.response.bus.BusStationResponse
-import sb.park.model.response.bus.FavoriteEntity
+import sb.park.model.response.bus.DeliveryData
 import sb.park.model.safeFlow
 import javax.inject.Inject
 
@@ -25,20 +25,20 @@ class BusStationRepositoryImpl @Inject constructor(
 ) : BusStationRepository {
 
     override fun getData(
-        data: BusSearchResponse
+        deliveryData: DeliveryData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
         busStationService.getData(
-            busRouteId = data.busId
+            busRouteId = deliveryData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
             favoriteRepository.run {
-                it.toData(getStationFavorite(it.stationId)) {
+                it.toData(isFavorite(it.stationId)) {
                     CoroutineScope(coroutineDispatcher).launch {
-                        if (getStationFavorite(it.stationId)) {
+                        if (isFavorite(it.stationId)) {
                             deleteStationFavorite(it.stationId)
                         } else {
                             insertFavorite(
-                                data.toFavorite(
-                                    FavoriteEntity.Type.STATION.type,
+                                deliveryData.toFavorite(
+                                    DeliveryData.Type.STATION.type,
                                     it.stationId,
                                     it.stationNm
                                 )
@@ -59,4 +59,11 @@ class BusStationRepositoryImpl @Inject constructor(
             it.toData()
         }.toSearch(busId).toList()
     }.flowOn(coroutineDispatcher)
+
+    private suspend fun isFavorite(stationId: String): Boolean {
+        favoriteRepository.getFavorite().forEach {
+            if (it.station == stationId) return true
+        }
+        return false
+    }
 }
