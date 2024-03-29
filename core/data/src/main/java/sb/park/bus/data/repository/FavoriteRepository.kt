@@ -7,8 +7,6 @@ interface FavoriteRepository {
 
     suspend fun getFavorite(): List<FavoriteEntity>
 
-    suspend fun getStationFavorite(stationId: String): Boolean
-
     suspend fun deleteFavorite(id: String)
 
     suspend fun deleteStationFavorite(stationId: String)
