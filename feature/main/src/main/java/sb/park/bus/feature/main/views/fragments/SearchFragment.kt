@@ -23,7 +23,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             vm = searchViewModel
             adapter = SearchAdapter {
                 findNavController().navigate(
-                    SearchFragmentDirections.actionSearchFragmentToDetailFragment(it)
+                    SearchFragmentDirections.actionSearchFragmentToDetailFragment(it.toDelivery())
                 )
             }
         }
