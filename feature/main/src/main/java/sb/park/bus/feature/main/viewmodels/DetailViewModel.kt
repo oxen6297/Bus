@@ -6,9 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -17,9 +15,7 @@ import sb.park.domain.usecases.BusLocationUseCase
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
-import sb.park.model.response.bus.BusLocationResponse
-import sb.park.model.response.bus.BusSearchResponse
-import sb.park.model.response.bus.FavoriteEntity
+import sb.park.model.response.bus.DeliveryData
 import sb.park.model.successOrNull
 import javax.inject.Inject
 
@@ -31,18 +27,14 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _bus = savedStateHandle.getLiveData<BusSearchResponse>(KeyFile.BUS_KEY)
-    val bus: LiveData<BusSearchResponse>
-        get() = _bus
+    private val _data = savedStateHandle.getLiveData<DeliveryData>(KeyFile.NAV_ARG_KEY)
+    val data: LiveData<DeliveryData>
+        get() = _data
 
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    private val _locationFlow =
-        MutableStateFlow<ApiResult<List<BusLocationResponse>>>(ApiResult.Loading)
-    val locationFlow = _locationFlow.asStateFlow()
-
-    val uiState = busStationUseCase(bus.value!!).stateIn(
+    val uiState = busStationUseCase(data.value!!).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading
@@ -57,7 +49,7 @@ class DetailViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             favoriteUseCase.getFavorite().forEach { favoriteList ->
-                if (favoriteList.busId == bus.value?.busId) {
+                if (favoriteList.busId == data.value?.busId) {
                     _isFavorite.value = true
                 }
             }
@@ -66,14 +58,14 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.deleteFavorite(bus.value?.busId!!)
+            favoriteUseCase.deleteFavorite(data.value?.busId!!)
             _isFavorite.value = false
         }
     }
 
     fun addFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.insertFavorite(bus.value!!.toFavorite(FavoriteEntity.Type.BUS.type))
+            favoriteUseCase.insertFavorite(data.value!!.toFavorite())
             _isFavorite.value = true
         }
     }

@@ -48,14 +48,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnLeft.apply {
-                text = viewModel.bus.value?.startDirection + getString(R.string.direction)
+                text = viewModel.data.value?.startDirection + getString(R.string.direction)
                 singleClickListener {
                     recyclerviewStation.smoothScrollToPosition(START_POSITION)
                 }
             }
 
             btnRight.apply {
-                text = viewModel.bus.value?.endDirection + getString(R.string.direction)
+                text = viewModel.data.value?.endDirection + getString(R.string.direction)
                 singleClickListener {
                     recyclerviewStation.apply {
                         val layoutManager = layoutManager as LinearLayoutManager
