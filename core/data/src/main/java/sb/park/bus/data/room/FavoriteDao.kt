@@ -14,7 +14,7 @@ interface FavoriteDao {
     @Query("SELECT * FROM FavoriteEntity ORDER BY id")
     suspend fun getFavorite(): List<FavoriteEntity>
 
-    @Query("DELETE FROM FavoriteEntity WHERE busId = :busId")
+    @Query("DELETE FROM FavoriteEntity WHERE busId = :busId AND type = 0")
     suspend fun deleteFavorite(busId: String)
 
     @Query("DELETE FROM FavoriteEntity WHERE station = :station AND type = 1")
