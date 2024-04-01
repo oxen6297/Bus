@@ -12,6 +12,7 @@ data class FavoriteEntity(
     @ColumnInfo val busId: String,
     @ColumnInfo val startDirection: String,
     @ColumnInfo val endDirection: String,
+
     @ColumnInfo val busType: String,
     @ColumnInfo val station: String? = null,
     @ColumnInfo val stationName: String? = null,
@@ -20,8 +21,10 @@ data class FavoriteEntity(
     fun toDelivery(): DeliveryData = DeliveryData(
         busId = this.busId,
         busRouteNm = this.busNumber,
-        startDirection = this.startDirection,
-        endDirection = this.endDirection,
+        startDirection = this.startDirection + "방향",
+        rawStartDirection = this.startDirection,
+        endDirection = this.endDirection + "방향",
+        rawEndDirection = this.endDirection,
         routeType = this.busType,
         stationId = this.station,
         stationName = this.stationName,

@@ -8,6 +8,7 @@ data class BusSearchResponse(
     @SerializedName("startDirection") val startDirection: String,
     @SerializedName("endDirection") val endDirection: String,
     @SerializedName("routeType") val routeType: String,
+
     val stationId: String? = null,
     val stationName: String? = null,
     val type: Int = DeliveryData.Type.BUS.type
@@ -16,7 +17,9 @@ data class BusSearchResponse(
         busId = this.busId,
         busRouteNm = this.busRouteNm,
         startDirection = this.startDirection,
+        rawStartDirection = this.startDirection,
         endDirection = this.endDirection,
+        rawEndDirection = this.endDirection,
         routeType = this.routeType,
         stationId = this.stationId,
         stationName = this.stationName,
