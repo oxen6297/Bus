@@ -5,7 +5,7 @@ import sb.park.model.response.bus.BusStationResponse
 
 internal fun BusStationResponse.toData(
     isFavorite: Boolean = false,
-    busFavorite: () -> Unit = {}
+    onFavorite: () -> Unit = {}
 ): BusStationResponse = BusStationResponse(
     busRouteNm = this.busRouteNm,
     seq = this.seq,
@@ -23,5 +23,5 @@ internal fun BusStationResponse.toData(
     isTransfer = this.isTransfer
 ).apply {
     this.isFavorite = isFavorite
-    onFavorite = busFavorite
+    this.onFavorite = onFavorite
 }
