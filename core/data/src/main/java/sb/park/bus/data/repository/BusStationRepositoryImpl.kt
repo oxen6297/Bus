@@ -30,6 +30,7 @@ class BusStationRepositoryImpl @Inject constructor(
         busStationService.getData(
             busRouteId = deliveryData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
+
             it.toData(isFavorite(it.stationId)) {
                 CoroutineScope(coroutineDispatcher).launch {
                     if (isFavorite(it.stationId)) {
@@ -59,9 +60,8 @@ class BusStationRepositoryImpl @Inject constructor(
     }.flowOn(coroutineDispatcher)
 
     private suspend fun isFavorite(stationId: String): Boolean {
-        favoriteRepository.getFavorite().forEach {
-            if (it.station == stationId) return true
+        return favoriteRepository.getFavorite().any {
+            it.station == stationId
         }
-        return false
     }
 }
