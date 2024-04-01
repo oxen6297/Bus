@@ -83,8 +83,8 @@
                     android:layout_height="@dimen/icon_size"
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/white_star"
-                    app:isFavorite="@{vm.isFavorite}"
                     android:importantForAccessibility="no"
+                    app:isFavorite="@{vm.isFavorite}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
-            android:text="@{vm.data.startDirection}"
+            android:text="@{vm.data.rawStartDirection}"
             android:textColor="@color/black"
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintEnd_toStartOf="@+id/img_arrow"
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
-            android:text="@{vm.data.endDirection}"
+            android:text="@{vm.data.rawEndDirection}"
             android:textColor="@color/black"
             android:textSize="@dimen/edit_text_size"
             app:layout_constraintStart_toEndOf="@+id/img_arrow"
@@ -157,7 +157,8 @@
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
                 android:checked="true"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@{vm.data.startDirection}" />
 
             <RadioButton
                 android:id="@+id/btn_right"
@@ -166,7 +167,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@{vm.data.endDirection}" />
 
         </RadioGroup>
 

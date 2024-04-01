@@ -47,25 +47,19 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 }
             }
 
-            btnLeft.apply {
-                text = viewModel.data.value?.startDirection + getString(R.string.direction)
-                singleClickListener {
-                    recyclerviewStation.smoothScrollToPosition(START_POSITION)
-                }
+            btnLeft.singleClickListener {
+                recyclerviewStation.smoothScrollToPosition(START_POSITION)
             }
 
-            btnRight.apply {
-                text = viewModel.data.value?.endDirection + getString(R.string.direction)
-                singleClickListener {
-                    recyclerviewStation.apply {
-                        val layoutManager = layoutManager as LinearLayoutManager
-                        val transferPosition = viewModel.getTransferPosition()
+            btnRight.singleClickListener {
+                recyclerviewStation.apply {
+                    val layoutManager = layoutManager as LinearLayoutManager
+                    val transferPosition = viewModel.getTransferPosition()
 
-                        if (layoutManager.findFirstVisibleItemPosition() > transferPosition) {
-                            smoothScrollToPosition(transferPosition - OFFSET_POSITION)
-                        } else {
-                            smoothScrollToPosition(transferPosition + OFFSET_POSITION)
-                        }
+                    if (layoutManager.findFirstVisibleItemPosition() > transferPosition) {
+                        smoothScrollToPosition(transferPosition - OFFSET_POSITION)
+                    } else {
+                        smoothScrollToPosition(transferPosition + OFFSET_POSITION)
                     }
                 }
             }
