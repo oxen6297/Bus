@@ -9,7 +9,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import sb.park.bus.data.call.ResultCallAdapterFactory
 import sb.park.bus.data.service.BitCoinService
 import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.service.BusLocationService
@@ -49,7 +48,6 @@ internal object NetworkModule {
     fun provideBitCoinRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BIT_COIN)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-        .addCallAdapterFactory(ResultCallAdapterFactory())
         .client(okHttpClient)
         .build()
 
