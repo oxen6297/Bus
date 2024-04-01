@@ -58,15 +58,17 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.deleteFavorite(data.value?.busId!!)
-            _isFavorite.value = false
+            favoriteUseCase.deleteFavorite(data.value?.busId!!) {
+                _isFavorite.value = it
+            }
         }
     }
 
     fun addFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.insertFavorite(data.value!!.toFavorite())
-            _isFavorite.value = true
+            favoriteUseCase.insertFavorite(data.value!!.toFavorite()) {
+                _isFavorite.value = it
+            }
         }
     }
 
