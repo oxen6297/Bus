@@ -56,6 +56,9 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
             else -> {
                 (holder as StationViewHolder).binding.apply {
                     favorite = getItem(position)
+                    layoutFavorite.setOnClickListener {
+                        clickListener(getItem(position))
+                    }
                 }
             }
         }
