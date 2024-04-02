@@ -74,5 +74,5 @@ class DetailViewModel @Inject constructor(
 
     fun getTransferPosition(): Int = stationFlow.value?.indexOfFirst {
         it.isTransfer == "Y"
-    } ?: ((stationFlow.value?.size ?: 0) / 2)
+    }?.plus(5) ?: 0
 }
