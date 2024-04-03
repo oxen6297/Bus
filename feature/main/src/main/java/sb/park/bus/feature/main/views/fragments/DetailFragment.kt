@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
@@ -52,16 +53,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnRight.singleClickListener {
-                recyclerviewStation.apply {
-                    val layoutManager = layoutManager as LinearLayoutManager
-                    val transferPosition = viewModel.getTransferPosition()
-
-                    if (layoutManager.findFirstVisibleItemPosition() > transferPosition) {
-                        smoothScrollToPosition(transferPosition - OFFSET_POSITION)
-                    } else {
-                        smoothScrollToPosition(transferPosition + OFFSET_POSITION)
-                    }
+                val smoothScroller = object : LinearSmoothScroller(it.context) {
+                    override fun getVerticalSnapPreference(): Int = SNAP_TO_END
+                }.apply {
+                    targetPosition = viewModel.getTransferPosition()
                 }
+
+                recyclerviewStation.layoutManager?.startSmoothScroll(smoothScroller)
             }
 
             recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -70,7 +68,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         RecyclerView.SCROLL_STATE_IDLE -> {
                             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                             val focusPosition = layoutManager.findLastVisibleItemPosition()
-                            val transferPosition = viewModel.getTransferPosition() + OFFSET_POSITION
+                            val transferPosition = viewModel.getTransferPosition()
 
                             btnLeft.isChecked = focusPosition < transferPosition
                             btnRight.isChecked = focusPosition >= transferPosition
@@ -83,6 +81,5 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     companion object {
         private const val START_POSITION = 0
-        private const val OFFSET_POSITION = 5
     }
 }
