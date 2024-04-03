@@ -46,18 +46,18 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
         when (getItem(position).type) {
             DeliveryData.Type.BUS.type -> {
                 (holder as BusViewHolder).binding.apply {
-                    favorite = getItem(position)
+                    busFavorite = getItem(position)
                     layoutFavorite.setOnClickListener {
-                        clickListener(getItem(position))
+                        clickListener(busFavorite!!)
                     }
                 }
             }
 
             else -> {
                 (holder as StationViewHolder).binding.apply {
-                    favorite = getItem(position)
+                    stationFavorite = getItem(position)
                     layoutFavorite.setOnClickListener {
-                        clickListener(getItem(position))
+                        clickListener(stationFavorite!!)
                     }
                 }
             }
@@ -68,14 +68,13 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
 
     class StationViewHolder(val binding: ItemStationFavoriteBinding) : ViewHolder(binding.root)
 
-
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<FavoriteEntity>() {
             override fun areItemsTheSame(
                 oldItem: FavoriteEntity,
                 newItem: FavoriteEntity
             ): Boolean {
-                return oldItem.busId == newItem.busId
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
