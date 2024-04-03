@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ import sb.park.domain.usecases.BusLocationUseCase
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
+import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.DeliveryData
 import sb.park.model.successOrNull
 import javax.inject.Inject
@@ -34,13 +36,15 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    val uiState = busStationUseCase(data.value!!).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = ApiResult.Loading
-    )
+    val uiState: StateFlow<ApiResult<List<BusStationResponse>>> = busStationUseCase(data.value!!).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = ApiResult.Loading
+        )
 
-    val stationFlow = uiState.map { it.successOrNull() }.stateIn(
+    val stationFlow: StateFlow<List<BusStationResponse>> = uiState.map {
+        it.successOrNull() ?: emptyList()
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = emptyList()
@@ -72,7 +76,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun getTransferPosition(): Int = stationFlow.value?.indexOfFirst {
+    fun getTransferPosition(): Int = stationFlow.value.indexOfFirst {
         it.isTransfer == "Y"
-    } ?: ((stationFlow.value?.size ?: 0) / 2)
+    }.plus(5)
 }

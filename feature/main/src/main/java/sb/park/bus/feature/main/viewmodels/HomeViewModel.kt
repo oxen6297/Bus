@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -15,6 +16,8 @@ import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BitCoinUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
+import sb.park.model.response.bitcoin.BaseResponse
+import sb.park.model.response.bitcoin.BitCoinResponse
 import sb.park.model.response.bus.FavoriteEntity
 import sb.park.model.successOrNull
 import javax.inject.Inject
@@ -25,13 +28,13 @@ class HomeViewModel @Inject constructor(
     private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
 
-    val uiState = bitCoinUseCase().stateIn(
+    val uiState: StateFlow<ApiResult<BaseResponse>> = bitCoinUseCase().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = ApiResult.Loading
     )
 
-    val bitCoinFlow = uiState.map { it.successOrNull()?.data }.stateIn(
+    val bitCoinFlow: StateFlow<BitCoinResponse?> = uiState.map { it.successOrNull()?.data }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = null

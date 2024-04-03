@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -30,7 +31,9 @@ class SearchViewModel @Inject constructor(
         MutableStateFlow<ApiResult<List<BusSearchResponse>>>(ApiResult.Success(emptyList()))
     val uiState = _uiState.asStateFlow()
 
-    val busFlow = uiState.map { it.successOrNull() }.stateIn(
+    val busFlow: StateFlow<List<BusSearchResponse>> = uiState.map {
+        it.successOrNull() ?: emptyList()
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = emptyList()
