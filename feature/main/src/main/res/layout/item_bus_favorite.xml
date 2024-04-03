@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="favorite"
+            name="bus_favorite"
             type="sb.park.model.response.bus.FavoriteEntity" />
 
     </data>
@@ -26,7 +26,7 @@
                 android:id="@+id/text_bus_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{favorite.busType}"
+                android:text="@{bus_favorite.busType}"
                 android:textColor="@color/gray_c8c8c8"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/text_bus_number"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="@{favorite.busNumber}"
+                android:text="@{bus_favorite.busNumber}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_title_size"
                 android:textStyle="bold"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{favorite.startDirection}"
+                android:text="@{bus_favorite.startDirection}"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="5dp"
-                android:text="@{favorite.endDirection}"
+                android:text="@{bus_favorite.endDirection}"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/img_arrow"
                 app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
