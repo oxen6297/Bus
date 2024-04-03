@@ -52,10 +52,8 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            favoriteUseCase.getFavorite().forEach { favoriteList ->
-                if (favoriteList.busId == data.value?.busId) {
-                    _isFavorite.value = true
-                }
+            _isFavorite.value = favoriteUseCase.getFavorite().any {
+                it.busId == data.value?.busId && it.type == DeliveryData.Type.BUS.type
             }
         }
     }
