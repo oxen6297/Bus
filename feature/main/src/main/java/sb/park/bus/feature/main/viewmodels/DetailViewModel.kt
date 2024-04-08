@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
-import sb.park.domain.usecases.BusLocationUseCase
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
@@ -24,7 +23,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     busStationUseCase: BusStationUseCase,
-    private val busLocationUseCase: BusLocationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
