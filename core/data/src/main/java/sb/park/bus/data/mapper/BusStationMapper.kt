@@ -17,7 +17,7 @@ internal fun BusStationResponse.toData(
     direction = this.direction,
     beginTm = this.beginTm,
     lastTm = this.lastTm,
-    section = this.section,
+    sectionId = this.sectionId,
     routeType = BusType.entries.find {
         this.routeType == it.type
     }?.typeName ?: this.routeType,

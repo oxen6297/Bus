@@ -42,7 +42,7 @@ class BusStationRepositoryImpl @Inject constructor(
         ).msgBody.itemList.toList<BusStationResponse>().map {
             it.toData(
                 isFavorite(it.stationId),
-                isHere(locationList, it.section)) {
+                isHere(locationList, it.sectionId)) {
                 CoroutineScope(coroutineDispatcher).launch {
                     if (isFavorite(it.stationId)) {
                         favoriteRepository.deleteStationFavorite(it.stationId)
