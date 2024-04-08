@@ -60,6 +60,12 @@ object BindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("isVisible")
+    fun bindSetVisibility(view: View, isShow: Boolean) {
+        view.isVisible = isShow
+    }
+
+    @JvmStatic
     @BindingAdapter("search")
     fun bindDoAfterTextChange(editText: EditText, action: AfterTextChangedListener) {
         editText.doAfterTextChanged {
