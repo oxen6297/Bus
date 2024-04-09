@@ -27,4 +27,5 @@ dependencies {
     kapt(libs.room.copmiler)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlin.serialization)
+    implementation(libs.github.chart)
 }

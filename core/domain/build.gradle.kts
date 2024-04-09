@@ -12,4 +12,5 @@ dependencies {
     implementation(projects.core.data)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.github.chart)
 }
