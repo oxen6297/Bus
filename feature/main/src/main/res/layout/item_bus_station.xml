@@ -10,6 +10,8 @@
             name="station"
             type="sb.park.model.response.bus.BusStationResponse" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -21,45 +23,37 @@
         android:paddingEnd="@dimen/default_padding"
         android:paddingBottom="5dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_img"
+        <ImageView
+            android:id="@+id/img_transfer"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_gravity="center_vertical"
+            android:importantForAccessibility="no"
+            android:src="@drawable/transfer"
+            android:visibility="@{station.isTransfer().equals(`Y`) ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_bus_station"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-
-            <ImageView
-                android:id="@+id/img_bus_station"
-                android:layout_width="@dimen/large_icon_size"
-                android:layout_height="@dimen/large_icon_size"
-                android:layout_marginStart="5dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/vertical_line"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/gray_c8c8c8" />
-
-            <ImageView
-                android:id="@+id/img_transfer"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:importantForAccessibility="no"
-                android:src="@drawable/transfer"
-                android:visibility="gone"
-                app:isVisible="@{station.isTransfer().equals(`Y`)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="@dimen/large_icon_size"
+            android:layout_marginStart="10dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/gray_c8c8c8" />
 
         <TextView
             android:id="@+id/text_station"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:text="@{station.stationNm}"
             android:textColor="@color/black"
             android:textSize="@dimen/edit_text_size"
@@ -71,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal"
-            app:isVisible="@{station.isHere}"
+            android:visibility="@{station.isHere ? View.VISIBLE : View.GONE}"
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
