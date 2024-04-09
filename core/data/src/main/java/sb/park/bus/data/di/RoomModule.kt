@@ -9,6 +9,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import sb.park.bus.data.room.BitCoinDao
+import sb.park.bus.data.room.BitCoinDatabase
 import sb.park.bus.data.room.FavoriteDao
 import sb.park.bus.data.room.FavoriteDatabase
 import javax.inject.Singleton
@@ -25,7 +27,17 @@ internal object RoomModule {
 
     @Singleton
     @Provides
+    fun provideBitCoinDatabase(@ApplicationContext context: Context): BitCoinDatabase =
+        Room.databaseBuilder(context, BitCoinDatabase::class.java, "bitcoin")
+            .fallbackToDestructiveMigration().build()
+
+    @Singleton
+    @Provides
     fun provideFavoriteDao(db: FavoriteDatabase): FavoriteDao = db.favoriteDao()
+
+    @Singleton
+    @Provides
+    fun provideBitCoinDao(db: BitCoinDatabase): BitCoinDao = db.bitCoinDao()
 
     private val MIGRATION_1_TO_2: Migration = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
