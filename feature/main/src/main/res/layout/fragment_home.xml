@@ -65,7 +65,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/gray_c8c8c8"
-            android:textSize="@dimen/edit_text_size"
+            android:textSize="@dimen/text_medium_size"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toTopOf="parent"
@@ -73,8 +73,8 @@
 
         <ImageButton
             android:id="@+id/btn_search"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:layout_width="@dimen/icon_medium_size"
+            android:layout_height="@dimen/icon_medium_size"
             android:layout_marginEnd="15dp"
             android:background="@drawable/icon_search"
             android:backgroundTint="@color/gray_c8c8c8"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fluctate_rate"
                 android:textColor="@color/black"
-                android:textSize="@dimen/edit_text_size"
+                android:textSize="@dimen/text_medium_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{vm.bitCoinFlow.changeRatio}"
                 android:textColor="@color/gray_c8c8c8"
-                android:textSize="@dimen/edit_text_size"
+                android:textSize="@dimen/text_medium_size"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -123,7 +123,7 @@
                 android:layout_marginTop="7dp"
                 android:text="@string/max_price"
                 android:textColor="@color/black"
-                android:textSize="@dimen/edit_text_size"
+                android:textSize="@dimen/text_medium_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_change_ratio_title" />
 
@@ -134,7 +134,7 @@
                 android:layout_marginTop="7dp"
                 android:text="@{vm.bitCoinFlow.maxPrice}"
                 android:textColor="@color/red"
-                android:textSize="@dimen/edit_text_size"
+                android:textSize="@dimen/text_medium_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/text_max_price_title" />
 
@@ -145,7 +145,7 @@
                 android:layout_marginTop="7dp"
                 android:text="@string/min_price"
                 android:textColor="@color/black"
-                android:textSize="@dimen/edit_text_size"
+                android:textSize="@dimen/text_medium_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_max_price_title" />
 
@@ -156,7 +156,7 @@
                 android:layout_marginTop="7dp"
                 android:text="@{vm.bitCoinFlow.minPrice}"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/edit_text_size"
+                android:textSize="@dimen/text_medium_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/text_min_price_title" />
 
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@{vm.bitCoinFlow.date}"
-                android:textSize="@dimen/text_timestamp_size"
+                android:textSize="@dimen/text_small_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_min_price_content" />
 
@@ -190,7 +190,7 @@
             android:clickable="@{vm.clickable}"
             android:text="@string/delete_all"
             android:textColor="@color/gray_c8c8c8"
-            android:textSize="@dimen/edit_text_size"
+            android:textSize="@dimen/text_medium_size"
             app:layout_constraintBottom_toBottomOf="@+id/text_favorite_title"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end" />
 

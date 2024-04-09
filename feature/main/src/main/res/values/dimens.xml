@@ -3,10 +3,11 @@
     <dimen name="default_padding">20dp</dimen>
 
     <dimen name="edit_height">45dp</dimen>
-    <dimen name="edit_text_size">13sp</dimen>
-    <dimen name="text_timestamp_size">10sp</dimen>
-    <dimen name="text_title_size">17sp</dimen>
+    <dimen name="text_medium_size">13sp</dimen>
+    <dimen name="text_small_size">10sp</dimen>
+    <dimen name="text_big_size">17sp</dimen>
 
-    <dimen name="icon_size">25dp</dimen>
-    <dimen name="large_icon_size">50dp</dimen>
+    <dimen name="icon_small_size">18dp</dimen>
+    <dimen name="icon_medium_size">25dp</dimen>
+    <dimen name="icon_large_size">50dp</dimen>
 </resources>
