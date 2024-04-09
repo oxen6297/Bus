@@ -29,4 +29,5 @@ dependencies {
     androidTestImplementation(libs.test.espresso)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.github.chart)
 }
