@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,14 +14,15 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/round_8_solid_f5f5f5">
+            android:background="@drawable/stroke_f5f5f5"
+            android:padding="@dimen/default_padding">
 
             <TextView
                 android:id="@+id/text_bus_type"
@@ -31,7 +33,8 @@
                 android:textSize="@dimen/text_medium_size"
                 app:layout_constraintBottom_toBottomOf="@id/text_bus_number"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/text_bus_number" />
+                app:layout_constraintTop_toTopOf="@id/text_bus_number"
+                tools:text="지선" />
 
             <TextView
                 android:id="@+id/text_bus_number"
@@ -40,43 +43,48 @@
                 android:layout_marginStart="5dp"
                 android:text="@{bus_favorite.busNumber}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_big_size"
-                android:textStyle="bold"
+                android:textSize="@dimen/text_medium_size"
                 app:layout_constraintStart_toEndOf="@id/text_bus_type"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1650번" />
 
-            <TextView
-                android:id="@+id/text_start_station"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{bus_favorite.startDirection}"
-                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
+                app:layout_constraintTop_toBottomOf="@+id/text_bus_type">
 
-            <ImageView
-                android:id="@+id/img_arrow"
-                android:layout_width="@dimen/icon_medium_size"
-                android:layout_height="@dimen/icon_medium_size"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="5dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/arrows"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@+id/text_start_station"
-                app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
+                <TextView
+                    android:id="@+id/text_start_station"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{bus_favorite.startDirection}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_small_size"
+                    tools:text="망우역" />
 
-            <TextView
-                android:id="@+id/text_end_station"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="5dp"
-                android:text="@{bus_favorite.endDirection}"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@+id/img_arrow"
-                app:layout_constraintTop_toBottomOf="@+id/text_bus_type" />
+                <ImageView
+                    android:id="@+id/img_arrow"
+                    android:layout_width="@dimen/icon_too_small_size"
+                    android:layout_height="@dimen/icon_too_small_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="3dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/arrows" />
+
+                <TextView
+                    android:id="@+id/text_end_station"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="@{bus_favorite.endDirection}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_small_size"
+                    tools:text="공영차고지" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

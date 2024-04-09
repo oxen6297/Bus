@@ -23,22 +23,40 @@
         android:paddingEnd="@dimen/default_padding"
         android:paddingBottom="5dp">
 
-        <ImageView
-            android:id="@+id/img_transfer"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_transfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:importantForAccessibility="no"
-            android:src="@drawable/transfer"
-            android:visibility="@{station.isTransfer().equals(`Y`) ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:visibility="@{station.isTransfer().equals(`Y`) ? View.VISIBLE : View.INVISIBLE}">
+
+            <ImageView
+                android:id="@+id/img_transfer"
+                android:layout_width="@dimen/icon_small_size"
+                android:layout_height="@dimen/icon_small_size"
+                android:layout_gravity="center_vertical"
+                android:importantForAccessibility="no"
+                android:src="@drawable/transfer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_transfer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/transfer"
+                android:textColor="@color/gray_c8c8c8"
+                android:textSize="@dimen/text_small_size" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
             android:id="@+id/img_bus_station"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/large_icon_size"
+            android:layout_height="@dimen/icon_large_size"
             android:layout_marginStart="10dp"
             android:importantForAccessibility="no"
             android:src="@drawable/bar"
@@ -48,16 +66,35 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/gray_c8c8c8" />
 
-        <TextView
-            android:id="@+id/text_station"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
-            android:text="@{station.stationNm}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/edit_text_size"
-            tools:text="차고지 지하철역" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_station"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:text="@{station.stationNm}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium_size"
+                tools:text="차고지 지하철역" />
+
+            <TextView
+                android:id="@+id/text_station_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@{station.stationId}"
+                android:textColor="@color/gray_c8c8c8"
+                android:textSize="@dimen/text_small_size"
+                tools:text="1103451" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_bus_info"
@@ -70,8 +107,8 @@
 
             <ImageView
                 android:id="@+id/img_bus"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_medium_size"
+                android:layout_height="@dimen/icon_medium_size"
                 android:layout_gravity="end"
                 android:layout_marginStart="10dp"
                 android:importantForAccessibility="no"
@@ -95,8 +132,8 @@
 
             <ToggleButton
                 android:id="@+id/btn_favorite"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_small_size"
+                android:layout_height="@dimen/icon_small_size"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/toggle_button_selector"
                 android:checked="@{station.favorite}"
