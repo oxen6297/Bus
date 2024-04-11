@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import sb.park.bus.feature.main.databinding.ItemBusFavoriteBinding
 import sb.park.bus.feature.main.databinding.ItemStationFavoriteBinding
+import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.model.response.bus.DeliveryData
 import sb.park.model.response.bus.FavoriteEntity
 
@@ -47,7 +48,7 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
             DeliveryData.Type.BUS.type -> {
                 (holder as BusViewHolder).binding.apply {
                     busFavorite = getItem(position)
-                    layoutFavorite.setOnClickListener {
+                    layoutFavorite.singleClickListener {
                         clickListener(busFavorite!!)
                     }
                 }
@@ -56,7 +57,7 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
             else -> {
                 (holder as StationViewHolder).binding.apply {
                     stationFavorite = getItem(position)
-                    layoutFavorite.setOnClickListener {
+                    layoutFavorite.singleClickListener {
                         clickListener(stationFavorite!!)
                     }
                 }

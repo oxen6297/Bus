@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sb.park.model.BusType
 import sb.park.model.response.bus.BusSearchResponse
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
+import sb.park.bus.feature.main.extensions.singleClickListener
 
 class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
     ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(diffCallback) {
@@ -42,7 +43,7 @@ class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
                 }
             }
 
-            layoutSearch.setOnClickListener {
+            layoutSearch.singleClickListener {
                 bus?.let {
                     clickListener(it)
                 }
