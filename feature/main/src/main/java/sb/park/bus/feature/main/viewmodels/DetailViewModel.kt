@@ -36,7 +36,7 @@ class DetailViewModel @Inject constructor(
 
     val uiState: StateFlow<ApiResult<List<BusStationResponse>>> = busStationUseCase(data.value!!).stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000L),
+            started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = ApiResult.Loading
         )
 
@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
         it.successOrNull() ?: emptyList()
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
+        started = SharingStarted.WhileSubscribed(5_000L),
         initialValue = emptyList()
     )
 
