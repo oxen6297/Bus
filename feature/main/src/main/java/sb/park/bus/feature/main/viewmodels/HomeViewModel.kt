@@ -1,7 +1,5 @@
 package sb.park.bus.feature.main.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -30,35 +27,24 @@ class HomeViewModel @Inject constructor(
 
     val uiState: StateFlow<ApiResult<BaseResponse>> = bitCoinUseCase().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
+        started = SharingStarted.WhileSubscribed(5_000L),
         initialValue = ApiResult.Loading
     )
 
     val bitCoinFlow: StateFlow<BitCoinResponse?> = uiState.map { it.successOrNull()?.data }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
+        started = SharingStarted.WhileSubscribed(5_000L),
         initialValue = null
     )
 
     private val _favoriteFlow = MutableStateFlow<List<FavoriteEntity>>(emptyList())
     val favoriteFlow = _favoriteFlow.asStateFlow()
 
-    private val _clickable = MutableLiveData(false)
-    val clickable: LiveData<Boolean>
-        get() = _clickable
-
-    init {
-        viewModelScope.launch {
-            favoriteFlow.collectLatest {
-                _clickable.value = it.isNotEmpty()
-            }
-        }
-    }
-
     fun deleteAll() {
         viewModelScope.launch {
-            favoriteUseCase.deleteAll()
-            getFavorite()
+            favoriteUseCase.deleteAll {
+                _favoriteFlow.emit(emptyList())
+            }
         }
     }
 

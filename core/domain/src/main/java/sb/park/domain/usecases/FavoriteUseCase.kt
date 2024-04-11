@@ -18,5 +18,8 @@ class FavoriteUseCase @Inject constructor(private val favoriteRepository: Favori
         setFavorite.invoke(false)
     }
 
-    suspend fun deleteAll() = favoriteRepository.deleteAll()
+    suspend fun deleteAll(fetchEmptyList: suspend () -> Unit) {
+        favoriteRepository.deleteAll()
+        fetchEmptyList()
+    }
 }
