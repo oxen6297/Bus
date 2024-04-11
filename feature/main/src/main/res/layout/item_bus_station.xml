@@ -84,15 +84,37 @@
                 android:textSize="@dimen/text_medium_size"
                 tools:text="차고지 지하철역" />
 
-            <TextView
-                android:id="@+id/text_station_id"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@{station.stationId}"
-                android:textColor="@color/gray_c8c8c8"
-                android:textSize="@dimen/text_small_size"
-                tools:text="1103451" />
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/text_station_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{station.stationId}"
+                    android:textColor="@color/gray_c8c8c8"
+                    android:textSize="@dimen/text_small_size"
+                    tools:text="1103451" />
+
+                <TextView
+                    android:id="@+id/text_subway"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/round_10_navy"
+                    android:paddingStart="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="5dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/subway"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small_size"
+                    android:visibility="@{station.stationNm.substring(station.stationNm.length() - 1).equals(`역`) ? View.VISIBLE : View.GONE}"
+                    tools:text="지하철" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
