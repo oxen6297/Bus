@@ -13,6 +13,7 @@ import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentHomeBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
+import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.viewmodels.HomeViewModel
 
 @AndroidEntryPoint
@@ -53,11 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
             recyclerviewFavorite.layoutManager = GridLayoutManager(view.context, 2)
 
-            textSearch.setOnClickListener {
+            textSearch.singleClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             }
 
-            textDeleteFavorite.setOnClickListener {
+            textDeleteFavorite.singleClickListener {
                 it.context.customDialog(getString(R.string.popup_delete_all)) {
                     viewModel.deleteAll()
                 }
