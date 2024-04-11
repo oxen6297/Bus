@@ -8,19 +8,17 @@ import kotlinx.coroutines.launch
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
-import sb.park.bus.data.mapper.toSearch
 import sb.park.bus.data.service.BusLocationService
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusLocationResponse
-import sb.park.model.response.bus.BusSearchResponse
 import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.DeliveryData
 import sb.park.model.safeFlow
 import javax.inject.Inject
 
-class BusStationRepositoryImpl @Inject constructor(
+internal class BusStationRepositoryImpl @Inject constructor(
     private val busStationService: BusStationService,
     private val busLocationService: BusLocationService,
     private val favoriteRepository: FavoriteRepository,
@@ -58,16 +56,6 @@ class BusStationRepositoryImpl @Inject constructor(
                 }
             }
         }
-    }.flowOn(coroutineDispatcher)
-
-    override fun getSearch(busId: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
-        busStationService.getData(
-            busRouteId = busId
-        ).msgBody.itemList.toList<BusStationResponse>().distinctBy {
-            it.direction
-        }.map {
-            it.toData()
-        }.toSearch(busId).toList()
     }.flowOn(coroutineDispatcher)
 
     private suspend fun isFavorite(stationId: String): Boolean {
