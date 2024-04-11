@@ -47,8 +47,8 @@
 
                 <Button
                     android:id="@+id/btn_back"
-                    android:layout_width="@dimen/icon_medium_size"
-                    android:layout_height="@dimen/icon_medium_size"
+                    android:layout_width="@dimen/icon_small_size"
+                    android:layout_height="@dimen/icon_small_size"
                     android:layout_marginStart="@dimen/default_padding"
                     android:background="@drawable/back_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -118,8 +118,8 @@
 
         <ImageView
             android:id="@+id/img_arrow"
-            android:layout_width="@dimen/icon_medium_size"
-            android:layout_height="@dimen/icon_medium_size"
+            android:layout_width="@dimen/icon_small_size"
+            android:layout_height="@dimen/icon_small_size"
             android:layout_marginTop="10dp"
             android:importantForAccessibility="no"
             android:src="@drawable/arrows"
@@ -151,24 +151,26 @@
 
             <RadioButton
                 android:id="@+id/btn_left"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
                 android:checked="true"
                 android:gravity="center"
-                android:text="@{vm.data.startDirection}" />
+                android:text="@{vm.data.startDirection}"
+                android:textSize="@dimen/text_medium_size" />
 
             <RadioButton
                 android:id="@+id/btn_right"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_radio_button"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@{vm.data.endDirection}" />
+                android:text="@{vm.data.endDirection}"
+                android:textSize="@dimen/text_medium_size" />
 
         </RadioGroup>
 
