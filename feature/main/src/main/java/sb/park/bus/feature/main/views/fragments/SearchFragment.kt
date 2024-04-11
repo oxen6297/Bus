@@ -26,6 +26,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     SearchFragmentDirections.actionSearchFragmentToDetailFragment(it.toDelivery())
                 )
             }
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 }

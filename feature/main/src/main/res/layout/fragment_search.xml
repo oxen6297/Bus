@@ -42,10 +42,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/icon_small_size"
+            android:layout_height="@dimen/icon_small_size"
+            android:layout_marginStart="@dimen/default_padding"
+            android:background="@drawable/back_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/text_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_search" />
+
         <EditText
             android:id="@+id/text_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/edit_height"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_8_c8c8c8"
             android:hint="@string/text_hint"
@@ -56,7 +67,7 @@
             android:textColorHint="@color/gray_c8c8c8"
             android:textSize="@dimen/text_medium_size"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintStart_toEndOf="@+id/btn_back"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="Autofill,TextFields" />
 
