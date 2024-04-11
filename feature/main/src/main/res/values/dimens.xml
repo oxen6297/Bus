@@ -2,7 +2,7 @@
 <resources>
     <dimen name="default_padding">20dp</dimen>
 
-    <dimen name="edit_height">45dp</dimen>
+    <dimen name="edit_height">40dp</dimen>
 
     <dimen name="text_small_size">10sp</dimen>
     <dimen name="text_medium_size">13sp</dimen>
