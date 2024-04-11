@@ -1,10 +1,8 @@
 package sb.park.bus.feature.main.utils
 
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -58,18 +56,4 @@ object BindingAdapters {
         val imageResource = if (isFavorite) R.drawable.star else R.drawable.white_star
         Glide.with(imageButton.context).load(imageResource).into(imageButton)
     }
-
-    @JvmStatic
-    @BindingAdapter("search")
-    fun bindDoAfterTextChange(editText: EditText, action: AfterTextChangedListener) {
-        editText.doAfterTextChanged {
-            if (!it.isNullOrBlank()) {
-                action.onAfterTextChanged(it.toString())
-            }
-        }
-    }
-}
-
-interface AfterTextChangedListener {
-    fun onAfterTextChanged(text: String)
 }
