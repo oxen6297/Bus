@@ -4,7 +4,7 @@ import com.google.gson.JsonElement
 import retrofit2.http.GET
 import sb.park.bus.data.util.BUS_ID_SERVICE
 
-interface BusIdService {
+internal interface BusIdService {
     @GET(BUS_ID_SERVICE)
     suspend fun getBusId(): JsonElement
 }

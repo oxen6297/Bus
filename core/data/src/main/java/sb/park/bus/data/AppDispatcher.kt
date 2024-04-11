@@ -4,7 +4,7 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Dispatcher(val appDispatchers: AppDispatchers)
-enum class AppDispatchers {
+internal annotation class Dispatcher(val appDispatchers: AppDispatchers)
+internal enum class AppDispatchers {
     IO
 }

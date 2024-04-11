@@ -7,7 +7,7 @@ import sb.park.bus.data.util.BUS_LOCATION_SERVICE
 import sb.park.bus.data.util.RESULT_TYPE
 import sb.park.model.response.bus.BusResponse
 
-interface BusLocationService {
+internal interface BusLocationService {
     @GET(BUS_LOCATION_SERVICE)
     suspend fun getData(
         @Query("busRouteId") busRouteId: String,
