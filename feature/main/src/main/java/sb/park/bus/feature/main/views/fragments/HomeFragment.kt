@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.FavoriteAdapter
@@ -51,8 +50,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     HomeFragmentDirections.actionHomeFragmentToDetailFragment(it.toDelivery())
                 )
             }
-
-            recyclerviewFavorite.layoutManager = GridLayoutManager(view.context, 2)
 
             textSearch.singleClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
