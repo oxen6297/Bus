@@ -11,5 +11,5 @@ interface BitCoinRepository {
 
     suspend fun insertData()
 
-    suspend fun getChartData(): List<CandleEntry>
+    fun getChartData(): Flow<ApiResult<List<CandleEntry>>>
 }

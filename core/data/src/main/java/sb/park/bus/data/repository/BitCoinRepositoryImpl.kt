@@ -34,7 +34,7 @@ internal class BitCoinRepositoryImpl @Inject constructor(
             val oneDay = 24 * 60 * 60 * 1000 //24시간
             val timeDifference = System.currentTimeMillis() - bitCoinResponse.date.toLong()
 
-            if (timeDifference >= oneDay || getChartData().isEmpty()) {
+            if (timeDifference >= oneDay || bitCoinDao.getData().isEmpty()) {
                 bitCoinDao.insertNewData(bitCoinResponse)
             }
         }.onFailure {
@@ -42,13 +42,11 @@ internal class BitCoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getChartData(): List<CandleEntry> {
-        val entries = mutableListOf<CandleEntry>()
-
-        bitCoinDao.getData().forEachIndexed { index, bitCoinEntity ->
-            entries.add(bitCoinEntity.toCandle(index))
+    override fun getChartData(): Flow<ApiResult<List<CandleEntry>>> = safeFlow {
+        mutableListOf<CandleEntry>().apply {
+            bitCoinDao.getData().forEachIndexed { index, bitCoinEntity ->
+                add(bitCoinEntity.toCandle(index))
+            }
         }
-
-        return entries
     }
 }
