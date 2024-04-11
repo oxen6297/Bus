@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import sb.park.bus.data.repository.BitCoinRepository
 import sb.park.bus.data.repository.BitCoinRepositoryImpl
-import sb.park.bus.data.repository.BusIdRepository
-import sb.park.bus.data.repository.BusIdRepositoryImpl
+import sb.park.bus.data.repository.BusSearchRepository
+import sb.park.bus.data.repository.BusSearchRepositoryImpl
 import sb.park.bus.data.repository.BusStationRepository
 import sb.park.bus.data.repository.BusStationRepositoryImpl
 import sb.park.bus.data.repository.FavoriteRepository
@@ -24,7 +24,7 @@ internal abstract class RepoModule {
     abstract fun provideBusStationRepository(busStationRepositoryImpl: BusStationRepositoryImpl): BusStationRepository
 
     @Binds
-    abstract fun provideBusIdRepository(busIdRepositoryImpl: BusIdRepositoryImpl): BusIdRepository
+    abstract fun provideBusSearchRepository(busSearchRepositoryImpl: BusSearchRepositoryImpl): BusSearchRepository
 
     @Binds
     abstract fun provideFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository
