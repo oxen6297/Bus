@@ -43,8 +43,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         viewModel.deleteFavorite()
                     }
                 } else {
-                    viewModel.addFavorite()
-                    it.context.showToast(getString(R.string.toast_add_favorite))
+                    viewModel.addFavorite {
+                        it.context.showToast(getString(R.string.toast_add_favorite))
+                    }
                 }
             }
 

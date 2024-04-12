@@ -64,10 +64,11 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun addFavorite() {
+    fun addFavorite(toast: () -> Unit) {
         viewModelScope.launch {
             favoriteUseCase.insertFavorite(data.value!!.toFavorite()) {
                 _isFavorite.value = it
+                toast()
             }
         }
     }
