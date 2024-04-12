@@ -159,7 +159,9 @@
                 android:checked="true"
                 android:gravity="center"
                 android:text="@{vm.data.startDirection}"
-                android:textSize="@dimen/text_medium_size" />
+                android:textColor="@drawable/selector_radio_text"
+                android:textSize="@dimen/text_medium_size"
+                tools:text="범계방향" />
 
             <RadioButton
                 android:id="@+id/btn_right"
@@ -170,7 +172,9 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="@{vm.data.endDirection}"
-                android:textSize="@dimen/text_medium_size" />
+                android:textColor="@drawable/selector_radio_text"
+                android:textSize="@dimen/text_medium_size"
+                tools:text="잠실방향" />
 
         </RadioGroup>
 
