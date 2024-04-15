@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/edit_height"
             android:layout_marginTop="20dp"
-            android:background="@drawable/round_8_c8c8c8"
+            android:background="@drawable/round_5_c8c8c8"
             android:gravity="center_vertical"
             android:hint="@string/text_hint"
             android:maxLines="1"
@@ -88,8 +88,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@drawable/round_8_solid_f5f5f5"
-            android:padding="15dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/round_5_f5f5f5"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toBottomOf="@+id/text_search">
@@ -98,9 +98,12 @@
                 android:id="@+id/text_change_ratio_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/fluctate_rate"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium_size"
+                app:layout_constraintBottom_toTopOf="@+id/text_max_price_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,22 +111,25 @@
                 android:id="@+id/text_change_ratio_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:text="@{vm.bitCoinFlow.changeRatio}"
                 android:textColor="@color/gray_c8c8c8"
                 android:textSize="@dimen/text_medium_size"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_change_ratio_title"
                 app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
 
             <TextView
                 android:id="@+id/text_max_price_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/max_price"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium_size"
+                app:layout_constraintBottom_toTopOf="@+id/text_min_price_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_change_ratio_title" />
 
@@ -131,7 +137,7 @@
                 android:id="@+id/text_max_price_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginEnd="15dp"
                 android:text="@{vm.bitCoinFlow.maxPrice}"
                 android:textColor="@color/red"
                 android:textSize="@dimen/text_medium_size"
@@ -142,10 +148,13 @@
                 android:id="@+id/text_min_price_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/min_price"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium_size"
+                app:layout_constraintBottom_toTopOf="@+id/text_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_max_price_title" />
 
@@ -153,7 +162,7 @@
                 android:id="@+id/text_min_price_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginEnd="15dp"
                 android:text="@{vm.bitCoinFlow.minPrice}"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/text_medium_size"
@@ -165,10 +174,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
                 android:text="@{vm.bitCoinFlow.date}"
                 android:textSize="@dimen/text_small_size"
+                app:layout_constraintBottom_toTopOf="@+id/layout_chart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_min_price_content" />
+
+            <com.github.mikephil.charting.charts.CandleStickChart
+                android:id="@+id/layout_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btn_expand"
+                app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+            <Button
+                android:id="@+id/btn_expand"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:background="@drawable/bottom_5_f5f5f5"
+                android:text="@string/btn_show_chart"
+                android:textColor="@color/gray_c8c8c8"
+                android:textSize="@dimen/text_small_size"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
