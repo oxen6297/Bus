@@ -6,7 +6,7 @@ import sb.park.bus.data.repository.BitCoinRepository
 import sb.park.model.ApiResult
 import javax.inject.Inject
 
-class GetChartUseCase @Inject constructor(private val bitCoinRepository: BitCoinRepository) {
+class ChartUseCase @Inject constructor(private val bitCoinRepository: BitCoinRepository) {
 
     operator fun invoke(): Flow<ApiResult<List<CandleEntry>>> = bitCoinRepository.getChartData()
 }
