@@ -3,6 +3,7 @@ package sb.park.bus.feature.main.views.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,6 +59,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             textDeleteFavorite.singleClickListener {
                 it.context.customDialog(getString(R.string.popup_delete_all)) {
                     viewModel.deleteAll()
+                }
+            }
+
+            btnExpand.singleClickListener {
+                layoutChart.isVisible = (layoutChart.visibility == View.GONE).apply {
+                    btnExpand.text = if (this) {
+                        getString(R.string.btn_show_chart)
+                    } else {
+                        getString(R.string.btn_hide_chart)
+                    }
                 }
             }
         }
