@@ -58,7 +58,7 @@
             android:layout_height="@dimen/edit_height"
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/round_8_c8c8c8"
+            android:background="@drawable/round_5_c8c8c8"
             android:hint="@string/text_hint"
             android:maxLines="1"
             android:paddingStart="15dp"
