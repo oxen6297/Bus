@@ -5,6 +5,9 @@
     <string name="max_price">고가</string>
     <string name="min_price">저가</string>
 
+    <string name="btn_show_chart">차트 보기</string>
+    <string name="btn_hide_chart">차트 숨기기</string>
+
     <string name="seoul">서울</string>
     <string name="favorite">즐겨찾기</string>
     <string name="delete_all">전체 삭제</string>
