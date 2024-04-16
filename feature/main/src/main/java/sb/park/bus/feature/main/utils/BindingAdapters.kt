@@ -25,7 +25,7 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("loading")
     fun bindIsLoading(view: View, apiResult: ApiResult<*>) {
-        if (apiResult is ApiResult.Loading) view.show() else view.hide()
+        view.isVisible = apiResult is ApiResult.Loading
     }
 
     @JvmStatic
