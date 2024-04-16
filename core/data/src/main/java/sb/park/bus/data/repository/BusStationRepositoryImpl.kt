@@ -8,20 +8,21 @@ import kotlinx.coroutines.launch
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
+import sb.park.bus.data.room.FavoriteDao
 import sb.park.bus.data.service.BusLocationService
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
+import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
-import sb.park.model.response.bus.ArgumentData
 import sb.park.model.safeFlow
 import javax.inject.Inject
 
 internal class BusStationRepositoryImpl @Inject constructor(
     private val busStationService: BusStationService,
     private val busLocationService: BusLocationService,
-    private val favoriteRepository: FavoriteRepository,
+    private val favoriteDao: FavoriteDao,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
 
@@ -38,15 +39,17 @@ internal class BusStationRepositoryImpl @Inject constructor(
         busStationService.getData(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
-            it.toData(
-                isFavorite(it.stationId),
-                locationList
-            ) {
+
+            val isFavorite = favoriteDao.getFavorite().any { entity ->
+                entity.station == it.stationId
+            }
+
+            it.toData(isFavorite, locationList) {
                 CoroutineScope(coroutineDispatcher).launch {
-                    if (isFavorite(it.stationId)) {
-                        favoriteRepository.deleteStationFavorite(it.stationId)
+                    if (isFavorite) {
+                        favoriteDao.deleteStationFavorite(it.stationId)
                     } else {
-                        favoriteRepository.insertFavorite(
+                        favoriteDao.insertFavorite(
                             argumentData.toFavorite(
                                 ArgumentData.Type.STATION.type,
                                 it.stationId,
@@ -58,10 +61,4 @@ internal class BusStationRepositoryImpl @Inject constructor(
             }
         }
     }.flowOn(coroutineDispatcher)
-
-    private suspend fun isFavorite(stationId: String): Boolean {
-        return favoriteRepository.getFavorite().any {
-            it.station == stationId
-        }
-    }
 }
