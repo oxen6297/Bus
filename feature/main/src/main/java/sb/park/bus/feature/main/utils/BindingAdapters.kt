@@ -14,8 +14,6 @@ import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import sb.park.bus.feature.main.R
-import sb.park.bus.feature.main.extensions.hide
-import sb.park.bus.feature.main.extensions.show
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.model.ApiResult
 import sb.park.model.successOrNull
