@@ -40,7 +40,8 @@ internal class BusStationRepositoryImpl @Inject constructor(
         ).msgBody.itemList.toList<BusStationResponse>().map {
             it.toData(
                 isFavorite(it.stationId),
-                isHere(locationList, it.sectionId)) {
+                locationList
+            ) {
                 CoroutineScope(coroutineDispatcher).launch {
                     if (isFavorite(it.stationId)) {
                         favoriteRepository.deleteStationFavorite(it.stationId)
@@ -61,12 +62,6 @@ internal class BusStationRepositoryImpl @Inject constructor(
     private suspend fun isFavorite(stationId: String): Boolean {
         return favoriteRepository.getFavorite().any {
             it.station == stationId
-        }
-    }
-
-    private fun isHere(locationList: List<BusLocationResponse>, sectionId: String): Boolean {
-        return locationList.any {
-            it.sectionId == sectionId
         }
     }
 }

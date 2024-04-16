@@ -18,6 +18,11 @@ data class BusStationResponse(
     @SerializedName("section") val sectionId: String,
     @SerializedName("transYn") val isTransfer: String,
 
+    var busPosition: String?,
+    var isRun: String?,
+    var isLast: String?,
+    var congestion: String?,
+    var nextStId: String?,
     var isHere: Boolean = false,
 ) {
     var onFavorite: () -> Unit = {}

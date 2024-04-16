@@ -53,20 +53,38 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:id="@+id/img_bus_station"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/icon_large_size"
-            android:layout_marginStart="10dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/bar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/gray_c8c8c8" />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
+            <ImageView
+                android:id="@+id/img_bus_station"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/icon_large_size"
+                android:layout_marginStart="10dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_c8c8c8" />
+
+            <ImageView
+                android:id="@+id/img_bus"
+                android:layout_width="@dimen/icon_medium_size"
+                android:layout_height="@dimen/icon_medium_size"
+                android:importantForAccessibility="no"
+                android:src="@drawable/bus"
+                android:visibility="@{station.isHere ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/img_bus_station"
+                app:layout_constraintEnd_toEndOf="@+id/img_bus_station"
+                app:layout_constraintStart_toStartOf="@+id/img_bus_station"
+                app:layout_constraintTop_toTopOf="@+id/img_bus_station" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -84,7 +102,7 @@
                 android:textSize="@dimen/text_medium_size"
                 tools:text="차고지 지하철역" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -114,11 +132,11 @@
                     android:visibility="@{station.stationNm.substring(station.stationNm.length() - 1).equals(`역`) ? View.VISIBLE : View.GONE}"
                     tools:text="지하철" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_bus_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,25 +145,35 @@
             android:visibility="@{station.isHere ? View.VISIBLE : View.GONE}"
             tools:ignore="UseCompoundDrawables">
 
-            <ImageView
-                android:id="@+id/img_bus"
-                android:layout_width="@dimen/icon_medium_size"
-                android:layout_height="@dimen/icon_medium_size"
-                android:layout_gravity="end"
-                android:layout_marginStart="10dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/bus_stop" />
-
-            <TextView
-                android:id="@+id/text_bus_info"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_bus_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp" />
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/text_congestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{station.congestion}"
+                    android:textSize="@dimen/text_small_size"
+                    tools:text="여유" />
 
-        <LinearLayout
+                <TextView
+                    android:id="@+id/text_isLast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{station.isLast}"
+                    android:textSize="@dimen/text_small_size"
+                    android:visibility="@{station.isLast().equals(`막차`) ? View.VISIBLE : View.GONE}"
+                    tools:text="막차" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,7 +195,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

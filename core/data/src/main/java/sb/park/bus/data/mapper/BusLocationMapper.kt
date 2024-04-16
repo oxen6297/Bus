@@ -11,9 +11,10 @@ internal fun BusLocationResponse.toData(): BusLocationResponse = BusLocationResp
     vehId = this.vehId,
     plainNo = this.plainNo,
     nextStTm = if (this.nextStTm.toInt() < 60) {
-        this.nextStTm
+        "곧 도착"
     } else {
-        "${this.nextStTm.toInt() / 60}분${this.nextStTm.toInt() % 60}초"
+        val minute = (this.nextStTm.toInt() / 60).toString()
+        "$minute ~ ${minute.plus(1)}분"
     },
     isrunyn = if (this.isrunyn == "1") "운행" else "운행 종료",
     islastyn = if (this.islastyn == "1") "막차" else "막차 아님",
