@@ -16,7 +16,7 @@ import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusStationResponse
-import sb.park.model.response.bus.DeliveryData
+import sb.park.model.response.bus.ArgumentData
 import sb.park.model.successOrNull
 import javax.inject.Inject
 
@@ -27,8 +27,8 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _data = savedStateHandle.getLiveData<DeliveryData>(KeyFile.NAV_ARG_KEY)
-    val data: LiveData<DeliveryData>
+    private val _data = savedStateHandle.getLiveData<ArgumentData>(KeyFile.NAV_ARG_KEY)
+    val data: LiveData<ArgumentData>
         get() = _data
 
     private val _isFavorite = MutableLiveData(false)
@@ -51,7 +51,7 @@ class DetailViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _isFavorite.value = favoriteUseCase.getFavorite().any {
-                it.busId == data.value?.busId && it.type == DeliveryData.Type.BUS.type
+                it.busId == data.value?.busId && it.type == ArgumentData.Type.BUS.type
             }
         }
     }

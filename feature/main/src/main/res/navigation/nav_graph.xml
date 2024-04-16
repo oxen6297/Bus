@@ -43,6 +43,6 @@
 
         <argument
             android:name="data"
-            app:argType="sb.park.model.response.bus.DeliveryData" />
+            app:argType="sb.park.model.response.bus.ArgumentData" />
     </fragment>
 </navigation>

@@ -11,9 +11,9 @@ data class BusSearchResponse(
 
     val stationId: String? = null,
     val stationName: String? = null,
-    val type: Int = DeliveryData.Type.BUS.type
+    val type: Int = ArgumentData.Type.BUS.type
 ) {
-    fun toDelivery(): DeliveryData = DeliveryData(
+    fun toDelivery(): ArgumentData = ArgumentData(
         busId = this.busId,
         busRouteNm = this.busRouteNm,
         startDirection = this.startDirection,

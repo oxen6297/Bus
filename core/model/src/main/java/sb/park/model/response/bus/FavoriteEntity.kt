@@ -18,7 +18,7 @@ data class FavoriteEntity(
     @ColumnInfo val stationName: String? = null,
     @ColumnInfo val type: Int,
 ) {
-    fun toDelivery(): DeliveryData = DeliveryData(
+    fun toArgument(): ArgumentData = ArgumentData(
         busId = this.busId,
         busRouteNm = this.busNumber,
         startDirection = this.startDirection + "방향",

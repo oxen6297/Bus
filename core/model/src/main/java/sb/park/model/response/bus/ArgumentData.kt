@@ -2,7 +2,7 @@ package sb.park.model.response.bus
 
 import java.io.Serializable
 
-data class DeliveryData(
+data class ArgumentData(
     val busId: String,
     val busRouteNm: String,
     val startDirection: String,

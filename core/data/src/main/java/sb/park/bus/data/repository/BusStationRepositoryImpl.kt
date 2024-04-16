@@ -14,7 +14,7 @@ import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
-import sb.park.model.response.bus.DeliveryData
+import sb.park.model.response.bus.ArgumentData
 import sb.park.model.safeFlow
 import javax.inject.Inject
 
@@ -26,17 +26,17 @@ internal class BusStationRepositoryImpl @Inject constructor(
 ) : BusStationRepository {
 
     override fun getData(
-        deliveryData: DeliveryData
+        argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
 
         val locationList = busLocationService.getData(
-            busRouteId = deliveryData.busId
+            busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusLocationResponse>().map {
             it.toData()
         }
 
         busStationService.getData(
-            busRouteId = deliveryData.busId
+            busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
             it.toData(
                 isFavorite(it.stationId),
@@ -46,8 +46,8 @@ internal class BusStationRepositoryImpl @Inject constructor(
                         favoriteRepository.deleteStationFavorite(it.stationId)
                     } else {
                         favoriteRepository.insertFavorite(
-                            deliveryData.toFavorite(
-                                DeliveryData.Type.STATION.type,
+                            argumentData.toFavorite(
+                                ArgumentData.Type.STATION.type,
                                 it.stationId,
                                 it.stationNm
                             )
