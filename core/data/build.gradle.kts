@@ -28,4 +28,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.github.chart)
+    implementation(libs.androidx.datastore)
 }
