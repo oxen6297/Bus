@@ -11,7 +11,7 @@ internal fun BusStationResponse.toData(
 ): BusStationResponse {
 
     val locationResponse = locationList.find {
-        it.sectionId == sectionId
+        it.sectionId == this.sectionId
     }
 
     return BusStationResponse(
@@ -32,10 +32,10 @@ internal fun BusStationResponse.toData(
         }?.typeName ?: this.routeType,
 
         isHere = locationList.any {
-            it.sectionId == sectionId
+            it.sectionId == this.sectionId
         },
 
-        busPosition = busPosition,
+        busPosition = this.busPosition,
         isRun = locationResponse?.isrunyn ?: "",
         isLast = locationResponse?.islastyn ?: "",
         congestion = locationResponse?.congetion ?: "",
