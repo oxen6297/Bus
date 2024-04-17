@@ -10,6 +10,8 @@ import sb.park.bus.data.repository.BusSearchRepository
 import sb.park.bus.data.repository.BusSearchRepositoryImpl
 import sb.park.bus.data.repository.BusStationRepository
 import sb.park.bus.data.repository.BusStationRepositoryImpl
+import sb.park.bus.data.repository.DataStoreRepository
+import sb.park.bus.data.repository.DataStoreRepositoryImpl
 import sb.park.bus.data.repository.FavoriteRepository
 import sb.park.bus.data.repository.FavoriteRepositoryImpl
 
@@ -28,4 +30,7 @@ internal abstract class RepoModule {
 
     @Binds
     abstract fun provideFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository
+
+    @Binds
+    abstract fun provideChartPreferencesRepository(chartPreferencesRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository
 }
