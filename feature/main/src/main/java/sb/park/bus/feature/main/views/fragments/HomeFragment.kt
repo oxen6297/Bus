@@ -1,5 +1,6 @@
 package sb.park.bus.feature.main.views.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -19,27 +20,10 @@ import sb.park.bus.feature.main.viewmodels.HomeViewModel
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val backPressedCallback = object : OnBackPressedCallback(true) {
-            private var clickTime = 0L
-            override fun handleOnBackPressed() {
-                if (System.currentTimeMillis() - clickTime >= 1000L) {
-                    clickTime = System.currentTimeMillis()
-                    view.context.showToast(getString(R.string.toast_back))
-                } else {
-                    requireActivity().finishAffinity()
-                }
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            backPressedCallback
-        )
-
         binding.apply {
             vm = viewModel.apply {
                 getFavorite()
@@ -61,5 +45,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            private var clickTime = 0L
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - clickTime >= 1000L) {
+                    clickTime = System.currentTimeMillis()
+                    context.showToast(getString(R.string.toast_back))
+                } else {
+                    requireActivity().finishAffinity()
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onBackPressedCallback.remove()
     }
 }
