@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import sb.park.domain.usecases.BitCoinUseCase
 import sb.park.domain.usecases.ChartUseCase
 import sb.park.domain.usecases.FavoriteUseCase
+import sb.park.domain.usecases.GetExpandedUseCase
+import sb.park.domain.usecases.SaveExpandedUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bitcoin.BaseResponse
 import sb.park.model.response.bitcoin.BitCoinResponse
@@ -25,6 +27,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     bitCoinUseCase: BitCoinUseCase,
     chartUserCase: ChartUseCase,
+    getExpandedUseCase: GetExpandedUseCase,
+    private val saveExpandedUseCase: SaveExpandedUseCase,
     private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
 
@@ -50,6 +54,12 @@ class HomeViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
+    val isExpanded: StateFlow<Boolean> = getExpandedUseCase().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = false
+    )
+
     private val _favoriteFlow = MutableStateFlow<List<FavoriteEntity>>(emptyList())
     val favoriteFlow = _favoriteFlow.asStateFlow()
 
@@ -64,6 +74,12 @@ class HomeViewModel @Inject constructor(
     fun getFavorite() {
         viewModelScope.launch {
             _favoriteFlow.emit(favoriteUseCase.getFavorite())
+        }
+    }
+
+    fun clickExpand() {
+        viewModelScope.launch {
+            saveExpandedUseCase(!isExpanded.value)
         }
     }
 }

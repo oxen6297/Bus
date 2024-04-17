@@ -16,6 +16,8 @@
             name="adapter"
             type="sb.park.bus.feature.main.adapter.FavoriteAdapter" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -188,7 +190,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:visibility="gone"
+                android:visibility="@{vm.isExpanded ? View.VISIBLE : View.GONE}"
                 app:chart="@{vm.chartFlow}"
                 app:layout_constraintBottom_toTopOf="@+id/btn_expand"
                 app:layout_constraintTop_toBottomOf="@+id/text_date" />
@@ -198,7 +200,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
                 android:background="@drawable/bottom_5_f5f5f5"
-                android:text="@string/btn_show_chart"
+                android:onClick="@{() -> vm.clickExpand()}"
+                android:text="@{vm.isExpanded ? @string/btn_hide_chart : @string/btn_show_chart}"
                 android:textColor="@color/gray_c8c8c8"
                 android:textSize="@dimen/text_small_size"
                 app:layout_constraintBottom_toBottomOf="parent" />
