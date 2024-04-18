@@ -1,6 +1,5 @@
 package sb.park.bus.feature.main.views.fragments
 
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,10 +15,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private val searchViewModel: SearchViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
+    override fun initView(view: View) {
+        bind {
             vm = searchViewModel
             adapter = SearchAdapter {
                 findNavController().navigate(

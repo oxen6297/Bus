@@ -1,7 +1,5 @@
 package sb.park.bus.feature.main.views.fragments
 
-import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,11 +22,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     private val viewModel: DetailViewModel by viewModels()
 
-    @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
+    override fun initView(view: View) {
+        bind {
             vm = viewModel
             adapter = StationAdapter()
             recyclerviewStation.addItemDecoration(StationItemDecoration())

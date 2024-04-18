@@ -1,7 +1,6 @@
 package sb.park.bus.feature.main.views.fragments
 
 import android.content.Context
-import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -22,9 +21,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+    override fun initView(view: View) {
+        bind {
             vm = viewModel.apply {
                 getFavorite()
             }
