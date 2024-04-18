@@ -40,13 +40,9 @@ internal class BusStationRepositoryImpl @Inject constructor(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
 
-            val isFavorite = favoriteDao.getFavorite().any { entity ->
-                entity.station == it.stationId
-            }
-
-            it.toData(isFavorite, locationList) {
+            it.toData(isFavorite(it.stationId), locationList) {
                 CoroutineScope(coroutineDispatcher).launch {
-                    if (isFavorite) {
+                    if (isFavorite(it.stationId)) {
                         favoriteDao.deleteStationFavorite(it.stationId)
                     } else {
                         favoriteDao.insertFavorite(
@@ -61,4 +57,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
             }
         }
     }.flowOn(coroutineDispatcher)
+
+    private suspend fun isFavorite(stationId: String):Boolean {
+        return favoriteDao.getFavorite().any {
+            it.station == stationId
+        }
+    }
 }
