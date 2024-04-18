@@ -1,5 +1,6 @@
 package sb.park.domain.usecases
 
+import kotlinx.coroutines.flow.Flow
 import sb.park.bus.data.repository.FavoriteRepository
 import sb.park.model.response.bus.FavoriteEntity
 import javax.inject.Inject
@@ -11,7 +12,7 @@ class FavoriteUseCase @Inject constructor(private val favoriteRepository: Favori
         setFavorite.invoke(true)
     }
 
-    suspend fun getFavorite(): List<FavoriteEntity> = favoriteRepository.getFavorite()
+    fun getFavorite(): Flow<List<FavoriteEntity>> = favoriteRepository.getFavorite()
 
     suspend fun deleteFavorite(id: String, setFavorite: (Boolean) -> Unit) {
         favoriteRepository.deleteFavorite(id)
