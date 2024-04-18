@@ -23,9 +23,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initView(view: View) {
         bind {
-            vm = viewModel.apply {
-                getFavorite()
-            }
+            vm = viewModel.apply { getFavorite() }
 
             adapter = FavoriteAdapter {
                 findNavController().navigate(

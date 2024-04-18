@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -15,8 +16,8 @@ import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.model.ApiResult
-import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.ArgumentData
+import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.successOrNull
 import javax.inject.Inject
 
@@ -34,7 +35,8 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    val uiState: StateFlow<ApiResult<List<BusStationResponse>>> = busStationUseCase(data.value!!).stateIn(
+    val uiState: StateFlow<ApiResult<List<BusStationResponse>>> =
+        busStationUseCase(data.value!!).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = ApiResult.Loading
@@ -48,10 +50,12 @@ class DetailViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    init {
+    fun setFavorite() {
         viewModelScope.launch {
-            _isFavorite.value = favoriteUseCase.getFavorite().any {
-                it.busId == data.value?.busId && it.type == ArgumentData.Type.BUS.type
+            favoriteUseCase.getFavorite().collectLatest { list ->
+                _isFavorite.value = list.any {
+                    it.busId == data.value?.busId && it.type == ArgumentData.Type.BUS.type
+                }
             }
         }
     }

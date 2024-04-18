@@ -24,7 +24,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     override fun initView(view: View) {
         bind {
-            vm = viewModel
+            vm = viewModel.apply { setFavorite() }
             adapter = StationAdapter()
             recyclerviewStation.addItemDecoration(StationItemDecoration())
 
