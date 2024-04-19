@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="text_app">서을특별시 버스 정보 어플리케이션</string>
+
     <string name="text_hint">버스 번호로 검색을 해보세요.</string>
     <string name="fluctate_rate">최근 24시간 변동률</string>
     <string name="max_price">고가</string>
