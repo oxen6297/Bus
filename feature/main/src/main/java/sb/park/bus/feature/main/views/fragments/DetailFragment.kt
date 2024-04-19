@@ -1,6 +1,8 @@
 package sb.park.bus.feature.main.views.fragments
 
+import android.animation.ObjectAnimator
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +32,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            btnFloating.singleClickListener {
+                val translationMap = mapOf(true to GONE_VALUE, false to SHOW_VALUE)
+                val transValue = translationMap[btnRefresh.isVisible] ?: GONE_VALUE
+
+                ObjectAnimator.ofFloat(btnRefresh, TRANSLATION_Y, transValue).start()
+                ObjectAnimator.ofFloat(btnLocation, TRANSLATION_Y, transValue * 2).start()
+
+                btnRefresh.isVisible = !btnRefresh.isVisible
+                btnLocation.isVisible = !btnLocation.isVisible
             }
 
             btnFavorite.singleClickListener {
@@ -77,5 +90,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     companion object {
         private const val START_POSITION = 0
+        private const val TRANSLATION_Y = "translationY"
+        private const val GONE_VALUE = 0f
+        private const val SHOW_VALUE = -200f
     }
 }
