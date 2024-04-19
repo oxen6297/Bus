@@ -30,6 +30,7 @@ retrofitKotlinxSerializationJson = "1.0.0"
 ksp = "1.8.10-1.0.9"
 
 datastore = "1.0.0"
+lottie = "6.4.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -40,8 +41,8 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-navigation = { id = "androidx.navigation.safeargs.kotlin" , version.ref = "navigation"}
-ksp = { id = "com.google.devtools.ksp" , version.ref = "ksp"}
+navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -81,3 +82,4 @@ retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "re
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 github-chart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }

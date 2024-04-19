@@ -31,4 +31,5 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.github.chart)
     implementation(libs.androidx.datastore)
+    implementation(libs.lottie)
 }
