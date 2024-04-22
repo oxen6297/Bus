@@ -6,7 +6,7 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.feature.main.R
 
-class StationItemDecoration : RecyclerView.ItemDecoration() {
+class ItemDecoration : RecyclerView.ItemDecoration() {
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val paint = Paint().apply {

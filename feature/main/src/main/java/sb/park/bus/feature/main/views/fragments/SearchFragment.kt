@@ -8,6 +8,7 @@ import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.SearchAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentSearchBinding
+import sb.park.bus.feature.main.utils.ItemDecoration
 import sb.park.bus.feature.main.viewmodels.SearchViewModel
 
 @AndroidEntryPoint
@@ -23,6 +24,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     SearchFragmentDirections.actionSearchFragmentToDetailFragment(it.toDelivery())
                 )
             }
+            recyclerviewBus.addItemDecoration(ItemDecoration())
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }

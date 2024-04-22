@@ -16,7 +16,7 @@ import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
-import sb.park.bus.feature.main.utils.StationItemDecoration
+import sb.park.bus.feature.main.utils.ItemDecoration
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
 
 @AndroidEntryPoint
@@ -28,7 +28,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         bind {
             vm = viewModel.apply { setFavorite() }
             adapter = StationAdapter()
-            recyclerviewStation.addItemDecoration(StationItemDecoration())
+            recyclerviewStation.addItemDecoration(ItemDecoration())
 
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
