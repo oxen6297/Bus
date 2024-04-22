@@ -20,7 +20,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_line_start"
@@ -103,8 +104,8 @@
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_search"
             app:submitList="@{vm.busFlow}"
             app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
