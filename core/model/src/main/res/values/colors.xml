@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#0E0D0D</color>
-    <color name="red">#E21414</color>
-    <color name="blue">#0D2ACB</color>
-    <color name="sky_blue">#0091FF</color>
-    <color name="yellow">#FFC107</color>
-    <color name="green">#276229</color>
+    <color name="red">#E86767</color>
+    <color name="blue">#6375DA</color>
+    <color name="sky_blue">#34A7FF</color>
+    <color name="yellow">#FFD34D</color>
+    <color name="green">#75AC77</color>
     <color name="dark_gray">#494949</color>
-    <color name="purple">#5C00FF</color>
-    <color name="mint">#1AA6B8</color>
+    <color name="purple">#985EFF</color>
+    <color name="mint">#387F88</color>
 </resources>
