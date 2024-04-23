@@ -28,15 +28,15 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _data = savedStateHandle.getLiveData<ArgumentData>(KeyFile.NAV_ARG_KEY)
-    val data: LiveData<ArgumentData>
-        get() = _data
+    private val _argData = savedStateHandle.getLiveData<ArgumentData>(KeyFile.NAV_ARG_KEY)
+    val argData: LiveData<ArgumentData>
+        get() = _argData
 
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
     val uiState: StateFlow<ApiResult<List<BusStationResponse>>> =
-        busStationUseCase(data.value!!).stateIn(
+        busStationUseCase(argData.value!!).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = ApiResult.Loading
@@ -54,7 +54,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             favoriteUseCase.getFavorite().collectLatest { list ->
                 _isFavorite.value = list.any {
-                    it.busId == data.value?.busId && it.type == ArgumentData.Type.BUS.type
+                    it.busId == argData.value?.busId && it.type == ArgumentData.Type.BUS.type
                 }
             }
         }
@@ -62,7 +62,7 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.deleteFavorite(data.value?.busId!!) {
+            favoriteUseCase.deleteFavorite(argData.value?.busId!!) {
                 _isFavorite.value = it
             }
         }
@@ -70,7 +70,7 @@ class DetailViewModel @Inject constructor(
 
     fun addFavorite(toast: () -> Unit) {
         viewModelScope.launch {
-            favoriteUseCase.insertFavorite(data.value!!.toFavorite()) {
+            favoriteUseCase.insertFavorite(argData.value!!.toFavorite()) {
                 _isFavorite.value = it
                 toast()
             }
