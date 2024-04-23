@@ -6,9 +6,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -23,7 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    busStationUseCase: BusStationUseCase,
+    private val busStationUseCase: BusStationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -35,12 +38,14 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    val uiState: StateFlow<ApiResult<List<BusStationResponse>>> =
-        busStationUseCase(argData.value!!).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = ApiResult.Loading
-        )
+    private val _uiState = MutableStateFlow<Unit?>(null)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uiState = _uiState.flatMapLatest { busStationUseCase(argData.value!!) }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = ApiResult.Loading
+    )
 
     val stationFlow: StateFlow<List<BusStationResponse>> = uiState.map {
         it.successOrNull() ?: emptyList()
@@ -49,6 +54,11 @@ class DetailViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000L),
         initialValue = emptyList()
     )
+
+    /**
+     * 최초 1번만 가능 수정 필요
+     */
+    fun refresh() = _uiState.tryEmit(Unit)
 
     fun setFavorite() {
         viewModelScope.launch {
