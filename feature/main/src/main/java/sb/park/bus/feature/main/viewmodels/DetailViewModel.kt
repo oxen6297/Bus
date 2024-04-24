@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
@@ -38,7 +39,7 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    private val _uiState = MutableStateFlow<Unit?>(null)
+    private val _uiState = MutableStateFlow<Any?>(Unit)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState = _uiState.flatMapLatest { busStationUseCase(argData.value!!) }.stateIn(
@@ -55,10 +56,11 @@ class DetailViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    /**
-     * 최초 1번만 가능 수정 필요
-     */
-    fun refresh() = _uiState.tryEmit(Unit)
+    fun refresh() {
+        _uiState.update {
+            busStationUseCase(argData.value!!)
+        }
+    }
 
     fun setFavorite() {
         viewModelScope.launch {
