@@ -32,4 +32,5 @@ dependencies {
     implementation(libs.github.chart)
     implementation(libs.androidx.datastore)
     implementation(libs.lottie)
+    implementation(libs.gms.location)
 }
