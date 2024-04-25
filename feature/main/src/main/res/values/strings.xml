@@ -20,6 +20,7 @@
 
     <string name="toast_back">뒤로 버튼을 한번 더 누르면 앱을 종료합니다.</string>
     <string name="toast_error">에러가 발생하였습니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="toast_error_gps">위치 정보를 불러올수 없습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="toast_add_favorite">즐겨찾기에 추가하였습니다.</string>
     <string name="toast_network">네트워크 상태를 확인해주세요.</string>
     <string name="toast_permission">위치 권한을 거부하셨습니다.</string>
