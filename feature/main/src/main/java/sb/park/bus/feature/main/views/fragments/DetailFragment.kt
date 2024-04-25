@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
@@ -17,10 +18,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
+import sb.park.bus.feature.main.common.error
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
@@ -54,10 +57,23 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 btnLocation.isVisible = !btnLocation.isVisible
             }
 
+            /**
+             * viewModel 처리 검토
+             */
             btnLocation.singleClickListener {
                 if (!checkPermission(it.context)) return@singleClickListener
 
-                //TODO 현재 좌표와 가까운 정류장 표시
+                val locationClient = LocationServices.getFusedLocationProviderClient(it.context)
+
+                locationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                    location?.let { loc ->
+                        error("lat: ${loc.latitude} long: ${loc.longitude}")
+
+                    } ?: it.context.showToast(getString(R.string.toast_error_gps))
+                }.addOnFailureListener { e->
+                    it.context.showToast(getString(R.string.toast_error))
+                    e.printStackTrace()
+                }
             }
 
             btnFavorite.singleClickListener {
