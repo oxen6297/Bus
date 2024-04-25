@@ -29,6 +29,7 @@ import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
+import sb.park.bus.feature.main.utils.LocationLiveData
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
 
 @AndroidEntryPoint
@@ -61,18 +62,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
              * viewModel 처리 검토
              */
             btnLocation.singleClickListener {
-                if (!checkPermission(it.context)) return@singleClickListener
-
-                val locationClient = LocationServices.getFusedLocationProviderClient(it.context)
-
-                locationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    location?.let { loc ->
-                        error("lat: ${loc.latitude} long: ${loc.longitude}")
-
-                    } ?: it.context.showToast(getString(R.string.toast_error_gps))
-                }.addOnFailureListener { e->
-                    it.context.showToast(getString(R.string.toast_error))
-                    e.printStackTrace()
+                LocationLiveData(it.context).observe(this@DetailFragment) { location ->
+                    error("lat: ${location.latitude} long: ${location.longitude}")
                 }
             }
 
