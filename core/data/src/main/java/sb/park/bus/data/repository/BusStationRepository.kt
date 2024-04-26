@@ -7,4 +7,10 @@ import sb.park.model.response.bus.ArgumentData
 
 interface BusStationRepository {
     fun getData(argumentData: ArgumentData): Flow<ApiResult<List<BusStationResponse>>>
+
+    fun getLocation(
+        argumentData: ArgumentData,
+        latitude: Double,
+        longitude: Double
+    ): Flow<String>
 }

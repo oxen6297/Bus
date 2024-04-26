@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
+import sb.park.domain.usecases.NearStationUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusStationResponse
@@ -28,6 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val busStationUseCase: BusStationUseCase,
+    private val nearStationUseCase: NearStationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -38,6 +42,9 @@ class DetailViewModel @Inject constructor(
 
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+    private val _nearStationFlow = MutableSharedFlow<String>()
+    val nearStationFlow = _nearStationFlow.asSharedFlow()
 
     private val _uiState = MutableStateFlow<Any?>(Unit)
 
@@ -59,6 +66,14 @@ class DetailViewModel @Inject constructor(
     fun refresh() {
         _uiState.update {
             busStationUseCase(argData.value!!)
+        }
+    }
+
+    fun getNearStation(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            nearStationUseCase(argData.value!!, latitude, longitude).collectLatest {
+                _nearStationFlow.emit(it)
+            }
         }
     }
 

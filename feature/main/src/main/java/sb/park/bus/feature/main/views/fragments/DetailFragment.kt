@@ -24,12 +24,12 @@ import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.common.error
+import sb.park.bus.feature.main.common.info
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
-import sb.park.bus.feature.main.utils.LocationLiveData
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
 
 @AndroidEntryPoint
@@ -58,12 +58,18 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 btnLocation.isVisible = !btnLocation.isVisible
             }
 
-            /**
-             * viewModel 처리 검토
-             */
             btnLocation.singleClickListener {
-                LocationLiveData(it.context).observe(this@DetailFragment) { location ->
-                    error("lat: ${location.latitude} long: ${location.longitude}")
+                if (!checkPermission(it.context)) return@singleClickListener
+
+                val locationClient = LocationServices.getFusedLocationProviderClient(it.context)
+                locationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                    location?.let { loc ->
+                        info("lat: ${loc.latitude} long: ${loc.longitude}")
+                        viewModel.getNearStation(loc.latitude, loc.longitude)
+                    } ?: it.context.showToast(getString(R.string.toast_error_gps))
+                }.addOnFailureListener { e ->
+                    it.context.showToast(getString(R.string.toast_error))
+                    error(e.message.toString())
                 }
             }
 
