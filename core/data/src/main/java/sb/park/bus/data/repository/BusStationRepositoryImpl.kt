@@ -3,6 +3,7 @@ package sb.park.bus.data.repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -83,7 +84,9 @@ internal class BusStationRepositoryImpl @Inject constructor(
         }
 
         emit(nearStation.stationId)
-    }
+    }.catch {
+        it.printStackTrace()
+    }.flowOn(coroutineDispatcher)
 
     private suspend fun isFavorite(stationId: String): Boolean {
         return favoriteDao.getFavorite().any {
