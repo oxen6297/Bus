@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
-import sb.park.domain.usecases.NearStationUseCase
+import sb.park.domain.usecases.LocationUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusStationResponse
@@ -31,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val busStationUseCase: BusStationUseCase,
-    private val nearStationUseCase: NearStationUseCase,
+    private val locationUseCase: LocationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -71,7 +71,7 @@ class DetailViewModel @Inject constructor(
 
     fun getNearStation(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            nearStationUseCase(argData.value!!, latitude, longitude).collectLatest {
+            locationUseCase(argData.value!!, latitude, longitude).collectLatest {
                 _nearStationFlow.emit(it)
             }
         }
