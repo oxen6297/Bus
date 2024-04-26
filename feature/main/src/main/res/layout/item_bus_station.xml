@@ -173,6 +173,16 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <ImageView
+            android:id="@+id/img_gps"
+            android:layout_width="@dimen/icon_small_size"
+            android:layout_height="@dimen/icon_small_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/gps"
+            android:visibility="gone" />
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_favorite"
             android:layout_width="match_parent"
