@@ -1,7 +1,7 @@
 package sb.park.bus.data.repository
 
 import kotlinx.coroutines.flow.Flow
-import sb.park.bus.data.mapper.toSearch
+import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.toList
@@ -30,7 +30,7 @@ internal class BusSearchRepositoryImpl @Inject constructor(
                     busRouteId = id.routeId.toString()
                 ).msgBody.itemList.toList<BusStationResponse>().distinctBy {
                     it.direction
-                }.toSearch(id.routeId.toString()).map {
+                }.toData(id.routeId.toString()).map {
                     add(it)
                 }
             }
