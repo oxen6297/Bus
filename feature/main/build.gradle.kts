@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.databinding)
     implementation(libs.bumptech.glide)
     implementation(libs.jake.timber)
