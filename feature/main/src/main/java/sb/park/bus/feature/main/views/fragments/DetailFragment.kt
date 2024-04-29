@@ -11,6 +11,8 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.view.View
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -28,7 +30,6 @@ import sb.park.bus.feature.main.common.error
 import sb.park.bus.feature.main.common.info
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
-import sb.park.bus.feature.main.extensions.setAnimation
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
@@ -119,7 +120,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         val alphaMap = mapOf(true to Pair(1f, 0f), false to Pair(0f, 1f))
         val alphaValue = alphaMap[button.isVisible] ?: Pair(1f, 0f)
 
-        ObjectAnimator.ofFloat(button, TRANSLATION_Y, transValue).setAnimation(button)
+        ObjectAnimator.ofFloat(button, TRANSLATION_Y, transValue).apply {
+            if (button.isVisible) doOnEnd { button.hide() }
+            else doOnStart { button.show() }
+        }.start()
         ObjectAnimator.ofFloat(button, ALPHA, alphaValue.first, alphaValue.second).start()
     }
 
