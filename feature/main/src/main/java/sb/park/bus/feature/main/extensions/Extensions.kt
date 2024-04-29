@@ -1,8 +1,12 @@
 package sb.park.bus.feature.main.extensions
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.View
 import android.widget.Toast
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
+import androidx.core.view.isVisible
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.utils.CustomDialogBuilder
 import sb.park.bus.feature.main.utils.SingleClick
@@ -17,6 +21,15 @@ fun View.show() {
 
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
+}
+
+fun ObjectAnimator.setAnimation(view: View) {
+    if (view.isVisible) {
+        doOnEnd { view.hide() }
+    } else {
+        doOnStart { view.show() }
+    }
+    start()
 }
 
 fun View.singleClickListener(click: (View) -> Unit) {

@@ -27,6 +27,7 @@ import sb.park.bus.feature.main.common.error
 import sb.park.bus.feature.main.common.info
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.customDialog
+import sb.park.bus.feature.main.extensions.setAnimation
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
@@ -51,11 +52,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 val translationMap = mapOf(true to GONE_VALUE, false to SHOW_VALUE)
                 val transValue = translationMap[btnRefresh.isVisible] ?: GONE_VALUE
 
-                ObjectAnimator.ofFloat(btnRefresh, TRANSLATION_Y, transValue).start()
-                ObjectAnimator.ofFloat(btnLocation, TRANSLATION_Y, transValue * 2).start()
-
-                btnRefresh.isVisible = !btnRefresh.isVisible
-                btnLocation.isVisible = !btnLocation.isVisible
+                ObjectAnimator.ofFloat(btnRefresh, TRANSLATION_Y, transValue)
+                    .setAnimation(btnRefresh)
+                ObjectAnimator.ofFloat(btnLocation, TRANSLATION_Y, transValue * 2)
+                    .setAnimation(btnLocation)
             }
 
             btnLocation.singleClickListener {
