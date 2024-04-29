@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationAdapter
@@ -49,13 +50,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnFloating.singleClickListener {
-                val translationMap = mapOf(true to GONE_VALUE, false to SHOW_VALUE)
-                val transValue = translationMap[btnRefresh.isVisible] ?: GONE_VALUE
+                val translationMap = mapOf(true to 0f, false to -200f)
+                val transValue = translationMap[btnRefresh.isVisible] ?: 0f
 
-                ObjectAnimator.ofFloat(btnRefresh, TRANSLATION_Y, transValue)
-                    .setAnimation(btnRefresh)
-                ObjectAnimator.ofFloat(btnLocation, TRANSLATION_Y, transValue * 2)
-                    .setAnimation(btnLocation)
+                showAnimation(btnRefresh, transValue)
+                showAnimation(btnLocation, transValue * 2)
             }
 
             btnLocation.singleClickListener {
@@ -116,6 +115,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }
     }
 
+    private fun showAnimation(button: FloatingActionButton, transValue: Float) {
+        val alphaMap = mapOf(true to Pair(1f, 0f), false to Pair(0f, 1f))
+        val alphaValue = alphaMap[button.isVisible] ?: Pair(1f, 0f)
+
+        ObjectAnimator.ofFloat(button, TRANSLATION_Y, transValue).setAnimation(button)
+        ObjectAnimator.ofFloat(button, ALPHA, alphaValue.first, alphaValue.second).start()
+    }
+
     private fun checkPermission(context: Context): Boolean {
         val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
         val permissionList = arrayOf(
@@ -150,7 +157,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     companion object {
         private const val START_POSITION = 0
         private const val TRANSLATION_Y = "translationY"
-        private const val GONE_VALUE = 0f
-        private const val SHOW_VALUE = -200f
+        private const val ALPHA = "alpha"
     }
 }
