@@ -8,6 +8,10 @@
         <variable
             name="bus"
             type="sb.park.model.response.bus.BusSearchResponse" />
+        
+        <variable
+            name="type"
+            type="sb.park.model.BusType.Companion" />
 
     </data>
 
@@ -28,6 +32,7 @@
             android:padding="3dp"
             android:text="@{bus.routeType}"
             android:textColor="@color/white"
+            android:background="@{type.getColor(bus.routeType)}"
             android:textSize="@dimen/text_small_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

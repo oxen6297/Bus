@@ -1,17 +1,15 @@
 package sb.park.bus.feature.main.adapter
 
-import android.graphics.Outline
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import sb.park.model.BusType
-import sb.park.model.response.bus.BusSearchResponse
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import sb.park.bus.feature.main.databinding.ItemBusSearchBinding
 import sb.park.bus.feature.main.extensions.singleClickListener
+import sb.park.model.BusType
+import sb.park.model.response.bus.BusSearchResponse
 
 class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
     ListAdapter<BusSearchResponse, SearchAdapter.ViewHolder>(diffCallback) {
@@ -23,35 +21,30 @@ class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
                 parent,
                 false
             )
-        )
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-            bus = getItem(position)
-            val busTypeColor = BusType.entries.find {
-                it.typeName == bus?.routeType
-            }?.color!!
-
-            textBusType.apply {
-                setBackgroundColor(context.getColor(busTypeColor))
-                outlineProvider = object : ViewOutlineProvider() {
-                    override fun getOutline(view: View?, outline: Outline?) {
-                        view?.clipToOutline = true
-                        outline?.setRoundRect(0, 0, view!!.width, view.height, 10f)
-                    }
-                }
-            }
-
-            layoutSearch.singleClickListener {
-                bus?.let {
-                    clickListener(it)
-                }
+        ).apply {
+            binding.layoutSearch.singleClickListener {
+                val position = bindingAdapterPosition.takeIf {
+                    it != NO_POSITION
+                } ?: return@singleClickListener
+                clickListener(getItem(position))
             }
         }
     }
 
-    class ViewHolder(val binding: ItemBusSearchBinding) : RecyclerView.ViewHolder(binding.root)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    class ViewHolder(val binding: ItemBusSearchBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: BusSearchResponse) {
+            binding.apply {
+                bus = item
+                type = BusType
+                executePendingBindings()
+            }
+        }
+    }
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<BusSearchResponse>() {

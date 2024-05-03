@@ -12,5 +12,11 @@ enum class BusType(val type: String, val typeName: String, @ColorInt val color: 
     WIDE("6", "광역", R.color.purple),
     INCHEON("7", "인천", R.color.mint),
     GYUNGGI("8", "경기", R.color.black),
-    COMMON("0", "공용", R.color.dark_gray)
+    COMMON("0", "공용", R.color.dark_gray);
+
+    companion object {
+        fun getColor(routeType:String): Int = entries.find {
+            it.typeName == routeType
+        }?.color!!
+    }
 }
