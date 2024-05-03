@@ -55,11 +55,15 @@ object BindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("decoration")
+    fun bindItemDecoration(view: RecyclerView, itemDecoration: ItemDecoration) {
+        view.addItemDecoration(itemDecoration)
+    }
+
+    @JvmStatic
     @BindingAdapter("chart")
     fun bindSetChart(chart: CandleStickChart, itemList: List<CandleEntry>) {
-        itemList.ifEmpty {
-            return
-        }
+        itemList.ifEmpty { return }
 
         val dataSet = CandleDataSet(itemList, "").apply {
             shadowColor = Color.LTGRAY

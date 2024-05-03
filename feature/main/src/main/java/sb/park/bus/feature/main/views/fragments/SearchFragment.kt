@@ -19,12 +19,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     override fun initView(view: View) {
         bind {
             vm = searchViewModel
+            decoration = ItemDecoration()
             adapter = SearchAdapter {
                 findNavController().navigate(
                     SearchFragmentDirections.actionSearchFragmentToDetailFragment(it.toDelivery())
                 )
             }
-            recyclerviewBus.addItemDecoration(ItemDecoration())
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }

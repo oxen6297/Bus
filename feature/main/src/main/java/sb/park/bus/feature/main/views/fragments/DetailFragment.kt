@@ -44,7 +44,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         bind {
             vm = viewModel.apply { setFavorite() }
             adapter = StationAdapter()
-            recyclerviewStation.addItemDecoration(ItemDecoration())
+            decoration = ItemDecoration()
 
             btnBack.setOnClickListener {
                 findNavController().popBackStack()

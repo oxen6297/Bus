@@ -16,6 +16,10 @@
             name="adapter"
             type="sb.park.bus.feature.main.adapter.SearchAdapter" />
 
+        <variable
+            name="decoration"
+            type="sb.park.bus.feature.main.utils.ItemDecoration" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,6 +105,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="20dp"
+            app:decoration="@{decoration}"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
