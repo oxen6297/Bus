@@ -2,6 +2,7 @@ package sb.park.bus.feature.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,17 +13,18 @@ import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.FavoriteEntity
 
-class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
-    ListAdapter<FavoriteEntity, ViewHolder>(diffCallback) {
+class FavoriteAdapter(
+    private val clickListener: (FavoriteEntity) -> Unit
+) : ListAdapter<FavoriteEntity, FavoriteAdapter.MultiViewHolder>(diffCallback) {
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position).type
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MultiViewHolder {
         return when (viewType) {
             ArgumentData.Type.BUS.type -> {
-                BusViewHolder(
+                MultiViewHolder.BusViewHolder(
                     ItemBusFavoriteBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
@@ -32,7 +34,7 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
             }
 
             ArgumentData.Type.STATION.type -> {
-                StationViewHolder(
+                MultiViewHolder.StationViewHolder(
                     ItemStationFavoriteBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
@@ -45,29 +47,8 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when (getItem(position).type) {
-            ArgumentData.Type.BUS.type -> (holder as BusViewHolder).bind(getItem(position))
-            ArgumentData.Type.STATION.type -> (holder as StationViewHolder).bind(getItem(position))
-        }
-    }
-
-    class BusViewHolder(val binding: ItemBusFavoriteBinding) : ViewHolder(binding.root) {
-        fun bind(item: FavoriteEntity) {
-            binding.apply {
-                busFavorite = item
-                executePendingBindings()
-            }
-        }
-    }
-
-    class StationViewHolder(val binding: ItemStationFavoriteBinding) : ViewHolder(binding.root) {
-        fun bind(item: FavoriteEntity) {
-            binding.apply {
-                stationFavorite = item
-                executePendingBindings()
-            }
-        }
+    override fun onBindViewHolder(holder: MultiViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
     private fun setClickListener(viewHolder: ViewHolder) {
@@ -81,21 +62,43 @@ class FavoriteAdapter(private val clickListener: (FavoriteEntity) -> Unit) :
         }
     }
 
+    sealed class MultiViewHolder(binding: ViewDataBinding) : ViewHolder(binding.root) {
+
+        abstract fun bind(item: FavoriteEntity)
+
+        class BusViewHolder(private val binding: ItemBusFavoriteBinding) :
+            MultiViewHolder(binding) {
+            override fun bind(item: FavoriteEntity) {
+                binding.apply {
+                    busFavorite = item
+                    executePendingBindings()
+                }
+            }
+        }
+
+        class StationViewHolder(private val binding: ItemStationFavoriteBinding) :
+            MultiViewHolder(binding) {
+            override fun bind(item: FavoriteEntity) {
+                binding.apply {
+                    stationFavorite = item
+                    executePendingBindings()
+                }
+            }
+        }
+    }
+
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<FavoriteEntity>() {
             override fun areItemsTheSame(
                 oldItem: FavoriteEntity,
                 newItem: FavoriteEntity
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
+
 
             override fun areContentsTheSame(
                 oldItem: FavoriteEntity,
                 newItem: FavoriteEntity
-            ): Boolean {
-                return oldItem == newItem
-            }
+            ): Boolean = oldItem == newItem
         }
     }
 }
