@@ -37,19 +37,20 @@ internal class BusStationRepositoryImpl @Inject constructor(
         argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
 
+        val busId = argumentData.busId
         val locationList = busLocationService.getData(
-            busRouteId = argumentData.busId
+            busRouteId = busId
         ).msgBody.itemList.toList<BusLocationResponse>().map {
             it.toData()
         }
 
         busStationService.getData(
-            busRouteId = argumentData.busId
+            busRouteId = busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
 
-            it.toData(isFavorite(it.stationId), locationList) {
+            it.toData(isFavorite(it.stationId, busId), locationList) {
                 CoroutineScope(coroutineDispatcher).launch {
-                    if (isFavorite(it.stationId)) {
+                    if (isFavorite(it.stationId, busId)) {
                         favoriteDao.deleteStationFavorite(it.stationId)
                     } else {
                         favoriteDao.insertFavorite(
@@ -77,8 +78,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
         val nearStation = stationList.minBy {
             val distanceX = Math.toRadians(it.gpsX.toDouble() - latitude)
             val distanceY = Math.toRadians(it.gpsY.toDouble() - longitude)
-            val distanceA = sin(distanceX / 2).pow(2.0) + sin(distanceY / 2).pow(2.0) *
-                    cos(Math.toRadians(latitude)) * cos(Math.toRadians(it.gpsX.toDouble()))
+            val distanceA = sin(distanceX / 2).pow(2.0) +
+                    sin(distanceY / 2).pow(2.0) *
+                    cos(Math.toRadians(latitude)) *
+                    cos(Math.toRadians(it.gpsX.toDouble()))
             val distanceB = 2 * asin(sqrt(distanceA))
             (6372.8 * 1000 * distanceB).toInt()
         }
@@ -88,9 +91,9 @@ internal class BusStationRepositoryImpl @Inject constructor(
         it.printStackTrace()
     }.flowOn(coroutineDispatcher)
 
-    private suspend fun isFavorite(stationId: String): Boolean {
+    private suspend fun isFavorite(stationId: String, busId: String): Boolean {
         return favoriteDao.getFavorite().any {
-            it.station == stationId
+            it.station == stationId && it.busId == busId
         }
     }
 }
