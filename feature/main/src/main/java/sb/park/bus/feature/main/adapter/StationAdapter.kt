@@ -21,10 +21,18 @@ class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.station = getItem(position)
+        holder.bind(getItem(position))
     }
 
-    class ViewHolder(val binding: ItemBusStationBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemBusStationBinding) : RecyclerView.ViewHolder(binding.root)  {
+
+        fun bind(item: BusStationResponse) {
+            binding.apply {
+                station = item
+                executePendingBindings()
+            }
+        }
+    }
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<BusStationResponse>() {
