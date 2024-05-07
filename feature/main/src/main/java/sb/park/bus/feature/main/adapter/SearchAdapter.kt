@@ -22,7 +22,7 @@ class SearchAdapter(private val clickListener: (BusSearchResponse) -> Unit) :
                 false
             )
         ).apply {
-            binding.layoutSearch.singleClickListener {
+            itemView.singleClickListener {
                 val position = bindingAdapterPosition.takeIf {
                     it != NO_POSITION
                 } ?: return@singleClickListener
