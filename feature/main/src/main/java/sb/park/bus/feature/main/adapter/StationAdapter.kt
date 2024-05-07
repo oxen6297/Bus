@@ -34,6 +34,11 @@ class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder
         }
     }
 
+    fun updateLocation(position: Int) {
+        getItem(position).isLocated = true
+        notifyItemChanged(position)
+    }
+
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<BusStationResponse>() {
             override fun areItemsTheSame(

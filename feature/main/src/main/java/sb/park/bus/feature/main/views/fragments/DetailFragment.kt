@@ -16,6 +16,9 @@ import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -23,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
@@ -39,12 +44,16 @@ import sb.park.bus.feature.main.viewmodels.DetailViewModel
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
     private val viewModel: DetailViewModel by viewModels()
+    private val stationAdapter: StationAdapter by lazy {
+        StationAdapter()
+    }
 
     override fun initView(view: View) {
         bind {
             vm = viewModel.apply { setFavorite() }
-            adapter = StationAdapter()
+            adapter = stationAdapter
             decoration = ItemDecoration()
+            updateLocation()
 
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -113,6 +122,18 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                     }
                 }
             })
+        }
+    }
+
+    private fun updateLocation() {
+        lifecycleScope.launch {
+            viewModel.nearStationFlow.flowWithLifecycle(
+                lifecycle,
+                Lifecycle.State.STARTED
+            ).collectLatest {
+                binding.recyclerviewStation.smoothScrollToPosition(it)
+                stationAdapter.updateLocation(it)
+            }
         }
     }
 
