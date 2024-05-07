@@ -11,5 +11,5 @@ class LocationUseCase @Inject constructor(private val busStationRepository: BusS
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<String> = busStationRepository.getLocation(argumentData, latitude, longitude)
+    ): Flow<Int> = busStationRepository.getLocation(argumentData, latitude, longitude)
 }

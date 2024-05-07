@@ -43,7 +43,7 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    private val _nearStationFlow = MutableSharedFlow<String>()
+    private val _nearStationFlow = MutableSharedFlow<Int>()
     val nearStationFlow = _nearStationFlow.asSharedFlow()
 
     private val _uiState = MutableStateFlow<Any?>(Unit)

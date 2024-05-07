@@ -24,6 +24,7 @@ data class BusStationResponse(
     var congestion: String?,
     var nextStId: String?,
     var isHere: Boolean = false,
+    var isLocated: Boolean = false
 ) {
     var onFavorite: () -> Unit = {}
     var isFavorite: Boolean = false

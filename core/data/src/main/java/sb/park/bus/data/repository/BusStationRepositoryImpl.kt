@@ -44,7 +44,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
             it.toData()
         }
 
-        busStationService.getData(
+       busStationService.getData(
             busRouteId = busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
 
@@ -70,7 +70,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<String> = flow {
+    ): Flow<Int> = flow {
         val stationList = busStationService.getData(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>()
@@ -86,7 +86,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
             (6372.8 * 1000 * distanceB).toInt()
         }
 
-        emit(nearStation.stationId)
+        emit(stationList.indexOf(nearStation))
     }.catch {
         it.printStackTrace()
     }.flowOn(coroutineDispatcher)

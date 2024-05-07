@@ -12,5 +12,5 @@ interface BusStationRepository {
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<String>
+    ): Flow<Int>
 }
