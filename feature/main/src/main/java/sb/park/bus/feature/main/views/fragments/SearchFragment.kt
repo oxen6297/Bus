@@ -15,16 +15,21 @@ import sb.park.bus.feature.main.viewmodels.SearchViewModel
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val searchViewModel: SearchViewModel by viewModels()
+    private val itemDecoration: ItemDecoration by lazy { ItemDecoration() }
+    private val searchAdapter: SearchAdapter by lazy {
+        SearchAdapter {
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToDetailFragment(it.toDelivery())
+            )
+        }
+    }
 
     override fun initView(view: View) {
         bind {
             vm = searchViewModel
-            decoration = ItemDecoration()
-            adapter = SearchAdapter {
-                findNavController().navigate(
-                    SearchFragmentDirections.actionSearchFragmentToDetailFragment(it.toDelivery())
-                )
-            }
+            adapter = searchAdapter
+            decoration = itemDecoration
+
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }

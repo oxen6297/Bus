@@ -18,18 +18,20 @@ import sb.park.bus.feature.main.viewmodels.HomeViewModel
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val viewModel: HomeViewModel by viewModels()
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+    private val viewModel: HomeViewModel by viewModels()
+    private val favoriteAdapter: FavoriteAdapter by lazy {
+        FavoriteAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailFragment(it.toArgument())
+            )
+        }
+    }
 
     override fun initView(view: View) {
         bind {
             vm = viewModel.apply { getFavorite() }
-
-            adapter = FavoriteAdapter {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(it.toArgument())
-                )
-            }
+            adapter = favoriteAdapter
 
             textSearch.singleClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
