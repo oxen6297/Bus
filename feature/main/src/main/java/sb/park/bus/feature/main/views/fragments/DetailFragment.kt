@@ -34,7 +34,6 @@ import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.common.error
 import sb.park.bus.feature.main.common.info
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
-import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
@@ -44,15 +43,14 @@ import sb.park.bus.feature.main.viewmodels.DetailViewModel
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
     private val viewModel: DetailViewModel by viewModels()
-    private val stationAdapter: StationAdapter by lazy {
-        StationAdapter()
-    }
+    private val itemDecoration: ItemDecoration by lazy { ItemDecoration() }
+    private val stationAdapter: StationAdapter by lazy { StationAdapter() }
 
     override fun initView(view: View) {
         bind {
             vm = viewModel.apply { setFavorite() }
             adapter = stationAdapter
-            decoration = ItemDecoration()
+            decoration = itemDecoration
             updateLocation()
 
             btnBack.setOnClickListener {
@@ -83,14 +81,16 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnFavorite.singleClickListener {
-                if (viewModel.isFavorite.value!!) {
-                    it.context.customDialog(getString(R.string.popup_delete)) {
-                        viewModel.deleteFavorite()
-                    }
-                } else {
-                    viewModel.addFavorite {
-                        it.context.showToast(getString(R.string.toast_add_favorite))
-                    }
+                val addFavorite =  viewModel.addFavorite {
+                    it.context.showToast(getString(R.string.toast_add_favorite))
+                }
+
+                val deleteFavorite = viewModel.deleteFavorite {
+                    it.context.showToast(getString(R.string.toast_delete_favorite))
+                }
+
+                mapOf(true to deleteFavorite, false to addFavorite).run {
+                    get(viewModel.isFavorite.value!!)
                 }
             }
 
