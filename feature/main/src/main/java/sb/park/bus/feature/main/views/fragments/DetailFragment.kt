@@ -81,7 +81,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnFavorite.singleClickListener {
-                val addFavorite =  viewModel.addFavorite {
+                val addFavorite = viewModel.addFavorite {
                     it.context.showToast(getString(R.string.toast_add_favorite))
                 }
 
