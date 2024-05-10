@@ -51,7 +51,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             vm = viewModel.apply { setFavorite() }
             adapter = stationAdapter
             decoration = itemDecoration
-            updateLocation()
+            updateLocation(view.context)
 
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -81,16 +81,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnFavorite.singleClickListener {
-                val addFavorite = viewModel.addFavorite {
-                    it.context.showToast(getString(R.string.toast_add_favorite))
-                }
-
-                val deleteFavorite = viewModel.deleteFavorite {
-                    it.context.showToast(getString(R.string.toast_delete_favorite))
-                }
-
-                mapOf(true to deleteFavorite, false to addFavorite).run {
-                    get(viewModel.isFavorite.value!!)
+                if (viewModel.isFavorite.value == true) {
+                    viewModel.deleteFavorite {
+                        it.context.showToast(getString(R.string.toast_delete_favorite))
+                    }
+                } else {
+                    viewModel.addFavorite {
+                        it.context.showToast(getString(R.string.toast_add_favorite))
+                    }
                 }
             }
 
@@ -125,14 +123,23 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }
     }
 
-    private fun updateLocation() {
+    private fun updateLocation(context: Context) {
         lifecycleScope.launch {
             viewModel.nearStationFlow.flowWithLifecycle(
                 lifecycle,
                 Lifecycle.State.STARTED
-            ).collectLatest {
-                binding.recyclerviewStation.smoothScrollToPosition(it)
-                stationAdapter.updateLocation(it)
+            ).collectLatest { location ->
+                error(location.distance.toString())
+
+                if (location.distance > TWO_KILO) {
+                    context.showToast(getString(R.string.toast_over_distance))
+                    return@collectLatest
+                }
+
+                location.position?.let {
+                    binding.recyclerviewStation.smoothScrollToPosition(it)
+                    stationAdapter.updateLocation(it)
+                }
             }
         }
     }
@@ -180,6 +187,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     companion object {
+        private const val TWO_KILO = 2000
         private const val START_POSITION = 0
         private const val TRANSLATION_Y = "translationY"
         private const val ALPHA = "alpha"
