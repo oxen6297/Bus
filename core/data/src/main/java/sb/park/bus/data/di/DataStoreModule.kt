@@ -21,8 +21,6 @@ object DataStoreModule {
 
     @Provides
     @Singleton
-    fun provideDataStore(
-        @ApplicationContext context: Context,
-    ): DataStore<Preferences> =
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         context.myDataStore
 }
