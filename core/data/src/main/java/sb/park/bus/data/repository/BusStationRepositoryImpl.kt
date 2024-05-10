@@ -18,6 +18,7 @@ import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
+import sb.park.model.response.bus.LocationModel
 import sb.park.model.safeFlow
 import javax.inject.Inject
 import kotlin.math.asin
@@ -44,7 +45,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
             it.toData()
         }
 
-       busStationService.getData(
+        busStationService.getData(
             busRouteId = busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
 
@@ -70,23 +71,30 @@ internal class BusStationRepositoryImpl @Inject constructor(
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<Int> = flow {
+    ): Flow<LocationModel> = flow {
         val stationList = busStationService.getData(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>()
 
+        val locationModel = LocationModel()
+
+        /** 좌표 사이 거리 계산*/
         val nearStation = stationList.minBy {
-            val distanceX = Math.toRadians(it.gpsX.toDouble() - latitude)
-            val distanceY = Math.toRadians(it.gpsY.toDouble() - longitude)
+            val distanceX = Math.toRadians(it.gpsY.toDouble() - latitude)
+            val distanceY = Math.toRadians(it.gpsX.toDouble() - longitude)
             val distanceA = sin(distanceX / 2).pow(2.0) +
                     sin(distanceY / 2).pow(2.0) *
                     cos(Math.toRadians(latitude)) *
-                    cos(Math.toRadians(it.gpsX.toDouble()))
+                    cos(Math.toRadians(it.gpsY.toDouble()))
             val distanceB = 2 * asin(sqrt(distanceA))
-            (6372.8 * 1000 * distanceB).toInt()
+            val distance = (R * distanceB).toInt()
+
+            distance.apply { locationModel.distance = this }
         }
 
-        emit(stationList.indexOf(nearStation))
+        locationModel.position = stationList.indexOf(nearStation)
+        emit(locationModel)
+
     }.catch {
         it.printStackTrace()
     }.flowOn(coroutineDispatcher)
@@ -95,5 +103,9 @@ internal class BusStationRepositoryImpl @Inject constructor(
         return favoriteDao.getFavorite().any {
             it.station == stationId && it.busId == busId
         }
+    }
+
+    companion object {
+        private const val R = 6372.8 * 1000
     }
 }

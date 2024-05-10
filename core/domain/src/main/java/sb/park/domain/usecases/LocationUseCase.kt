@@ -3,6 +3,7 @@ package sb.park.domain.usecases
 import kotlinx.coroutines.flow.Flow
 import sb.park.bus.data.repository.BusStationRepository
 import sb.park.model.response.bus.ArgumentData
+import sb.park.model.response.bus.LocationModel
 import javax.inject.Inject
 
 class LocationUseCase @Inject constructor(private val busStationRepository: BusStationRepository) {
@@ -11,5 +12,5 @@ class LocationUseCase @Inject constructor(private val busStationRepository: BusS
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<Int> = busStationRepository.getLocation(argumentData, latitude, longitude)
+    ): Flow<LocationModel> = busStationRepository.getLocation(argumentData, latitude, longitude)
 }

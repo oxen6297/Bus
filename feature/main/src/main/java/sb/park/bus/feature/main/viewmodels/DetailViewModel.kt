@@ -25,6 +25,7 @@ import sb.park.domain.usecases.LocationUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusStationResponse
+import sb.park.model.response.bus.LocationModel
 import sb.park.model.successOrNull
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    private val _nearStationFlow = MutableSharedFlow<Int>()
+    private val _nearStationFlow = MutableSharedFlow<LocationModel>()
     val nearStationFlow = _nearStationFlow.asSharedFlow()
 
     private val _uiState = MutableStateFlow<Any?>(Unit)
