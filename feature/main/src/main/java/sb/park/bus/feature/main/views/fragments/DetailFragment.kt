@@ -81,14 +81,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnFavorite.singleClickListener {
-                if (viewModel.isFavorite.value == true) {
-                    viewModel.deleteFavorite {
-                        it.context.showToast(getString(R.string.toast_delete_favorite))
-                    }
-                } else {
-                    viewModel.addFavorite {
-                        it.context.showToast(getString(R.string.toast_add_favorite))
-                    }
+                when (viewModel.isFavorite.value) {
+                    true -> viewModel.deleteFavorite { it.context.showToast(getString(R.string.toast_delete_favorite)) }
+                    else -> viewModel.addFavorite { it.context.showToast(getString(R.string.toast_add_favorite)) }
                 }
             }
 
@@ -97,13 +92,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnRight.singleClickListener {
-                val smoothScroller = object : LinearSmoothScroller(it.context) {
+                object : LinearSmoothScroller(it.context) {
                     override fun getVerticalSnapPreference(): Int = SNAP_TO_END
-                }.apply {
+                }.run {
                     targetPosition = viewModel.getTransferPosition()
+                    recyclerviewStation.layoutManager?.startSmoothScroll(this)
                 }
-
-                recyclerviewStation.layoutManager?.startSmoothScroll(smoothScroller)
             }
 
             recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -125,7 +119,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     private fun updateLocation(context: Context) {
         lifecycleScope.launch {
-            viewModel.nearStationFlow.flowWithLifecycle(
+            viewModel.locationFlow.flowWithLifecycle(
                 lifecycle,
                 Lifecycle.State.STARTED
             ).collectLatest { location ->
