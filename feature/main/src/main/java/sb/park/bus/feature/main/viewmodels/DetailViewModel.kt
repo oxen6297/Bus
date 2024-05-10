@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
@@ -44,10 +43,10 @@ class DetailViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData(false)
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    private val _nearStationFlow = MutableSharedFlow<LocationModel>()
-    val nearStationFlow = _nearStationFlow.asSharedFlow()
+    private val _locationFlow = MutableSharedFlow<LocationModel>()
+    val locationFlow = _locationFlow.asSharedFlow()
 
-    private val _uiState = MutableStateFlow<Any?>(Unit)
+    private val _uiState = MutableStateFlow<ApiResult<List<BusStationResponse>>>(ApiResult.Loading)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState = _uiState.flatMapLatest { busStationUseCase(argData.value!!) }.stateIn(
@@ -65,15 +64,19 @@ class DetailViewModel @Inject constructor(
     )
 
     fun refresh() {
-        _uiState.update {
-            busStationUseCase(argData.value!!)
+        viewModelScope.launch {
+            busStationUseCase(argData.value!!).collectLatest {
+                _uiState.emit(it)
+            }
         }
     }
 
     fun getNearStation(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             locationUseCase(argData.value!!, latitude, longitude).collectLatest {
-                _nearStationFlow.emit(it)
+                it.successOrNull()?.let { location ->
+                    _locationFlow.emit(location)
+                }
             }
         }
     }
@@ -82,7 +85,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             favoriteUseCase.getFavorite().collectLatest { list ->
                 _isFavorite.value = list.any {
-                    it.busId == argData.value?.busId && it.type == ArgumentData.Type.BUS.type
+                    it.busId == argData.value!!.busId && it.type == ArgumentData.Type.BUS.type
                 }
             }
         }
@@ -90,7 +93,7 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite(toast: () -> Unit) {
         viewModelScope.launch {
-            favoriteUseCase.deleteFavorite(argData.value?.busId!!) {
+            favoriteUseCase.deleteFavorite(argData.value!!.busId) {
                 _isFavorite.value = it
                 toast()
             }

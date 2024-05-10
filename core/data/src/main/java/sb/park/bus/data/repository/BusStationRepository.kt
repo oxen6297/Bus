@@ -13,5 +13,5 @@ interface BusStationRepository {
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<LocationModel>
+    ): Flow<ApiResult<LocationModel>>
 }

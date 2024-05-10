@@ -3,8 +3,6 @@ package sb.park.bus.data.repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import sb.park.bus.data.AppDispatchers
@@ -71,32 +69,24 @@ internal class BusStationRepositoryImpl @Inject constructor(
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double
-    ): Flow<LocationModel> = flow {
+    ): Flow<ApiResult<LocationModel>> = safeFlow {
         val stationList = busStationService.getData(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>()
 
-        val locationModel = LocationModel()
+        LocationModel().apply {
+            stationList.minBy { response ->
+                val latDiff = Math.toRadians(response.gpsY.toDouble() - latitude)
+                val lonDiff = Math.toRadians(response.gpsX.toDouble() - longitude)
+                val calculateDiff = sin(latDiff / 2).pow(2.0) +
+                        sin(lonDiff / 2).pow(2.0) *
+                        cos(Math.toRadians(latitude)) *
+                        cos(Math.toRadians(response.gpsY.toDouble()))
+                val distance = (2 * asin(sqrt(calculateDiff)) * R).toInt()
 
-        /** 좌표 사이 거리 계산*/
-        val nearStation = stationList.minBy {
-            val distanceX = Math.toRadians(it.gpsY.toDouble() - latitude)
-            val distanceY = Math.toRadians(it.gpsX.toDouble() - longitude)
-            val distanceA = sin(distanceX / 2).pow(2.0) +
-                    sin(distanceY / 2).pow(2.0) *
-                    cos(Math.toRadians(latitude)) *
-                    cos(Math.toRadians(it.gpsY.toDouble()))
-            val distanceB = 2 * asin(sqrt(distanceA))
-            val distance = (R * distanceB).toInt()
-
-            distance.apply { locationModel.distance = this }
+                distance.also { this.distance = it }
+            }.also { position = stationList.indexOf(it) }
         }
-
-        locationModel.position = stationList.indexOf(nearStation)
-        emit(locationModel)
-
-    }.catch {
-        it.printStackTrace()
     }.flowOn(coroutineDispatcher)
 
     private suspend fun isFavorite(stationId: String, busId: String): Boolean {
