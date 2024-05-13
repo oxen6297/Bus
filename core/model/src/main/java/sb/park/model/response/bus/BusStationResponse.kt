@@ -1,6 +1,7 @@
 package sb.park.model.response.bus
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class BusStationResponse(
     @SerializedName("busRouteNm") val busRouteNm: String,
@@ -25,7 +26,7 @@ data class BusStationResponse(
     var nextStId: String?,
     var isHere: Boolean = false,
     var isLocated: Boolean = false
-) {
+) : Serializable {
     var onFavorite: () -> Unit = {}
     var isFavorite: Boolean = false
 }
