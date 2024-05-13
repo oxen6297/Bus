@@ -20,6 +20,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="v51caqkotr" />
+
         <activity
             android:name=".feature.main.views.activities.SplashActivity"
             android:exported="true">
