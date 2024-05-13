@@ -34,6 +34,8 @@ datastore = "1.0.0"
 lottie = "6.4.0"
 location = "21.2.0"
 
+naverMap = "3.18.0"
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -87,3 +89,4 @@ github-chart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 gms-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerView" }
+naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naverMap" }

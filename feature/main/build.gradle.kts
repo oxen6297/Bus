@@ -1,5 +1,6 @@
 plugins {
     id("sb.park.feature")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -34,4 +35,5 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.lottie)
     implementation(libs.gms.location)
+    implementation(libs.naver.map)
 }
