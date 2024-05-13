@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sb.park.bus.feature.main.databinding.ItemBusStationBinding
+import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.model.response.bus.BusStationResponse
 
-class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder>(diffCallback) {
+class StationAdapter(private val clickListener: (BusStationResponse) -> Unit) :
+    ListAdapter<BusStationResponse, StationAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -17,14 +19,21 @@ class StationAdapter : ListAdapter<BusStationResponse, StationAdapter.ViewHolder
                 parent,
                 false
             )
-        )
+        ).apply {
+            itemView.singleClickListener {
+                val position = bindingAdapterPosition.takeIf {
+                    it != RecyclerView.NO_POSITION
+                } ?: return@singleClickListener
+                clickListener(getItem(position))
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(val binding: ItemBusStationBinding) : RecyclerView.ViewHolder(binding.root)  {
+    class ViewHolder(val binding: ItemBusStationBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: BusStationResponse) {
             binding.apply {

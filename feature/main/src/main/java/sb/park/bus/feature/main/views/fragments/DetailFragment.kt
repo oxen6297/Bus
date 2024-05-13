@@ -44,7 +44,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     private val viewModel: DetailViewModel by viewModels()
     private val itemDecoration: ItemDecoration by lazy { ItemDecoration() }
-    private val stationAdapter: StationAdapter by lazy { StationAdapter() }
+    private val stationAdapter: StationAdapter by lazy {
+        StationAdapter {
+            findNavController().navigate(
+                DetailFragmentDirections.actionDetailFragmentToStationMapFragment(it)
+            )
+        }
+    }
 
     override fun initView(view: View) {
         bind {
