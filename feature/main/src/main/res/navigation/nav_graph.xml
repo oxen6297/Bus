@@ -44,5 +44,16 @@
         <argument
             android:name="data"
             app:argType="sb.park.model.response.bus.ArgumentData" />
+        <action
+            android:id="@+id/action_detailFragment_to_stationMapFragment"
+            app:destination="@id/stationMapFragment"
+            app:enterAnim="@anim/animation_right_to_left"
+            app:exitAnim="@anim/animation_left_out"
+            app:popEnterAnim="@anim/animation_left_to_right"
+            app:popExitAnim="@anim/animation_right_out"/>
     </fragment>
+    <fragment
+        android:id="@+id/stationMapFragment"
+        android:name="sb.park.bus.feature.main.views.fragments.StationMapFragment"
+        android:label="StationMapFragment" />
 </navigation>
