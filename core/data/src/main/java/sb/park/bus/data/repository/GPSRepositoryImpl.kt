@@ -11,9 +11,13 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
+import sb.park.bus.data.AppDispatchers
+import sb.park.bus.data.Dispatcher
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.GPSModel
 import sb.park.model.safeFlow
@@ -23,7 +27,8 @@ import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("MissingPermission")
 class GPSRepositoryImpl @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext context: Context,
+    @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : GPSRepository {
 
     private val locationClient: FusedLocationProviderClient by lazy {
@@ -43,7 +48,7 @@ class GPSRepositoryImpl @Inject constructor(
         location?.let {
             GPSModel(it.latitude, it.longitude)
         } ?: GPSModel(null, null)
-    }
+    }.flowOn(coroutineDispatcher)
 
     override fun getGPS(): Flow<GPSModel> {
         val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5_000L).build()
@@ -63,6 +68,6 @@ class GPSRepositoryImpl @Inject constructor(
             awaitClose {
                 locationClient.removeLocationUpdates(locationCallback)
             }
-        }
+        }.flowOn(coroutineDispatcher)
     }
 }

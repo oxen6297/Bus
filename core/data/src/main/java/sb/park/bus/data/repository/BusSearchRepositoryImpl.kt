@@ -1,6 +1,10 @@
 package sb.park.bus.data.repository
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import sb.park.bus.data.AppDispatchers
+import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.service.BusStationService
@@ -14,7 +18,8 @@ import javax.inject.Inject
 
 internal class BusSearchRepositoryImpl @Inject constructor(
     private val busStationService: BusStationService,
-    private val busIdService: BusIdService
+    private val busIdService: BusIdService,
+    @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusSearchRepository {
 
     override fun getSearch(busNumber: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
@@ -35,5 +40,5 @@ internal class BusSearchRepositoryImpl @Inject constructor(
                 }
             }
         }
-    }
+    }.flowOn(coroutineDispatcher)
 }
