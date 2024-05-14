@@ -7,4 +7,6 @@ import sb.park.model.response.bus.GPSModel
 interface GPSRepository {
 
     fun getLastLocation(): Flow<ApiResult<GPSModel>>
+
+    fun getGPS(): Flow<GPSModel>
 }
