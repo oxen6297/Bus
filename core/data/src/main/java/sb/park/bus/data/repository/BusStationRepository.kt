@@ -9,7 +9,7 @@ import sb.park.model.response.bus.LocationModel
 interface BusStationRepository {
     fun getData(argumentData: ArgumentData): Flow<ApiResult<List<BusStationResponse>>>
 
-    fun getLocation(
+    fun getNearStation(
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double

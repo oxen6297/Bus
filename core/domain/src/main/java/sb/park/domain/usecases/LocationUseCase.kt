@@ -1,18 +1,12 @@
 package sb.park.domain.usecases
 
 import kotlinx.coroutines.flow.Flow
-import sb.park.bus.data.repository.BusStationRepository
+import sb.park.bus.data.repository.GPSRepository
 import sb.park.model.ApiResult
-import sb.park.model.response.bus.ArgumentData
-import sb.park.model.response.bus.LocationModel
+import sb.park.model.response.bus.GPSModel
 import javax.inject.Inject
 
-class LocationUseCase @Inject constructor(private val busStationRepository: BusStationRepository) {
+class LocationUseCase @Inject constructor(private val gpsRepository: GPSRepository) {
 
-    operator fun invoke(
-        argumentData: ArgumentData,
-        latitude: Double,
-        longitude: Double
-    ): Flow<ApiResult<LocationModel>> =
-        busStationRepository.getLocation(argumentData, latitude, longitude)
+    operator fun invoke(): Flow<ApiResult<GPSModel>> = gpsRepository.getLastLocation()
 }

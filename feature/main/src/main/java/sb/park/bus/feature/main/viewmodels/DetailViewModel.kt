@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
-import sb.park.domain.usecases.GPSUseCase
 import sb.park.domain.usecases.LocationUseCase
+import sb.park.domain.usecases.NearStationUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusStationResponse
@@ -32,8 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val busStationUseCase: BusStationUseCase,
+    private val nearStationUseCase: NearStationUseCase,
     private val locationUseCase: LocationUseCase,
-    private val gpsUseCase: GPSUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -105,7 +105,7 @@ class DetailViewModel @Inject constructor(
 
     fun getNearStation(toast: () -> Unit) {
         viewModelScope.launch {
-            gpsUseCase().collectLatest { gpsState ->
+            locationUseCase().collectLatest { gpsState ->
                 gpsState.successOrNull()?.let { gps ->
                     val latitude = gps.latitude ?: run {
                         toast()
@@ -117,7 +117,7 @@ class DetailViewModel @Inject constructor(
                         return@collectLatest
                     }
 
-                    locationUseCase(argData.value!!, latitude, longitude).collectLatest {
+                    nearStationUseCase(argData.value!!, latitude, longitude).collectLatest {
                         it.successOrNull()?.let { location ->
                             _locationFlow.emit(location)
                         }
