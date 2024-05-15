@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
@@ -23,7 +22,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +30,6 @@ import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.common.error
-import sb.park.bus.feature.main.common.info
 import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
@@ -72,17 +69,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnLocation.singleClickListener {
-                if (!checkPermission(it.context)) return@singleClickListener
-
-                val locationClient = LocationServices.getFusedLocationProviderClient(it.context)
-                locationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    location?.let { loc ->
-                        info("lat: ${loc.latitude} long: ${loc.longitude}")
-                        viewModel.getNearStation(loc.latitude, loc.longitude)
-                    } ?: it.context.showToast(getString(R.string.toast_error_gps))
-                }.addOnFailureListener { e ->
-                    it.context.showToast(getString(R.string.toast_error))
-                    error(e.message.toString())
+                if (checkPermission(it.context)) {
+                    viewModel.getNearStation {
+                        it.context.showToast(getString(R.string.toast_error_gps))
+                    }
                 }
             }
 

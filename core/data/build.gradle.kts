@@ -29,4 +29,5 @@ dependencies {
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.github.chart)
     implementation(libs.androidx.datastore)
+    implementation(libs.gms.location)
 }

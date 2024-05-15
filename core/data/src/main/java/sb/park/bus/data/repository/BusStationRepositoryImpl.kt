@@ -65,7 +65,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
         }
     }.flowOn(coroutineDispatcher)
 
-    override fun getLocation(
+    override fun getNearStation(
         argumentData: ArgumentData,
         latitude: Double,
         longitude: Double

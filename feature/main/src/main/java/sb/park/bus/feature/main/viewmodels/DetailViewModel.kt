@@ -21,6 +21,7 @@ import sb.park.bus.feature.main.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
 import sb.park.domain.usecases.LocationUseCase
+import sb.park.domain.usecases.NearStationUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusStationResponse
@@ -31,6 +32,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val busStationUseCase: BusStationUseCase,
+    private val nearStationUseCase: NearStationUseCase,
     private val locationUseCase: LocationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
@@ -47,7 +49,6 @@ class DetailViewModel @Inject constructor(
     val locationFlow = _locationFlow.asSharedFlow()
 
     private val _uiState = MutableStateFlow<ApiResult<List<BusStationResponse>>>(ApiResult.Loading)
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState = _uiState.flatMapLatest { busStationUseCase(argData.value!!) }.stateIn(
         scope = viewModelScope,
@@ -63,29 +64,14 @@ class DetailViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    fun refresh() {
-        viewModelScope.launch {
-            busStationUseCase(argData.value!!).collectLatest {
-                _uiState.emit(it)
-            }
-        }
-    }
-
-    fun getNearStation(latitude: Double, longitude: Double) {
-        viewModelScope.launch {
-            locationUseCase(argData.value!!, latitude, longitude).collectLatest {
-                it.successOrNull()?.let { location ->
-                    _locationFlow.emit(location)
-                }
-            }
-        }
-    }
-
     fun setFavorite() {
         viewModelScope.launch {
             favoriteUseCase.getFavorite().collectLatest { list ->
                 _isFavorite.value = list.any {
-                    it.busId == argData.value!!.busId && it.type == ArgumentData.Type.BUS.type
+                    val busId = argData.value!!.busId
+                    val type = ArgumentData.Type.BUS.type
+
+                    it.busId == busId && it.type == type
                 }
             }
         }
@@ -105,6 +91,38 @@ class DetailViewModel @Inject constructor(
             favoriteUseCase.insertFavorite(argData.value!!.toFavorite()) {
                 _isFavorite.value = it
                 toast()
+            }
+        }
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            busStationUseCase(argData.value!!).collectLatest {
+                _uiState.emit(it)
+            }
+        }
+    }
+
+    fun getNearStation(toast: () -> Unit) {
+        viewModelScope.launch {
+            locationUseCase().collectLatest { gpsState ->
+                gpsState.successOrNull()?.let { gps ->
+                    val latitude = gps.latitude ?: run {
+                        toast()
+                        return@collectLatest
+                    }
+
+                    val longitude = gps.longitude ?: run {
+                        toast()
+                        return@collectLatest
+                    }
+
+                    nearStationUseCase(argData.value!!, latitude, longitude).collectLatest {
+                        it.successOrNull()?.let { location ->
+                            _locationFlow.emit(location)
+                        }
+                    }
+                }
             }
         }
     }
