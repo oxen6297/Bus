@@ -56,7 +56,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             decoration = itemDecoration
             updateLocation(view.context)
 
-            btnBack.setOnClickListener {
+            btnBack.singleClickListener {
                 findNavController().popBackStack()
             }
 
@@ -84,16 +84,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnLeft.singleClickListener {
-                recyclerviewStation.smoothScrollToPosition(START_POSITION)
+                setScroll(it.context, START_POSITION)
             }
 
             btnRight.singleClickListener {
-                object : LinearSmoothScroller(it.context) {
-                    override fun getVerticalSnapPreference(): Int = SNAP_TO_END
-                }.run {
-                    targetPosition = viewModel.getTransferPosition()
-                    recyclerviewStation.layoutManager?.startSmoothScroll(this)
-                }
+                setScroll(it.context, viewModel.transferPosition() + offsetPosition())
             }
 
             recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -102,7 +97,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         RecyclerView.SCROLL_STATE_IDLE -> {
                             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                             val focusPosition = layoutManager.findLastVisibleItemPosition()
-                            val transferPosition = viewModel.getTransferPosition()
+                            val transferPosition = viewModel.transferPosition() + offsetPosition()
 
                             btnLeft.isChecked = focusPosition < transferPosition
                             btnRight.isChecked = focusPosition >= transferPosition
@@ -127,7 +122,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 }
 
                 location.position?.let {
-                    binding.recyclerviewStation.smoothScrollToPosition(it)
+                    setScroll(context, it + offsetPosition())
                     stationAdapter.updateLocation(it)
                 }
             }
@@ -174,6 +169,24 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }
 
         return true
+    }
+
+    private fun setScroll(context: Context, position: Int) {
+        object : LinearSmoothScroller(context) {
+            override fun getVerticalSnapPreference(): Int = SNAP_TO_END
+        }.run {
+            targetPosition = position
+            binding.recyclerviewStation.layoutManager?.startSmoothScroll(this)
+        }
+    }
+
+    private fun offsetPosition(): Int {
+        val layoutManager = binding.recyclerviewStation.layoutManager as LinearLayoutManager?
+        val firstVisibleItemPosition = layoutManager?.findFirstVisibleItemPosition() ?: 0
+        val lastVisibleItemPosition = layoutManager?.findLastVisibleItemPosition() ?: 0
+        val visibleItemCount = lastVisibleItemPosition - firstVisibleItemPosition + 1
+
+        return visibleItemCount / 2
     }
 
     companion object {

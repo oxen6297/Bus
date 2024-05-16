@@ -127,7 +127,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun getTransferPosition(): Int = stationFlow.value.indexOfFirst {
+    fun transferPosition(): Int = stationFlow.value.indexOfFirst {
         it.isTransfer == "Y"
-    }.plus(5)
+    }
 }
