@@ -8,6 +8,7 @@ import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.SearchAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentSearchBinding
+import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
 import sb.park.bus.feature.main.viewmodels.SearchViewModel
 
@@ -30,7 +31,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             adapter = searchAdapter
             decoration = itemDecoration
 
-            btnBack.setOnClickListener {
+            btnBack.singleClickListener {
                 findNavController().popBackStack()
             }
         }
