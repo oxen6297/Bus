@@ -1,18 +1,10 @@
 package sb.park.bus.feature.main.views.fragments
 
-import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.net.Uri
-import android.provider.Settings
 import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -34,6 +26,7 @@ import sb.park.bus.feature.main.databinding.FragmentDetailBinding
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.bus.feature.main.utils.ItemDecoration
+import sb.park.bus.feature.main.utils.PermissionUtil
 import sb.park.bus.feature.main.viewmodels.DetailViewModel
 
 @AndroidEntryPoint
@@ -69,7 +62,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnLocation.singleClickListener {
-                if (checkPermission(it.context)) {
+                if (PermissionUtil.checkPermission(it.context)) {
                     viewModel.getNearStation {
                         it.context.showToast(getString(R.string.toast_error_gps))
                     }
@@ -138,37 +131,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             else doOnStart { button.show() }
         }.start()
         ObjectAnimator.ofFloat(button, ALPHA, alphaValue.first, alphaValue.second).start()
-    }
-
-    private fun checkPermission(context: Context): Boolean {
-        val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
-        val permissionList = arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-        val isGranted = permissionList.all {
-            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-        }
-
-        if (!isGranted) {
-            Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:${context.packageName}")
-            ).apply {
-                context.showToast(getString(R.string.toast_location_setting))
-                startActivity(this)
-            }
-            return false
-        }
-
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            context.showToast(getString(R.string.toast_gps))
-            return false
-        }
-
-        return true
     }
 
     private fun setScroll(context: Context, position: Int) {
