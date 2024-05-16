@@ -23,7 +23,7 @@ class StationMapFragment : BaseFragment<FragmentStationMapBinding>(R.layout.frag
     OnMapReadyCallback {
 
     override fun initView(view: View) {
-        if (!PermissionUtil.checkPermission(requireContext())) {
+        if (!PermissionUtil.checkPermission(view.context)) {
             findNavController().popBackStack()
         }
 
