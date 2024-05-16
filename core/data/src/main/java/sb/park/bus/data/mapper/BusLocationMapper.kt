@@ -19,7 +19,7 @@ internal fun BusLocationResponse.toData(): BusLocationResponse = BusLocationResp
     isrunyn = if (this.isrunyn == "1") "운행" else "운행 종료",
     islastyn = if (this.islastyn == "1") "막차" else "막차 아님",
     congetion = when (this.congetion) {
-        "0" -> "없음"
+        "0" -> "여유"
         "3" -> "여유"
         "4" -> "보통"
         "5" -> "혼잡"
