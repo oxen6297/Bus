@@ -43,14 +43,19 @@ class StationMapFragment : BaseFragment<FragmentStationMapBinding>(R.layout.frag
         Marker().apply {
             position = latLng
             captionText = navArgs.gps.stationNm
-            captionOffset = 10
+            captionOffset = CAPTION_OFFSET
             icon = MarkerIcons.BLUE
             map = p0.apply {
                 locationOverlay.isVisible = true
-                locationSource = FusedLocationSource(this@StationMapFragment, 1000)
+                locationSource = FusedLocationSource(this@StationMapFragment, REQUEST_CODE)
                 uiSettings.isLocationButtonEnabled = true
                 moveCamera(CameraUpdate.scrollTo(latLng))
             }
         }
+    }
+
+    companion object {
+        private const val CAPTION_OFFSET = 10
+        private const val REQUEST_CODE = 1000
     }
 }
