@@ -36,9 +36,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private val itemDecoration: ItemDecoration by lazy { ItemDecoration() }
     private val stationAdapter: StationAdapter by lazy {
         StationAdapter {
-            findNavController().navigate(
-                DetailFragmentDirections.actionDetailFragmentToStationMapFragment(it)
-            )
+            if (PermissionUtil.checkPermission(requireContext())) {
+                findNavController().navigate(
+                    DetailFragmentDirections.actionDetailFragmentToStationMapFragment(it)
+                )
+            }
         }
     }
 
@@ -143,12 +145,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun offsetPosition(): Int {
-        val layoutManager = binding.recyclerviewStation.layoutManager as LinearLayoutManager?
-        val firstVisibleItemPosition = layoutManager?.findFirstVisibleItemPosition() ?: 0
-        val lastVisibleItemPosition = layoutManager?.findLastVisibleItemPosition() ?: 0
-        val visibleItemCount = lastVisibleItemPosition - firstVisibleItemPosition + 1
+        val layoutManager = binding.recyclerviewStation.layoutManager as LinearLayoutManager
 
-        return visibleItemCount / 2
+        return layoutManager.run {
+            (findLastVisibleItemPosition() - findFirstVisibleItemPosition() + 1) / 2
+        }
     }
 
     companion object {
