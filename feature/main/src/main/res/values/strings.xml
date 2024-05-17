@@ -24,9 +24,10 @@
     <string name="toast_delete_favorite">즐겨찾기에서 삭제하였습니다.</string>
     <string name="toast_network">네트워크 상태를 확인해주세요.</string>
     <string name="toast_permission">위치 권한을 거부하셨습니다.</string>
-    <string name="toast_gps">GPS 사용을 켜주세요.</string>
-    <string name="toast_location_setting">위치 사용을 위해 설정에서 권한을 항상 허용해주세요.</string>
     <string name="toast_over_distance">반경 3키로 이내 정류장이 존재하지 않습니다.</string>
+
+    <string name="dialog_gps">GPS 사용을 켜주세요.</string>
+    <string name="dialog_location_setting">위치 사용을 위해 설정에서 권한을 항상 허용해주세요.</string>
 
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
