@@ -31,10 +31,10 @@ internal class BitCoinRepositoryImpl @Inject constructor(
             bitCoinService.getData()
         }.onSuccess {
             val bitCoinResponse = it.data.toEntity()
-            val oneDay = 24 * 60 * 60 * 1000 //24시간
-            val timeDifference = System.currentTimeMillis() - bitCoinResponse.date.toLong()
+            val bitCoinEntities = bitCoinDao.getData()
+            val timeDiff = bitCoinResponse.date.toLong() - bitCoinEntities.last().date.toLong()
 
-            if (timeDifference >= oneDay || bitCoinDao.getData().isEmpty()) {
+            if (timeDiff >= FIFTEEN_MINUTE || bitCoinEntities.isEmpty()) {
                 bitCoinDao.insertNewData(bitCoinResponse)
             }
         }.onFailure {
@@ -48,5 +48,9 @@ internal class BitCoinRepositoryImpl @Inject constructor(
                 add(bitCoinEntity.toCandle(index))
             }
         }
+    }
+
+    companion object {
+        private const val FIFTEEN_MINUTE = 900000
     }
 }
