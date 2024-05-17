@@ -2,7 +2,6 @@ package sb.park.bus.feature.main.views.fragments
 
 import android.view.View
 import androidx.annotation.UiThread
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -16,17 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentStationMapBinding
-import sb.park.bus.feature.main.utils.PermissionUtil
 
 @AndroidEntryPoint
 class StationMapFragment : BaseFragment<FragmentStationMapBinding>(R.layout.fragment_station_map),
     OnMapReadyCallback {
 
     override fun initView(view: View) {
-        if (!PermissionUtil.checkPermission(view.context)) {
-            findNavController().popBackStack()
-        }
-
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapview) as MapFragment?
             ?: MapFragment.newInstance().also {
                 childFragmentManager.beginTransaction().add(R.id.mapview, it).commit()
