@@ -21,7 +21,7 @@ interface BitCoinDao {
 
     @Transaction
     suspend fun insertNewData(bitCoinData: BitCoinEntity) {
-        if (getData().size >= 100) {
+        if (getData().size >= 1000) {
             deleteOldData()
         }
 
