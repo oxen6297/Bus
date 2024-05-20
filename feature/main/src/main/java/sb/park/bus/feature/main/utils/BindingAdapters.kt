@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageButton
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.extensions.showToast
+import sb.park.bus.feature.main.extensions.singleClickListener
 import sb.park.model.ApiResult
 import sb.park.model.successOrNull
 
@@ -58,6 +60,16 @@ object BindingAdapters {
     @BindingAdapter("decoration")
     fun bindItemDecoration(view: RecyclerView, itemDecoration: ItemDecoration) {
         view.addItemDecoration(itemDecoration)
+    }
+
+    @JvmStatic
+    @BindingAdapter("backPressed")
+    fun bindBackPressed(view: View, backPressed: Boolean) {
+        if (backPressed) {
+            view.singleClickListener {
+                it.findNavController().popBackStack()
+            }
+        }
     }
 
     @JvmStatic

@@ -51,10 +51,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             decoration = itemDecoration
             updateLocation(view.context)
 
-            btnBack.singleClickListener {
-                findNavController().popBackStack()
-            }
-
             btnFloating.singleClickListener {
                 val translationMap = mapOf(true to 0f, false to -200f)
                 val transValue = translationMap[btnRefresh.isVisible] ?: 0f
