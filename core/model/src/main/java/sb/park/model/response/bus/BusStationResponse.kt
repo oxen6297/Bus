@@ -27,6 +27,7 @@ data class BusStationResponse(
     var isHere: Boolean = false,
     var isLocated: Boolean = false
 ) : Serializable {
+    @Transient
     var onFavorite: () -> Unit = {}
     var isFavorite: Boolean = false
 }
