@@ -17,4 +17,6 @@ internal const val BUS_STATION_SERVICE = "busRouteInfo/getStaionByRoute"
 
 internal const val BUS_LOCATION_SERVICE = "buspos/getBusPosByRtid"
 
+internal const val BUS_ARRIVE_SERVICE = "arrive/getArrInfoByRouteAll"
+
 internal const val RESULT_TYPE = "json"
