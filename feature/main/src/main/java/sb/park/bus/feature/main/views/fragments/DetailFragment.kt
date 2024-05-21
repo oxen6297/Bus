@@ -112,9 +112,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                     return@collectLatest
                 }
 
-                location.position?.let {
+                stationAdapter.updateLocation(location) {
                     setScroll(context, it + offsetPosition())
-                    stationAdapter.updateLocation(it)
                 }
             }
         }
