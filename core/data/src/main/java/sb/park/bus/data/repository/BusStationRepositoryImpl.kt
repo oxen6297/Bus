@@ -36,30 +36,21 @@ internal class BusStationRepositoryImpl @Inject constructor(
         argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
 
-        val busId = argumentData.busId
         val locationList = busLocationService.getData(
-            busRouteId = busId
+            busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusLocationResponse>().map {
             it.toData()
         }
 
         busStationService.getData(
-            busRouteId = busId
+            busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
-
-            it.toData(isFavorite(it.stationId, busId), locationList) {
+            val isFavorite = favoriteDao.getFavorite().any { entity ->
+                entity.station == it.stationId && entity.busId == argumentData.busId
+            }
+            it.toData(isFavorite, locationList) {
                 CoroutineScope(coroutineDispatcher).launch {
-                    if (isFavorite(it.stationId, busId)) {
-                        favoriteDao.deleteStationFavorite(it.stationId)
-                    } else {
-                        favoriteDao.insertFavorite(
-                            argumentData.toFavorite(
-                                ArgumentData.Type.STATION.type,
-                                it.stationId,
-                                it.stationNm
-                            )
-                        )
-                    }
+                    favoriteDao.addFavorite(it, argumentData)
                 }
             }
         }
@@ -88,12 +79,6 @@ internal class BusStationRepositoryImpl @Inject constructor(
             }.also { position = stationList.indexOf(it) }
         }
     }.flowOn(coroutineDispatcher)
-
-    private suspend fun isFavorite(stationId: String, busId: String): Boolean {
-        return favoriteDao.getFavorite().any {
-            it.station == stationId && it.busId == busId
-        }
-    }
 
     companion object {
         private const val R = 6372.8 * 1000
