@@ -9,11 +9,13 @@ import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.room.FavoriteDao
+import sb.park.bus.data.service.BusArriveService
 import sb.park.bus.data.service.BusLocationService
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
+import sb.park.model.response.bus.BusArriveResponse
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.LocationModel
@@ -28,6 +30,7 @@ import kotlin.math.sqrt
 internal class BusStationRepositoryImpl @Inject constructor(
     private val busStationService: BusStationService,
     private val busLocationService: BusLocationService,
+    private val busArriveService: BusArriveService,
     private val favoriteDao: FavoriteDao,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
@@ -48,6 +51,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
             val isFavorite = favoriteDao.getFavorite().any { entity ->
                 entity.station == it.stationId && entity.busId == argumentData.busId
             }
+
             it.toData(isFavorite, locationList) {
                 CoroutineScope(coroutineDispatcher).launch {
                     favoriteDao.addFavorite(it, argumentData)
@@ -76,9 +80,20 @@ internal class BusStationRepositoryImpl @Inject constructor(
                 val distance = (2 * asin(sqrt(calculateDiff)) * R).toInt()
 
                 distance.also { this.distance = it }
-            }.also { position = stationList.indexOf(it) }
+            }.also {
+                position = stationList.indexOf(it)
+                arriveTime = getArriveTime(argumentData.busId, it.seq, it.stationId)
+            }
         }
     }.flowOn(coroutineDispatcher)
+
+    override suspend fun getArriveTime(busId: String, seq: String, stationId: String): String {
+        return busArriveService.getData(
+            busId,
+            seq,
+            stationId
+        ).msgBody.itemList.toList<BusArriveResponse>().first().arriveTime
+    }
 
     companion object {
         private const val R = 6372.8 * 1000

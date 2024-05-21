@@ -2,8 +2,8 @@ package sb.park.bus.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import sb.park.model.ApiResult
-import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.ArgumentData
+import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.LocationModel
 
 interface BusStationRepository {
@@ -14,4 +14,6 @@ interface BusStationRepository {
         latitude: Double,
         longitude: Double
     ): Flow<ApiResult<LocationModel>>
+
+    suspend fun getArriveTime(busId: String, seq: String, stationId: String): String
 }
