@@ -39,9 +39,9 @@ internal fun BusStationResponse.toData(
         isRun = locationResponse?.isrunyn ?: "",
         isLast = locationResponse?.islastyn ?: "",
         congestion = locationResponse?.congetion ?: "",
-        nextStId = locationResponse?.nextStId ?: ""
+        nextStId = locationResponse?.nextStId ?: "",
+        isFavorite = isFavorite
     ).apply {
-        this.isFavorite = isFavorite
         this.onFavorite = onFavorite
     }
 }
