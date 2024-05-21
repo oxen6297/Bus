@@ -4,9 +4,9 @@ import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 
 data class BusResponse(
-    @SerializedName("msgBody") val msgBody: Data
+    @SerializedName("msgBody") val msgBody: ItemList
 ) {
-    data class Data(
+    data class ItemList(
         @SerializedName("itemList") val itemList: JsonElement
     )
 }
