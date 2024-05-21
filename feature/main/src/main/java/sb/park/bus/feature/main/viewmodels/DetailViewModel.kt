@@ -79,7 +79,7 @@ class DetailViewModel @Inject constructor(
 
     fun deleteFavorite(toast: () -> Unit) {
         viewModelScope.launch {
-            favoriteUseCase.deleteFavorite(argData.value!!.busId) {
+            favoriteUseCase.deleteBusFavorite(argData.value!!.busId) {
                 _isFavorite.value = it
                 toast()
             }

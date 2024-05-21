@@ -14,8 +14,8 @@ class FavoriteUseCase @Inject constructor(private val favoriteRepository: Favori
 
     fun getFavorite(): Flow<List<FavoriteEntity>> = favoriteRepository.getFavorite()
 
-    suspend fun deleteFavorite(id: String, setFavorite: (Boolean) -> Unit) {
-        favoriteRepository.deleteFavorite(id)
+    suspend fun deleteBusFavorite(id: String, setFavorite: (Boolean) -> Unit) {
+        favoriteRepository.deleteBusFavorite(id)
         setFavorite.invoke(false)
     }
 

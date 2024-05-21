@@ -8,7 +8,7 @@ interface FavoriteRepository {
 
     fun getFavorite(): Flow<List<FavoriteEntity>>
 
-    suspend fun deleteFavorite(id: String)
+    suspend fun deleteBusFavorite(id: String)
 
     suspend fun deleteStationFavorite(stationId: String)
 

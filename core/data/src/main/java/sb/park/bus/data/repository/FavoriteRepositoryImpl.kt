@@ -17,8 +17,8 @@ internal class FavoriteRepositoryImpl @Inject constructor(
         emit(favoriteDao.getFavorite())
     }
 
-    override suspend fun deleteFavorite(id: String) {
-        favoriteDao.deleteFavorite(id)
+    override suspend fun deleteBusFavorite(id: String) {
+        favoriteDao.deleteBusFavorite(id)
     }
 
     override suspend fun deleteStationFavorite(stationId: String) {
