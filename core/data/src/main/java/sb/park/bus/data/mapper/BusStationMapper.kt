@@ -36,6 +36,7 @@ internal fun BusStationResponse.toData(
         },
 
         busPosition = this.busPosition,
+        arriveTime = this.arriveTime,
         isRun = locationResponse?.isrunyn ?: "",
         isLast = locationResponse?.islastyn ?: "",
         congestion = locationResponse?.congetion ?: "",

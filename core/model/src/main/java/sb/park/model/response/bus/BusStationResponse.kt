@@ -26,7 +26,8 @@ data class BusStationResponse(
     @SerializedName("nextStId") var nextStId: String?,
     @SerializedName("isHere") var isHere: Boolean = false,
     @SerializedName("isLocated") var isLocated: Boolean = false,
-    @SerializedName("isFavorite") var isFavorite: Boolean = false
+    @SerializedName("isFavorite") var isFavorite: Boolean = false,
+    @SerializedName("arriveTime") var arriveTime: String?
 ) : Serializable {
     @Transient
     var onFavorite: () -> Unit = {}
