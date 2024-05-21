@@ -142,7 +142,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="@{station.isHere ? View.VISIBLE : View.GONE}"
             tools:ignore="UseCompoundDrawables">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -158,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{station.congestion}"
                     android:textSize="@dimen/text_small_size"
+                    android:visibility="@{station.isHere ? View.VISIBLE : View.GONE}"
                     tools:text="여유" />
 
                 <TextView
@@ -168,6 +168,16 @@
                     android:textSize="@dimen/text_small_size"
                     android:visibility="@{station.isLast().equals(`막차`) ? View.VISIBLE : View.GONE}"
                     tools:text="막차" />
+
+                <TextView
+                    android:id="@+id/text_arrive_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{station.arriveTime}"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_small_size"
+                    android:visibility="@{station.isLocated ? View.VISIBLE : View.GONE}"
+                    tools:text="1분전" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
