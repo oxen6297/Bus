@@ -9,8 +9,10 @@ import sb.park.model.response.bus.BusResponse
 
 internal interface BusArriveService {
     @GET(BUS_ARRIVE_SERVICE)
-    suspend fun getArrive(
+    suspend fun getData(
         @Query("busRouteId") busRouteId: String,
+        @Query("ord") seq: String,
+        @Query("stId") stationId: String,
         @Query("serviceKey") serviceKey: String = API_KEY,
         @Query("resultType") resultType: String = RESULT_TYPE
     ): BusResponse
