@@ -3,18 +3,11 @@ package sb.park.bus.data.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
-import android.os.Looper
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
@@ -25,7 +18,6 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-@SuppressLint("MissingPermission")
 class GPSRepositoryImpl @Inject constructor(
     @ApplicationContext context: Context,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
@@ -35,6 +27,7 @@ class GPSRepositoryImpl @Inject constructor(
         LocationServices.getFusedLocationProviderClient(context)
     }
 
+    @SuppressLint("MissingPermission")
     override fun getLastLocation(): Flow<ApiResult<GPSModel>> = safeFlow {
         val location = suspendCoroutine { continuation ->
             locationClient.lastLocation.addOnSuccessListener { location: Location? ->
@@ -49,25 +42,4 @@ class GPSRepositoryImpl @Inject constructor(
             GPSModel(it.latitude, it.longitude)
         } ?: GPSModel(null, null)
     }.flowOn(coroutineDispatcher)
-
-    override fun getGPS(): Flow<GPSModel> {
-        val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5_000L).build()
-
-        return callbackFlow {
-            val locationCallback = object : LocationCallback() {
-                override fun onLocationResult(p0: LocationResult) {
-                    super.onLocationResult(p0)
-                    p0.lastLocation?.let {
-                        trySend(GPSModel(it.latitude, it.longitude))
-                    }
-                }
-            }
-
-            locationClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
-
-            awaitClose {
-                locationClient.removeLocationUpdates(locationCallback)
-            }
-        }.flowOn(coroutineDispatcher)
-    }
 }
