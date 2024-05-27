@@ -13,6 +13,7 @@ import sb.park.bus.data.service.BitCoinService
 import sb.park.bus.data.service.BusArriveService
 import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.service.BusLocationService
+import sb.park.bus.data.service.BusStationInfoService
 import sb.park.bus.data.service.BusStationService
 import sb.park.bus.data.util.BIT_COIN
 import sb.park.bus.data.util.BUS
@@ -84,6 +85,11 @@ internal object NetworkModule {
     @Provides
     fun provideBusStationService(@BusRetrofit retrofit: Retrofit): BusStationService =
         retrofit.create(BusStationService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideBusStationInfoService(@BusRetrofit retrofit: Retrofit): BusStationInfoService =
+        retrofit.create(BusStationInfoService::class.java)
 
     @Singleton
     @Provides
