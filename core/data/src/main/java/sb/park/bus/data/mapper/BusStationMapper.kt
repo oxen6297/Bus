@@ -26,15 +26,9 @@ internal fun BusStationResponse.toData(
         lastTm = this.lastTm,
         sectionId = this.sectionId,
         isTransfer = this.isTransfer,
-
-        routeType = BusType.entries.find {
-            this.routeType == it.type
-        }?.typeName ?: this.routeType,
-
-        isHere = locationList.any {
-            it.sectionId == this.sectionId
-        },
-
+        arsId = this.arsId,
+        routeType = BusType.entries.find { this.routeType == it.type }?.typeName ?: this.routeType,
+        isHere = locationList.any { it.sectionId == this.sectionId },
         busPosition = this.busPosition,
         arriveTime = this.arriveTime,
         isRun = locationResponse?.isrunyn ?: "",

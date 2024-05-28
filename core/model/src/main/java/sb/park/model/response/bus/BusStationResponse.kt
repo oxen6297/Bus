@@ -16,16 +16,18 @@ data class BusStationResponse(
     @SerializedName("lastTm") val lastTm: String,
     @SerializedName("routeType") val routeType: String,
 
+    @SerializedName("arsId") val arsId: String,
     @SerializedName("section") val sectionId: String,
     @SerializedName("transYn") val isTransfer: String,
     @SerializedName("busPosition") var busPosition: String?,
     @SerializedName("isRun") var isRun: String?,
-    @SerializedName("isLast") var isLast: String?,
 
+    @SerializedName("isLast") var isLast: String?,
     @SerializedName("congestion") var congestion: String?,
     @SerializedName("nextStId") var nextStId: String?,
     @SerializedName("isHere") var isHere: Boolean = false,
     @SerializedName("isLocated") var isLocated: Boolean = false,
+
     @SerializedName("isFavorite") var isFavorite: Boolean = false,
     @SerializedName("arriveTime") var arriveTime: String?
 ) : Serializable {
