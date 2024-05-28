@@ -108,10 +108,10 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/text_station_id"
+                    android:id="@+id/text_ars_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{station.stationId}"
+                    android:text="@{station.arsId}"
                     android:textColor="@color/gray_c8c8c8"
                     android:textSize="@dimen/text_small_size"
                     tools:text="1103451" />
