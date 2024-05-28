@@ -15,7 +15,7 @@ internal const val BUS_ID_SERVICE = "oxen6297/Bus/master/Bus.json"
 
 internal const val BUS_STATION_SERVICE = "busRouteInfo/getStaionByRoute"
 
-internal const val BUS_STATION_INFO_SERVICE = "stationinfo/getRouteByStation"
+internal const val BUS_STATION_INFO_SERVICE = "stationinfo/getStationByUid"
 
 internal const val BUS_LOCATION_SERVICE = "buspos/getBusPosByRtid"
 
