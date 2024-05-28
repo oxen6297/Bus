@@ -1,5 +1,6 @@
 package sb.park.bus.feature.main.utils
 
 object KeyFile {
-    const val NAV_ARG_KEY = "data"
+    const val DETAIL_ARG_KEY = "detail"
+    const val MAP_ARG_KEY = "map"
 }

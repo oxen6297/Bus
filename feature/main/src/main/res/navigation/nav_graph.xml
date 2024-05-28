@@ -42,7 +42,7 @@
         android:label="DetailFragment">
 
         <argument
-            android:name="data"
+            android:name="detail"
             app:argType="sb.park.model.response.bus.ArgumentData" />
         <action
             android:id="@+id/action_detailFragment_to_stationMapFragment"
@@ -58,7 +58,7 @@
         android:label="StationMapFragment">
 
         <argument
-            android:name="gps"
+            android:name="map"
             app:argType="sb.park.model.response.bus.BusStationResponse" />
 
     </fragment>
