@@ -35,4 +35,5 @@
     <string name="direction">방향</string>
     <string name="transfer">회차</string>
     <string name="subway">지하철</string>
+    <string name="bus_list">경유 버스 노선</string>
 </resources>
