@@ -1,15 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/text_bus_number"
-        android:layout_width="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="info"
+            type="sb.park.model.response.bus.StationInfoResponse" />
+
+        <variable
+            name="type"
+            type="sb.park.model.BusType.Companion" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_medium_size"
-        tools:text="262번" />
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/default_padding"
+        android:paddingTop="15dp"
+        android:paddingEnd="@dimen/default_padding"
+        android:paddingBottom="10dp">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_bus_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@{type.getColor(info.routeType)}"
+                    android:padding="3dp"
+                    android:text="@{info.routeType}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small_size" />
+
+                <TextView
+                    android:id="@+id/text_bus_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{info.busRouteNm}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_medium_size"
+                    tools:text="262번" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{info.direction}"
+                    android:textColor="@color/gray_c8c8c8"
+                    android:textSize="@dimen/text_small_size"
+                    tools:text="석계역 방면" />
+
+                <TextView
+                    android:id="@+id/text_next_station"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@{info.nextStation}"
+                    android:textColor="@color/gray_c8c8c8"
+                    android:textSize="@dimen/text_small_size"
+                    tools:text="범계역" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_first_arrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@{info.firstArrive}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_small_size"
+                tools:text="2분후" />
+
+            <TextView
+                android:id="@+id/text_second_arrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="5dp"
+                android:text="@{info.secondArrive}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_small_size"
+                tools:text="12분 30초후" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
