@@ -19,6 +19,7 @@ import sb.park.model.response.bus.BusArriveResponse
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.LocationModel
+import sb.park.model.response.bus.StationInfoResponse
 import sb.park.model.safeFlow
 import javax.inject.Inject
 import kotlin.math.asin
@@ -94,6 +95,14 @@ internal class BusStationRepositoryImpl @Inject constructor(
             stationId
         ).msgBody.itemList.toList<BusArriveResponse>().first().arriveTime
     }
+
+    override fun getStationInfo(
+        arsId: String
+    ): Flow<ApiResult<List<StationInfoResponse>>> = safeFlow {
+        busStationService.getInfo(arsId).msgBody.itemList.toList<StationInfoResponse>().map {
+            it.toData()
+        }
+    }.flowOn(coroutineDispatcher)
 
     companion object {
         private const val R = 6372.8 * 1000
