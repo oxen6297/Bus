@@ -38,7 +38,7 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _argData = savedStateHandle.getLiveData<ArgumentData>(KeyFile.NAV_ARG_KEY)
+    private val _argData = savedStateHandle.getLiveData<ArgumentData>(KeyFile.DETAIL_ARG_KEY)
     val argData: LiveData<ArgumentData>
         get() = _argData
 
