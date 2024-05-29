@@ -10,5 +10,5 @@ import javax.inject.Inject
 class BusStationUseCase @Inject constructor(private val busStationRepository: BusStationRepository) {
 
     operator fun invoke(argumentData: ArgumentData): Flow<ApiResult<List<BusStationResponse>>> =
-        busStationRepository.getData(argumentData)
+        busStationRepository.getStation(argumentData)
 }
