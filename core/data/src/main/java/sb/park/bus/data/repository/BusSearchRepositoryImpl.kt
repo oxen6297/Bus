@@ -10,7 +10,6 @@ import sb.park.bus.data.service.BusIdService
 import sb.park.bus.data.service.BusService
 import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
-import sb.park.model.response.bus.BusIdResponse
 import sb.park.model.response.bus.BusSearchResponse
 import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.safeFlow
@@ -23,7 +22,7 @@ internal class BusSearchRepositoryImpl @Inject constructor(
 ) : BusSearchRepository {
 
     override fun getSearch(busNumber: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
-        val busIdList = busIdService.getBusId().toList<BusIdResponse>().asSequence().distinctBy {
+        val busIdList = busIdService.getBusId().asSequence().distinctBy {
             it.routeId
         }.filter {
             it.routeName.startsWith(busNumber, ignoreCase = true)
