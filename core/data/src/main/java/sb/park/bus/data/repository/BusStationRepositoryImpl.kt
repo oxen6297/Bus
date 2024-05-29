@@ -17,6 +17,7 @@ import sb.park.model.response.bus.BusArriveResponse
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
 import sb.park.model.response.bus.LocationModel
+import sb.park.model.response.bus.NearStationResponse
 import sb.park.model.response.bus.StationInfoResponse
 import sb.park.model.safeFlow
 import javax.inject.Inject
@@ -32,7 +33,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
 
-    override fun getData(
+    override fun getStation(
         argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
 
@@ -56,6 +57,21 @@ internal class BusStationRepositoryImpl @Inject constructor(
             }
         }
     }.flowOn(coroutineDispatcher)
+
+    override fun getStationInfo(
+        arsId: String
+    ): Flow<ApiResult<List<StationInfoResponse>>> = safeFlow {
+        busService.getInfo(arsId).msgBody.itemList.toList<StationInfoResponse>().map {
+            it.toData()
+        }
+    }.flowOn(coroutineDispatcher)
+
+    override fun getNearStationList(
+        gpsX: String,
+        gpsY: String
+    ): Flow<ApiResult<List<NearStationResponse>>> = safeFlow {
+        busService.getNearStation(gpsX, gpsY).msgBody.itemList.toList<NearStationResponse>()
+    }
 
     override fun getNearStation(
         argumentData: ArgumentData,
@@ -91,14 +107,6 @@ internal class BusStationRepositoryImpl @Inject constructor(
             stationId
         ).msgBody.itemList.toList<BusArriveResponse>().first().arriveTime
     }
-
-    override fun getStationInfo(
-        arsId: String
-    ): Flow<ApiResult<List<StationInfoResponse>>> = safeFlow {
-        busService.getInfo(arsId).msgBody.itemList.toList<StationInfoResponse>().map {
-            it.toData()
-        }
-    }.flowOn(coroutineDispatcher)
 
     companion object {
         private const val R = 6372.8 * 1000

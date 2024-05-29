@@ -17,8 +17,12 @@ internal const val BUS_STATION_SERVICE = "busRouteInfo/getStaionByRoute"
 
 internal const val BUS_STATION_INFO_SERVICE = "stationinfo/getStationByUid"
 
+internal const val BUS_NEAR_STATION_SERVICE = "stationinfo/getStationByPos"
+
 internal const val BUS_LOCATION_SERVICE = "buspos/getBusPosByRtid"
 
 internal const val BUS_ARRIVE_SERVICE = "arrive/getArrInfoByRoute"
 
 internal const val RESULT_TYPE = "json"
+
+internal const val RADIUS = "1000"
