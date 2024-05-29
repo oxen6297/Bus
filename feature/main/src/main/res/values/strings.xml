@@ -12,8 +12,10 @@
 
     <string name="seoul">서울</string>
     <string name="favorite">즐겨찾기</string>
+    <string name="find_map_station">근처 정류장 찾기</string>
     <string name="delete_all">전체 삭제</string>
     <string name="text_no_result">검색 결과가 없습니다.</string>
+    <string name="my_location">현재 위치</string>
 
     <string name="popup_delete_all">즐겨찾기 전체삭제를 하시겠습니까?</string>
 
