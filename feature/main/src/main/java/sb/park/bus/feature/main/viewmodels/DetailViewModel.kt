@@ -103,21 +103,11 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun getNearStation(toast: () -> Unit) {
+    fun getNearStation() {
         viewModelScope.launch {
             locationUseCase().collectLatest { gpsState ->
                 gpsState.successOrNull()?.let { gps ->
-                    val latitude = gps.latitude ?: run {
-                        toast()
-                        return@collectLatest
-                    }
-
-                    val longitude = gps.longitude ?: run {
-                        toast()
-                        return@collectLatest
-                    }
-
-                    nearStationUseCase(argData.value!!, latitude, longitude).collectLatest {
+                    nearStationUseCase(argData.value!!, gps.latitude, gps.longitude).collectLatest {
                         it.successOrNull()?.let { location ->
                             _locationFlow.emit(location)
                         }

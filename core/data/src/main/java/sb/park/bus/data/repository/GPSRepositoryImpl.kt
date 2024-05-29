@@ -40,6 +40,6 @@ class GPSRepositoryImpl @Inject constructor(
 
         location?.let {
             GPSModel(it.latitude, it.longitude)
-        } ?: GPSModel(null, null)
+        } ?: GPSModel()
     }.flowOn(coroutineDispatcher)
 }

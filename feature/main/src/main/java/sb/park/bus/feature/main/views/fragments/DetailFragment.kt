@@ -61,9 +61,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
             btnLocation.singleClickListener {
                 if (PermissionUtil.checkPermission(it.context)) {
-                    viewModel.getNearStation {
-                        it.context.showToast(getString(R.string.toast_error_gps))
-                    }
+                    viewModel.getNearStation()
                 }
             }
 
