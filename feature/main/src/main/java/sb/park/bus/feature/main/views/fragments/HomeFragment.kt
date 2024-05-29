@@ -13,6 +13,7 @@ import sb.park.bus.feature.main.databinding.FragmentHomeBinding
 import sb.park.bus.feature.main.extensions.customDialog
 import sb.park.bus.feature.main.extensions.showToast
 import sb.park.bus.feature.main.extensions.singleClickListener
+import sb.park.bus.feature.main.utils.PermissionUtil
 import sb.park.bus.feature.main.viewmodels.HomeViewModel
 
 @AndroidEntryPoint
@@ -40,6 +41,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             textDeleteFavorite.singleClickListener {
                 it.context.customDialog(getString(R.string.popup_delete_all)) {
                     viewModel.deleteAll()
+                }
+            }
+
+            layoutMap.singleClickListener {
+                if (PermissionUtil.checkPermission(it.context)) {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToNearStationMapFragment()
+                    )
                 }
             }
         }

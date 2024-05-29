@@ -24,219 +24,265 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_line_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintGuide_begin="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_line_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintGuide_end="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            android:id="@+id/progressbar"
-            layout="@layout/include_progressbar"
-            app:loading="@{vm.uiState}" />
-
-        <TextView
-            android:id="@+id/text_search"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/edit_height"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/round_5_c8c8c8"
-            android:gravity="center_vertical"
-            android:hint="@string/text_hint"
-            android:maxLines="1"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColorHint="@color/gray_c8c8c8"
-            android:textSize="@dimen/text_medium_size"
-            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="Autofill,TextFields" />
-
-        <ImageButton
-            android:id="@+id/btn_search"
-            android:layout_width="@dimen/icon_medium_size"
-            android:layout_height="@dimen/icon_medium_size"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/icon_search"
-            android:backgroundTint="@color/gray_c8c8c8"
-            app:layout_constraintBottom_toBottomOf="@id/text_search"
-            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
-            app:layout_constraintTop_toTopOf="@id/text_search"
-            tools:ignore="ContentDescription" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_bit_coin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:animateLayoutChanges="true"
-            android:background="@drawable/round_5_f5f5f5"
-            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@+id/text_search">
-
-            <TextView
-                android:id="@+id/text_change_ratio_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/fluctate_rate"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_medium_size"
-                app:layout_constraintBottom_toTopOf="@+id/text_max_price_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/text_change_ratio_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:text="@{vm.bitCoinFlow.changeRatio}"
-                android:textColor="@color/gray_c8c8c8"
-                android:textSize="@dimen/text_medium_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_change_ratio_title"
-                app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
-
-            <TextView
-                android:id="@+id/text_max_price_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/max_price"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_medium_size"
-                app:layout_constraintBottom_toTopOf="@+id/text_min_price_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_change_ratio_title" />
-
-            <TextView
-                android:id="@+id/text_max_price_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:text="@{vm.bitCoinFlow.maxPrice}"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_medium_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_max_price_title" />
-
-            <TextView
-                android:id="@+id/text_min_price_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/min_price"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_medium_size"
-                app:layout_constraintBottom_toTopOf="@+id/text_date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_max_price_title" />
-
-            <TextView
-                android:id="@+id/text_min_price_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:text="@{vm.bitCoinFlow.minPrice}"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_medium_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_min_price_title" />
-
-            <TextView
-                android:id="@+id/text_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="@{vm.bitCoinFlow.date}"
-                android:textSize="@dimen/text_small_size"
-                app:layout_constraintBottom_toTopOf="@+id/layout_chart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_min_price_content" />
-
-            <com.github.mikephil.charting.charts.CandleStickChart
-                android:id="@+id/layout_chart"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:visibility="@{vm.isExpanded ? View.VISIBLE : View.GONE}"
-                app:chart="@{vm.chartFlow}"
-                app:layout_constraintBottom_toTopOf="@+id/btn_expand"
-                app:layout_constraintTop_toBottomOf="@+id/text_date" />
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btn_expand"
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:background="@drawable/bottom_5_f5f5f5"
-                android:onClick="@{() -> vm.clickExpand()}"
-                android:text="@{vm.isExpanded ? @string/btn_hide_chart : @string/btn_show_chart}"
-                android:textColor="@color/gray_c8c8c8"
-                android:textSize="@dimen/text_small_size"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide_line_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintGuide_begin="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide_line_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintGuide_end="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_favorite_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/favorite"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bit_coin" />
+                <include
+                    android:id="@+id/progressbar"
+                    layout="@layout/include_progressbar"
+                    app:loading="@{vm.uiState}" />
 
-        <TextView
-            android:id="@+id/text_delete_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="@{!vm.favoriteFlow.empty}"
-            android:text="@string/delete_all"
-            android:textColor="@color/gray_c8c8c8"
-            android:textSize="@dimen/text_medium_size"
-            app:layout_constraintBottom_toBottomOf="@+id/text_favorite_title"
-            app:layout_constraintEnd_toEndOf="@id/guide_line_end" />
+                <TextView
+                    android:id="@+id/text_search"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/edit_height"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/round_5_c8c8c8"
+                    android:gravity="center_vertical"
+                    android:hint="@string/text_hint"
+                    android:maxLines="1"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColorHint="@color/gray_c8c8c8"
+                    android:textSize="@dimen/text_medium_size"
+                    app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+                    app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill,TextFields" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_favorite"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            app:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@+id/text_favorite_title"
-            app:spanCount="2"
-            app:submitList="@{vm.favoriteFlow}" />
+                <ImageButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="@dimen/icon_medium_size"
+                    android:layout_height="@dimen/icon_medium_size"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/icon_search"
+                    android:backgroundTint="@color/gray_c8c8c8"
+                    app:layout_constraintBottom_toBottomOf="@id/text_search"
+                    app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+                    app:layout_constraintTop_toTopOf="@id/text_search"
+                    tools:ignore="ContentDescription" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_bit_coin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:animateLayoutChanges="true"
+                    android:background="@drawable/round_5_f5f5f5"
+                    app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+                    app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                    app:layout_constraintTop_toBottomOf="@+id/text_search">
+
+                    <TextView
+                        android:id="@+id/text_change_ratio_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/fluctate_rate"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_medium_size"
+                        app:layout_constraintBottom_toTopOf="@+id/text_max_price_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_change_ratio_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:text="@{vm.bitCoinFlow.changeRatio}"
+                        android:textColor="@color/gray_c8c8c8"
+                        android:textSize="@dimen/text_medium_size"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/text_change_ratio_title"
+                        app:toast="@{ApiResultKt.throwableOrNull(vm.uiState)}" />
+
+                    <TextView
+                        android:id="@+id/text_max_price_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/max_price"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_medium_size"
+                        app:layout_constraintBottom_toTopOf="@+id/text_min_price_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_change_ratio_title" />
+
+                    <TextView
+                        android:id="@+id/text_max_price_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:text="@{vm.bitCoinFlow.maxPrice}"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_medium_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/text_max_price_title" />
+
+                    <TextView
+                        android:id="@+id/text_min_price_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/min_price"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_medium_size"
+                        app:layout_constraintBottom_toTopOf="@+id/text_date"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_max_price_title" />
+
+                    <TextView
+                        android:id="@+id/text_min_price_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:text="@{vm.bitCoinFlow.minPrice}"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_medium_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/text_min_price_title" />
+
+                    <TextView
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="@{vm.bitCoinFlow.date}"
+                        android:textSize="@dimen/text_small_size"
+                        app:layout_constraintBottom_toTopOf="@+id/layout_chart"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_min_price_content" />
+
+                    <com.github.mikephil.charting.charts.CandleStickChart
+                        android:id="@+id/layout_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:visibility="@{vm.isExpanded ? View.VISIBLE : View.GONE}"
+                        app:chart="@{vm.chartFlow}"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_expand"
+                        app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+                    <Button
+                        android:id="@+id/btn_expand"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:background="@drawable/bottom_5_f5f5f5"
+                        android:onClick="@{() -> vm.clickExpand()}"
+                        android:text="@{vm.isExpanded ? @string/btn_hide_chart : @string/btn_show_chart}"
+                        android:textColor="@color/gray_c8c8c8"
+                        android:textSize="@dimen/text_small_size"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/layout_map"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_15_black"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+                    app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_bit_coin">
+
+                    <TextView
+                        android:id="@+id/text_map"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/find_map_station"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_map" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_small_size"
+                        android:layout_height="@dimen/icon_small_size"
+                        android:layout_marginStart="10dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/map"
+                        app:tint="@color/white" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:id="@+id/text_favorite_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/favorite"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_map" />
+
+                <TextView
+                    android:id="@+id/text_delete_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="@{!vm.favoriteFlow.empty}"
+                    android:text="@string/delete_all"
+                    android:textColor="@color/gray_c8c8c8"
+                    android:textSize="@dimen/text_medium_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_favorite_title"
+                    app:layout_constraintEnd_toEndOf="@id/guide_line_end" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_favorite"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    app:adapter="@{adapter}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+                    app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                    app:layout_constraintTop_toBottomOf="@+id/text_favorite_title"
+                    app:spanCount="2"
+                    app:submitList="@{vm.favoriteFlow}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
