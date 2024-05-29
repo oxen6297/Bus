@@ -9,9 +9,7 @@ import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.room.FavoriteDao
-import sb.park.bus.data.service.BusArriveService
-import sb.park.bus.data.service.BusLocationService
-import sb.park.bus.data.service.BusStationService
+import sb.park.bus.data.service.BusService
 import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
@@ -29,9 +27,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 internal class BusStationRepositoryImpl @Inject constructor(
-    private val busStationService: BusStationService,
-    private val busLocationService: BusLocationService,
-    private val busArriveService: BusArriveService,
+    private val busService: BusService,
     private val favoriteDao: FavoriteDao,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
@@ -40,13 +36,13 @@ internal class BusStationRepositoryImpl @Inject constructor(
         argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
 
-        val locationList = busLocationService.getData(
+        val locationList = busService.getLocation(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusLocationResponse>().map {
             it.toData()
         }
 
-        busStationService.getData(
+        busService.getStation(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
             val isFavorite = favoriteDao.getFavorite().any { entity ->
@@ -66,7 +62,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
         latitude: Double,
         longitude: Double
     ): Flow<ApiResult<LocationModel>> = safeFlow {
-        val stationList = busStationService.getData(
+        val stationList = busService.getStation(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>()
 
@@ -89,7 +85,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
     }.flowOn(coroutineDispatcher)
 
     override suspend fun getArriveTime(busId: String, seq: String, stationId: String): String {
-        return busArriveService.getData(
+        return busService.getArrive(
             busId,
             seq,
             stationId
@@ -99,7 +95,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
     override fun getStationInfo(
         arsId: String
     ): Flow<ApiResult<List<StationInfoResponse>>> = safeFlow {
-        busStationService.getInfo(arsId).msgBody.itemList.toList<StationInfoResponse>().map {
+        busService.getInfo(arsId).msgBody.itemList.toList<StationInfoResponse>().map {
             it.toData()
         }
     }.flowOn(coroutineDispatcher)

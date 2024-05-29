@@ -7,7 +7,7 @@ import sb.park.bus.data.AppDispatchers
 import sb.park.bus.data.Dispatcher
 import sb.park.bus.data.mapper.toData
 import sb.park.bus.data.service.BusIdService
-import sb.park.bus.data.service.BusStationService
+import sb.park.bus.data.service.BusService
 import sb.park.bus.data.util.toList
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.BusIdResponse
@@ -17,7 +17,7 @@ import sb.park.model.safeFlow
 import javax.inject.Inject
 
 internal class BusSearchRepositoryImpl @Inject constructor(
-    private val busStationService: BusStationService,
+    private val busService: BusService,
     private val busIdService: BusIdService,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusSearchRepository {
@@ -31,7 +31,7 @@ internal class BusSearchRepositoryImpl @Inject constructor(
 
         mutableListOf<BusSearchResponse>().apply {
             busIdList.map { id ->
-                busStationService.getData(
+                busService.getStation(
                     busRouteId = id.routeId.toString()
                 ).msgBody.itemList.toList<BusStationResponse>().distinctBy {
                     it.direction

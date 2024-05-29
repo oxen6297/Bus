@@ -10,10 +10,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import sb.park.bus.data.service.BitCoinService
-import sb.park.bus.data.service.BusArriveService
 import sb.park.bus.data.service.BusIdService
-import sb.park.bus.data.service.BusLocationService
-import sb.park.bus.data.service.BusStationService
+import sb.park.bus.data.service.BusService
 import sb.park.bus.data.util.BIT_COIN
 import sb.park.bus.data.util.BUS
 import sb.park.bus.data.util.BUS_ID
@@ -77,18 +75,8 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBusLocationService(@BusRetrofit retrofit: Retrofit): BusLocationService =
-        retrofit.create(BusLocationService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideBusStationService(@BusRetrofit retrofit: Retrofit): BusStationService =
-        retrofit.create(BusStationService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideBusArriveService(@BusRetrofit retrofit: Retrofit): BusArriveService =
-        retrofit.create(BusArriveService::class.java)
+    fun provideBusStationService(@BusRetrofit retrofit: Retrofit): BusService =
+        retrofit.create(BusService::class.java)
 
     @Singleton
     @Provides
