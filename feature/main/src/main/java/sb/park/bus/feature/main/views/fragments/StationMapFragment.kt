@@ -57,8 +57,8 @@ class StationMapFragment : BaseFragment<FragmentStationMapBinding>(R.layout.frag
                 map = p0.apply {
                     locationOverlay.isVisible = true
                     locationSource = FusedLocationSource(this@StationMapFragment, REQUEST_CODE)
-                    uiSettings.isLocationButtonEnabled = true
                     moveCamera(CameraUpdate.scrollTo(latLng))
+                    binding.btnLocation.map = this
                 }
             }
         }
