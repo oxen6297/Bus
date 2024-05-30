@@ -23,16 +23,10 @@ class NearStationMapViewModel @Inject constructor(
     locationUseCase: LocationUseCase
 ) : ViewModel() {
 
-    val gpsFlow: StateFlow<GPSModel> = locationUseCase().map {
-        it.successOrNull() ?: GPSModel()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = GPSModel()
-    )
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState: StateFlow<ApiResult<List<NearStationResponse>>> = gpsFlow.flatMapLatest {
+    val uiState: StateFlow<ApiResult<List<NearStationResponse>>> = locationUseCase().map {
+        it.successOrNull() ?: GPSModel()
+    }.flatMapLatest {
         nearStationListUseCase(it.longitude.toString(), it.latitude.toString())
     }.stateIn(
         scope = viewModelScope,
@@ -40,8 +34,8 @@ class NearStationMapViewModel @Inject constructor(
         initialValue = ApiResult.Loading
     )
 
-    val nearStationFlow: StateFlow<List<NearStationResponse>> = uiState.map {
-        it.successOrNull() ?: emptyList()
+    val stationFlow: StateFlow<List<NearStationResponse>> = uiState.map {
+        it.successOrNull()?: emptyList()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
