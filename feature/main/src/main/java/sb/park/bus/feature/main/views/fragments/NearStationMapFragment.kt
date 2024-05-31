@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentNearStationMapBinding
+import sb.park.bus.feature.main.extensions.hide
 import sb.park.bus.feature.main.viewmodels.NearStationMapViewModel
 
 @AndroidEntryPoint
@@ -49,6 +50,7 @@ class NearStationMapFragment :
                 FusedLocationSource(this@NearStationMapFragment, REQUEST_CODE)
             locationTrackingMode = LocationTrackingMode.Follow
             uiSettings.isLocationButtonEnabled = true
+            addOnLocationChangeListener { binding.layoutLoading.hide() }
         }
 
         lifecycleScope.launch {
@@ -59,11 +61,12 @@ class NearStationMapFragment :
                 it.forEach { response ->
                     Marker().apply {
                         position = LatLng(response.gpsY.toDouble(), response.gpsX.toDouble())
-                        captionText = response.stationNm
-                        captionOffset = CAPTION_OFFSET
                         icon = OverlayImage.fromResource(R.drawable.marker_station)
-                        width = 70
-                        height = 70
+                        width = 75
+                        height = 75
+                        captionText = response.stationNm
+                        captionOffset = 10
+                        captionRequestedWidth = 120
                         map = naverMap
                     }
                 }
@@ -72,7 +75,6 @@ class NearStationMapFragment :
     }
 
     companion object {
-        private const val CAPTION_OFFSET = 10
         private const val REQUEST_CODE = 1000
     }
 }
