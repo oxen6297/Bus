@@ -8,13 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -23,6 +20,7 @@ import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentNearStationMapBinding
 import sb.park.bus.feature.main.extensions.hide
+import sb.park.bus.feature.main.extensions.setMarker
 import sb.park.bus.feature.main.viewmodels.NearStationMapViewModel
 
 @AndroidEntryPoint
@@ -60,18 +58,9 @@ class NearStationMapFragment :
             viewModel.stationFlow.flowWithLifecycle(
                 lifecycle,
                 Lifecycle.State.STARTED
-            ).collectLatest {
-                it.forEach { response ->
-                    Marker().apply {
-                        position = LatLng(response.gpsY.toDouble(), response.gpsX.toDouble())
-                        icon = OverlayImage.fromResource(R.drawable.marker_station)
-                        width = 75
-                        height = 75
-                        captionText = response.stationNm
-                        captionOffset = 10
-                        captionRequestedWidth = 120
-                        map = naverMap
-                    }
+            ).collectLatest { nearStationList ->
+                nearStationList.forEach {
+                    naverMap.setMarker(it.gpsY.toDouble(), it.gpsX.toDouble(), it.stationNm)
                 }
             }
         }

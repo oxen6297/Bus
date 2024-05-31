@@ -10,14 +10,13 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.adapter.StationInfoAdapter
 import sb.park.bus.feature.main.common.base.BaseFragment
 import sb.park.bus.feature.main.databinding.FragmentStationMapBinding
+import sb.park.bus.feature.main.extensions.setMarker
 import sb.park.bus.feature.main.extensions.setOnSlide
 import sb.park.bus.feature.main.utils.ItemDecoration
 import sb.park.bus.feature.main.viewmodels.StationMapViewModel
@@ -52,22 +51,12 @@ class StationMapFragment : BaseFragment<FragmentStationMapBinding>(R.layout.frag
     override fun onMapReady(p0: NaverMap) {
         viewModel.argData.observe(this@StationMapFragment) {
             val latLng = LatLng(it.gpsY.toDouble(), it.gpsX.toDouble())
-            val naverMap = p0.apply {
+            p0.apply {
                 locationOverlay.isVisible = true
                 locationSource = FusedLocationSource(this@StationMapFragment, REQUEST_CODE)
                 moveCamera(CameraUpdate.scrollTo(latLng))
                 binding.btnLocation.map = this
-            }
-
-            Marker().apply {
-                position = latLng
-                icon = OverlayImage.fromResource(R.drawable.marker_station)
-                width = 75
-                height = 75
-                captionText = it.stationNm
-                captionOffset = 10
-                captionRequestedWidth = 120
-                map = naverMap
+                setMarker(it.gpsY.toDouble(), it.gpsX.toDouble(), it.stationNm)
             }
         }
     }

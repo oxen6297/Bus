@@ -4,6 +4,10 @@ import android.content.Context
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import sb.park.bus.feature.main.R
 import sb.park.bus.feature.main.utils.CustomDialogBuilder
 import sb.park.bus.feature.main.utils.SingleClick
@@ -58,3 +62,19 @@ inline fun <T : View> BottomSheetBehavior<T>.setOnSlide(
         onSlide(p0, p1)
     }
 })
+
+/**
+ * NaverMap Marker Extension
+ */
+fun NaverMap.setMarker(gpsY: Double, gpsX: Double, title: String) {
+    Marker().apply {
+        position = LatLng(gpsY, gpsX)
+        icon = OverlayImage.fromResource(R.drawable.marker_station)
+        width = 75
+        height = 75
+        captionText = title
+        captionOffset = 10
+        captionRequestedWidth = 120
+        map = this@setMarker
+    }
+}
