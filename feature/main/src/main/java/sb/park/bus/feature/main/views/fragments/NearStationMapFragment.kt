@@ -1,6 +1,8 @@
 package sb.park.bus.feature.main.views.fragments
 
+import android.content.Context
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.UiThread
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -31,9 +33,8 @@ class NearStationMapFragment :
     private val viewModel: NearStationMapViewModel by viewModels()
 
     override fun initView(view: View) {
-        bind {
-            vm = viewModel
-        }
+        bind { vm = viewModel }
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapview) as MapFragment?
             ?: MapFragment.newInstance().also {
                 childFragmentManager.beginTransaction().add(R.id.mapview, it).commit()
@@ -46,11 +47,13 @@ class NearStationMapFragment :
     override fun onMapReady(p0: NaverMap) {
         val naverMap = p0.apply {
             locationOverlay.isVisible = true
-            locationSource =
-                FusedLocationSource(this@NearStationMapFragment, REQUEST_CODE)
+            locationSource = FusedLocationSource(this@NearStationMapFragment, REQUEST_CODE)
             locationTrackingMode = LocationTrackingMode.Follow
             uiSettings.isLocationButtonEnabled = true
-            addOnLocationChangeListener { binding.layoutLoading.hide() }
+            addOnLocationChangeListener {
+                binding.layoutLoading.hide()
+                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            }
         }
 
         lifecycleScope.launch {
@@ -72,6 +75,14 @@ class NearStationMapFragment :
                 }
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity?.window?.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
     }
 
     companion object {
