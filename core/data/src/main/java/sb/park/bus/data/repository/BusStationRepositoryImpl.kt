@@ -33,6 +33,9 @@ internal class BusStationRepositoryImpl @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
 
+    /**
+     * 버스 정류장 노선
+     */
     override fun getStation(
         argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
@@ -58,6 +61,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
         }
     }.flowOn(coroutineDispatcher)
 
+
+    /**
+     * 정류장 정보
+     */
     override fun getStationInfo(
         arsId: String
     ): Flow<ApiResult<List<StationInfoResponse>>> = safeFlow {
@@ -66,6 +73,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
         }
     }.flowOn(coroutineDispatcher)
 
+
+    /**
+     * 근처 정류장 리스트
+     */
     override fun getNearStationList(
         gpsX: String,
         gpsY: String
@@ -73,6 +84,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
         busService.getNearStation(gpsX, gpsY).msgBody.itemList.toList<NearStationResponse>()
     }
 
+
+    /**
+     * 내 근처 정류장 찾기
+     */
     override fun getNearStation(
         argumentData: ArgumentData,
         latitude: Double,
@@ -100,6 +115,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
         }
     }.flowOn(coroutineDispatcher)
 
+
+    /**
+     * 버스 도착 시간
+     */
     override suspend fun getArriveTime(busId: String, seq: String, stationId: String): String {
         return busService.getArrive(
             busId,
