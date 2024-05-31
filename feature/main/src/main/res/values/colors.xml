@@ -8,5 +8,7 @@
     <color name="gray_b7b7b7">#B7B7B7</color>
     <color name="gray_dedede">#DEDEDE</color>
     <color name="black">#0E0D0D</color>
+    <color name="black_transparent">#4D0E0D0D</color>
     <color name="navy">#0E0F37</color>
+    <color name="mint">#008AB7</color>
 </resources>
