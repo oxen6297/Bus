@@ -19,6 +19,17 @@
         android:layout_height="match_parent"
         tools:context=".views.fragments.NearStationMapFragment">
 
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/icon_small_size"
+            android:layout_height="@dimen/icon_small_size"
+            android:layout_marginStart="@dimen/default_padding"
+            android:layout_marginTop="@dimen/default_padding"
+            android:background="@drawable/back_btn"
+            app:backPressed="@{true}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/mapview"
             android:name="com.naver.maps.map.MapFragment"
