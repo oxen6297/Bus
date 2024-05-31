@@ -35,7 +35,7 @@ class NearStationMapViewModel @Inject constructor(
     )
 
     val stationFlow: StateFlow<List<NearStationResponse>> = uiState.map {
-        it.successOrNull()?: emptyList()
+        it.successOrNull() ?: emptyList()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
