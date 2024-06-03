@@ -32,9 +32,15 @@ internal class BitCoinRepositoryImpl @Inject constructor(
         }.onSuccess {
             val bitCoinResponse = it.data.toEntity()
             val bitCoinEntities = bitCoinDao.getData()
+
+            if (bitCoinEntities.isEmpty()) {
+                bitCoinDao.insertNewData(bitCoinResponse)
+                return
+            }
+
             val timeDiff = bitCoinResponse.date.toLong() - bitCoinEntities.last().date.toLong()
 
-            if (timeDiff >= FIFTEEN_MINUTE || bitCoinEntities.isEmpty()) {
+            if (timeDiff >= FIFTEEN_MINUTE) {
                 bitCoinDao.insertNewData(bitCoinResponse)
             }
         }.onFailure {
