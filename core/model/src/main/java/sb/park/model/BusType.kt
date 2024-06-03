@@ -15,7 +15,7 @@ enum class BusType(val type: String, val typeName: String, @ColorInt val color: 
     COMMON("0", "공용", R.color.dark_gray);
 
     companion object {
-        fun getColor(routeType:String): Int = entries.find {
+        fun getColor(routeType: String): Int = entries.find {
             it.typeName == routeType
         }?.color!!
     }
