@@ -25,7 +25,7 @@
             android:value="v51caqkotr" />
 
         <activity
-            android:name=".feature.main.views.activities.SplashActivity"
+            android:name=".presentation.views.activities.SplashActivity"
             android:exported="true">
 
             <intent-filter>

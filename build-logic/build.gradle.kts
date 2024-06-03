@@ -18,9 +18,9 @@ gradlePlugin {
             id = "sb.park.core"
             implementationClass = "sb.park.bus.build_logic.CorePlugin"
         }
-        register("AndroidFeature") {
-            id = "sb.park.feature"
-            implementationClass = "sb.park.bus.build_logic.FeaturePlugin"
+        register("AndroidPresentation") {
+            id = "sb.park.presentation"
+            implementationClass = "sb.park.bus.build_logic.PresentationPlugin"
         }
     }
 }

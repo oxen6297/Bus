@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.main)
+    implementation(projects.presentation)
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.google.material)

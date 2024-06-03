@@ -24,5 +24,5 @@ include(
     ":core:data",
     ":core:domain",
     ":core:model",
-    ":feature:main"
+    ":presentation"
 )
