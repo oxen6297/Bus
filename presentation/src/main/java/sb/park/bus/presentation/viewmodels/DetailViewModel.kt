@@ -14,12 +14,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sb.park.bus.presentation.utils.KeyFile
 import sb.park.domain.usecases.BusStationUseCase
 import sb.park.domain.usecases.FavoriteUseCase
-import sb.park.domain.usecases.LocationUseCase
 import sb.park.domain.usecases.NearStationUseCase
 import sb.park.model.ApiResult
 import sb.park.model.response.bus.ArgumentData
@@ -32,7 +32,6 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val busStationUseCase: BusStationUseCase,
     private val nearStationUseCase: NearStationUseCase,
-    private val locationUseCase: LocationUseCase,
     private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -67,13 +66,13 @@ class DetailViewModel @Inject constructor(
         initialValue = false
     )
 
-    fun addFavorite() {
+    fun clickFavorite() {
         viewModelScope.launch {
             favoriteUseCase.addFavorite(argData.value!!)
         }
     }
 
-    fun refresh() {
+    fun clickRefresh() {
         viewModelScope.launch {
             busStationUseCase(argData.value!!).collectLatest {
                 _uiState.emit(it)
@@ -83,14 +82,10 @@ class DetailViewModel @Inject constructor(
 
     fun getNearStation() {
         viewModelScope.launch {
-            locationUseCase().collectLatest { gpsState ->
-                gpsState.successOrNull()?.let { gps ->
-                    nearStationUseCase(argData.value!!, gps.latitude, gps.longitude).collectLatest {
-                        it.successOrNull()?.let { location ->
-                            _locationFlow.emit(location)
-                        }
-                    }
-                }
+            nearStationUseCase(argData.value!!).mapNotNull {
+                it.successOrNull()
+            }.collectLatest {
+                _locationFlow.emit(it)
             }
         }
     }

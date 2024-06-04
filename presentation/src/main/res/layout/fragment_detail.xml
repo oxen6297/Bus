@@ -88,7 +88,7 @@
                     android:importantForAccessibility="no"
                     android:textOff=""
                     android:textOn=""
-                    app:clickFavorite="@{() -> vm.addFavorite()}"
+                    app:clickFavorite="@{() -> vm.clickFavorite()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -234,7 +234,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:importantForAccessibility="no"
-            android:onClick="@{() -> vm.refresh()}"
+            android:onClick="@{() -> vm.clickRefresh()}"
             android:src="@drawable/refresh"
             android:visibility="gone"
             app:backgroundTint="@color/gray_2f2f2f"

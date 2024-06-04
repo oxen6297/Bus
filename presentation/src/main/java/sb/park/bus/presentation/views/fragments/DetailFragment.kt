@@ -1,7 +1,6 @@
 package sb.park.bus.presentation.views.fragments
 
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
@@ -49,11 +48,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             vm = viewModel
             adapter = stationAdapter
             decoration = itemDecoration
-            updateLocation(view.context)
+            updateLocation()
 
             btnFloating.singleClickListener {
-                val translationMap = mapOf(true to 0f, false to -200f)
-                val transValue = translationMap[btnRefresh.isVisible] ?: 0f
+                val transValue = if (btnRefresh.isVisible) 0f else -200f
 
                 showAnimation(btnRefresh, transValue)
                 showAnimation(btnLocation, transValue * 2)
@@ -66,11 +64,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
 
             btnLeft.singleClickListener {
-                setScroll(it.context, START_POSITION)
+                setScroll(START_POSITION)
             }
 
             btnRight.singleClickListener {
-                setScroll(it.context, viewModel.transferPosition() + offsetPosition())
+                setScroll(viewModel.transferPosition() + offsetPosition())
             }
 
             recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -90,7 +88,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }
     }
 
-    private fun updateLocation(context: Context) {
+    private fun updateLocation() {
         lifecycleScope.launch {
             viewModel.locationFlow.flowWithLifecycle(
                 lifecycle,
@@ -99,20 +97,19 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 error(location.distance.toString())
 
                 if (location.distance > THREE_KILO) {
-                    context.showToast(getString(R.string.toast_over_distance))
+                    binding.root.context.showToast(getString(R.string.toast_over_distance))
                     return@collectLatest
                 }
 
                 stationAdapter.updateLocation(location) {
-                    setScroll(context, it + offsetPosition())
+                    setScroll(it + offsetPosition())
                 }
             }
         }
     }
 
     private fun showAnimation(button: FloatingActionButton, transValue: Float) {
-        val alphaMap = mapOf(true to Pair(1f, 0f), false to Pair(0f, 1f))
-        val alphaValue = alphaMap[button.isVisible] ?: Pair(1f, 0f)
+        val alphaValue = if (button.isVisible) Pair(1f, 0f) else Pair(0f, 1f)
 
         ObjectAnimator.ofFloat(button, TRANSLATION_Y, transValue).apply {
             if (button.isVisible) doOnEnd { button.hide() }
@@ -121,8 +118,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         ObjectAnimator.ofFloat(button, ALPHA, alphaValue.first, alphaValue.second).start()
     }
 
-    private fun setScroll(context: Context, position: Int) {
-        object : LinearSmoothScroller(context) {
+    private fun setScroll(position: Int) {
+        object : LinearSmoothScroller(binding.root.context) {
             override fun getVerticalSnapPreference(): Int = SNAP_TO_END
         }.run {
             targetPosition = position
