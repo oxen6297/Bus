@@ -46,7 +46,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     override fun initView(view: View) {
         bind {
-            vm = viewModel.apply { setFavorite() }
+            vm = viewModel
             adapter = stationAdapter
             decoration = itemDecoration
             updateLocation(view.context)
@@ -62,13 +62,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             btnLocation.singleClickListener {
                 if (PermissionUtil.checkPermission(it.context)) {
                     viewModel.getNearStation()
-                }
-            }
-
-            btnFavorite.singleClickListener {
-                when (viewModel.isFavorite.value) {
-                    true -> viewModel.deleteFavorite { it.context.showToast(getString(R.string.toast_delete_favorite)) }
-                    else -> viewModel.addFavorite { it.context.showToast(getString(R.string.toast_add_favorite)) }
                 }
             }
 

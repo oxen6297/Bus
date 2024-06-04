@@ -1,7 +1,6 @@
 package sb.park.bus.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -42,13 +41,11 @@ class DetailViewModel @Inject constructor(
     val argData: LiveData<ArgumentData>
         get() = _argData
 
-    private val _isFavorite = MutableLiveData(false)
-    val isFavorite: LiveData<Boolean> get() = _isFavorite
-
     private val _locationFlow = MutableSharedFlow<LocationModel>()
     val locationFlow = _locationFlow.asSharedFlow()
 
     private val _uiState = MutableStateFlow<ApiResult<List<BusStationResponse>>>(ApiResult.Loading)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState = _uiState.flatMapLatest { busStationUseCase(argData.value!!) }.stateIn(
         scope = viewModelScope,
@@ -64,34 +61,15 @@ class DetailViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    fun setFavorite() {
-        viewModelScope.launch {
-            favoriteUseCase.getFavorite().collectLatest { list ->
-                _isFavorite.value = list.any {
-                    val busId = argData.value!!.busId
-                    val type = ArgumentData.Type.BUS.type
+    val isFavorite: StateFlow<Boolean> = favoriteUseCase.isBusFavorite(argData.value!!).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = false
+    )
 
-                    it.busId == busId && it.type == type
-                }
-            }
-        }
-    }
-
-    fun deleteFavorite(toast: () -> Unit) {
+    fun addFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.deleteBusFavorite(argData.value!!.busId) {
-                _isFavorite.value = it
-                toast()
-            }
-        }
-    }
-
-    fun addFavorite(toast: () -> Unit) {
-        viewModelScope.launch {
-            favoriteUseCase.insertFavorite(argData.value!!.toFavorite()) {
-                _isFavorite.value = it
-                toast()
-            }
+            favoriteUseCase.addFavorite(argData.value!!)
         }
     }
 

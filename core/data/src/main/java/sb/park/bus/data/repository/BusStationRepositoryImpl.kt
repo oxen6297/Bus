@@ -49,13 +49,11 @@ internal class BusStationRepositoryImpl @Inject constructor(
         busService.getStation(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>().map {
-            val isFavorite = favoriteDao.getFavorite().any { entity ->
-                entity.station == it.stationId && entity.busId == argumentData.busId
-            }
+            val isFavorite = favoriteDao.isStationFavorite(it.stationId, argumentData.busId)
 
             it.toData(isFavorite, locationList) {
                 CoroutineScope(coroutineDispatcher).launch {
-                    favoriteDao.addFavorite(it, argumentData)
+                    favoriteDao.addStationFavorite(it, argumentData)
                 }
             }
         }
