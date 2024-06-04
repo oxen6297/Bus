@@ -3,13 +3,12 @@ package sb.park.bus.presentation.utils
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.View
-import android.widget.ImageButton
+import android.widget.ToggleButton
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
@@ -99,9 +98,21 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("isFavorite")
-    fun bindSetFavoriteImage(imageButton: ImageButton, isFavorite: Boolean) {
-        val imageResource = if (isFavorite) R.drawable.star else R.drawable.white_star
-        Glide.with(imageButton.context).load(imageResource).into(imageButton)
+    @BindingAdapter("clickFavorite")
+    fun bindCheckedChangedListener(
+        view: ToggleButton,
+        action: () -> Unit
+    ) {
+        view.setOnClickListener {
+            action()
+            it.context.apply {
+                val message = if (view.isChecked) {
+                    getString(R.string.toast_add_favorite)
+                } else {
+                    getString(R.string.toast_delete_favorite)
+                }
+                showToast(message)
+            }
+        }
     }
 }

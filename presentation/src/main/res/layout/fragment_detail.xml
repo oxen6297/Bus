@@ -78,14 +78,17 @@
                     app:layout_constraintStart_toEndOf="@+id/text_bus_type"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <ToggleButton
                     android:id="@+id/btn_favorite"
                     android:layout_width="@dimen/icon_medium_size"
                     android:layout_height="@dimen/icon_medium_size"
                     android:layout_marginEnd="20dp"
-                    android:background="@drawable/white_star"
+                    android:background="@drawable/toggle_button_selector"
+                    android:checked="@{vm.isFavorite}"
                     android:importantForAccessibility="no"
-                    app:isFavorite="@{vm.isFavorite}"
+                    android:textOff=""
+                    android:textOn=""
+                    app:clickFavorite="@{() -> vm.addFavorite()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

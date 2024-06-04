@@ -209,9 +209,9 @@
                 android:background="@drawable/toggle_button_selector"
                 android:checked="@{station.favorite}"
                 android:importantForAccessibility="no"
-                android:onClick="@{() -> station.onFavorite.invoke()}"
                 android:textOff=""
                 android:textOn=""
+                app:clickFavorite="@{() -> station.onFavorite.invoke()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
