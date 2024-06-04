@@ -26,11 +26,15 @@ interface FavoriteDao {
     @Query("DELETE FROM FavoriteEntity")
     suspend fun deleteAll()
 
+    @Query("SELECT EXISTS(SELECT 1 FROM FavoriteEntity WHERE station = :station AND busId = :busId AND type = 1)")
+    suspend fun isStationFavorite(station: String, busId: String): Boolean
+
+    @Query("SELECT EXISTS(SELECT 1 FROM FavoriteEntity WHERE busId = :busId AND type = 0)")
+    suspend fun isBusFavorite(busId: String): Boolean
+
     @Transaction
-    suspend fun addFavorite(response: BusStationResponse, argumentData: ArgumentData) {
-        val isFavorite = getFavorite().any {
-            it.station == response.stationId && it.busId == argumentData.busId
-        }
+    suspend fun addStationFavorite(response: BusStationResponse, argumentData: ArgumentData) {
+        val isFavorite = isStationFavorite(response.stationId, argumentData.busId)
 
         if (isFavorite) {
             deleteStationFavorite(response.stationId)
@@ -42,6 +46,17 @@ interface FavoriteDao {
                     response.stationNm
                 )
             )
+        }
+    }
+
+    @Transaction
+    suspend fun addBusFavorite(argumentData: ArgumentData) {
+        val isFavorite = isBusFavorite(argumentData.busId)
+
+        if (isFavorite) {
+            deleteBusFavorite(argumentData.busId)
+        } else {
+            insertFavorite(argumentData.toFavorite())
         }
     }
 }
