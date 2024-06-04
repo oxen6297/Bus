@@ -13,12 +13,10 @@ interface BusStationRepository {
 
     fun getStationInfo(arsId: String): Flow<ApiResult<List<StationInfoResponse>>>
 
-    fun getNearStationList(gpsX: String, gpsY: String): Flow<ApiResult<List<NearStationResponse>>>
+    fun getNearStationList(): Flow<ApiResult<List<NearStationResponse>>>
 
     fun getNearStation(
-        argumentData: ArgumentData,
-        latitude: Double,
-        longitude: Double
+        argumentData: ArgumentData
     ): Flow<ApiResult<LocationModel>>
 
     suspend fun getArriveTime(busId: String, seq: String, stationId: String): String

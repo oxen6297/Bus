@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 class NearStationListUseCase @Inject constructor(private val busStationRepository: BusStationRepository) {
 
-    operator fun invoke(gpsX: String, gpsY: String): Flow<ApiResult<List<NearStationResponse>>> =
-        busStationRepository.getNearStationList(gpsX, gpsY)
+    operator fun invoke(): Flow<ApiResult<List<NearStationResponse>>> =
+        busStationRepository.getNearStationList()
 }

@@ -10,9 +10,7 @@ import javax.inject.Inject
 class NearStationUseCase @Inject constructor(private val busStationRepository: BusStationRepository) {
 
     operator fun invoke(
-        argumentData: ArgumentData,
-        latitude: Double,
-        longitude: Double
+        argumentData: ArgumentData
     ): Flow<ApiResult<LocationModel>> =
-        busStationRepository.getNearStation(argumentData, latitude, longitude)
+        busStationRepository.getNearStation(argumentData)
 }

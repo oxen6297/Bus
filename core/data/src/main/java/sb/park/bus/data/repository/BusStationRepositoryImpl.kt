@@ -1,5 +1,7 @@
 package sb.park.bus.data.repository
 
+import android.annotation.SuppressLint
+import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -16,11 +18,14 @@ import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusArriveResponse
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
+import sb.park.model.response.bus.GPSModel
 import sb.park.model.response.bus.LocationModel
 import sb.park.model.response.bus.NearStationResponse
 import sb.park.model.response.bus.StationInfoResponse
 import sb.park.model.safeFlow
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.pow
@@ -30,6 +35,7 @@ import kotlin.math.sqrt
 internal class BusStationRepositoryImpl @Inject constructor(
     private val busService: BusService,
     private val favoriteDao: FavoriteDao,
+    private val locationClient: FusedLocationProviderClient,
     @Dispatcher(AppDispatchers.IO) private val coroutineDispatcher: CoroutineDispatcher
 ) : BusStationRepository {
 
@@ -39,7 +45,6 @@ internal class BusStationRepositoryImpl @Inject constructor(
     override fun getStation(
         argumentData: ArgumentData
     ): Flow<ApiResult<List<BusStationResponse>>> = safeFlow {
-
         val locationList = busService.getLocation(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusLocationResponse>().map {
@@ -75,25 +80,25 @@ internal class BusStationRepositoryImpl @Inject constructor(
     /**
      * 근처 정류장 리스트
      */
-    override fun getNearStationList(
-        gpsX: String,
-        gpsY: String
-    ): Flow<ApiResult<List<NearStationResponse>>> = safeFlow {
-        busService.getNearStation(gpsX, gpsY).msgBody.itemList.toList<NearStationResponse>()
+    override fun getNearStationList(): Flow<ApiResult<List<NearStationResponse>>> = safeFlow {
+        val latitude = getMyLocation().latitude.toString()
+        val longitude = getMyLocation().longitude.toString()
+        busService.getNearStation(longitude, latitude).msgBody.itemList.toList<NearStationResponse>()
     }
-
 
     /**
      * 내 근처 정류장 찾기
      */
+    @SuppressLint("MissingPermission")
     override fun getNearStation(
-        argumentData: ArgumentData,
-        latitude: Double,
-        longitude: Double
+        argumentData: ArgumentData
     ): Flow<ApiResult<LocationModel>> = safeFlow {
         val stationList = busService.getStation(
             busRouteId = argumentData.busId
         ).msgBody.itemList.toList<BusStationResponse>()
+
+        val latitude = getMyLocation().latitude
+        val longitude = getMyLocation().longitude
 
         LocationModel().apply {
             stationList.minBy { response ->
@@ -123,6 +128,22 @@ internal class BusStationRepositoryImpl @Inject constructor(
             seq,
             stationId
         ).msgBody.itemList.toList<BusArriveResponse>().first().arriveTime
+    }
+
+    /**
+     * 나의 좌표 가져 오기
+     */
+    @SuppressLint("MissingPermission")
+    private suspend fun getMyLocation(): GPSModel {
+        val location = suspendCoroutine { continuation ->
+            locationClient.lastLocation.addOnSuccessListener {
+                continuation.resume(it)
+            }.addOnFailureListener { e ->
+                e.printStackTrace()
+            }
+        }
+
+        return GPSModel(location.latitude, location.longitude)
     }
 
     companion object {
