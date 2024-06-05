@@ -1,5 +1,6 @@
 package sb.park.bus.presentation.views.fragments
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
 import androidx.core.animation.doOnEnd
@@ -13,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,6 +22,8 @@ import sb.park.bus.presentation.adapter.StationAdapter
 import sb.park.bus.presentation.common.base.BaseFragment
 import sb.park.bus.presentation.common.error
 import sb.park.bus.presentation.databinding.FragmentDetailBinding
+import sb.park.bus.presentation.extensions.hide
+import sb.park.bus.presentation.extensions.show
 import sb.park.bus.presentation.extensions.showToast
 import sb.park.bus.presentation.extensions.singleClickListener
 import sb.park.bus.presentation.utils.ItemDecoration
@@ -35,7 +37,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private val itemDecoration: ItemDecoration by lazy { ItemDecoration() }
     private val stationAdapter: StationAdapter by lazy {
         StationAdapter {
-            if (PermissionUtil.checkPermission(requireContext())) {
+            if (PermissionUtil.checkPermission(binding.root.context)) {
                 findNavController().navigate(
                     DetailFragmentDirections.actionDetailFragmentToStationMapFragment(it)
                 )
@@ -48,27 +50,23 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             vm = viewModel
             adapter = stationAdapter
             decoration = itemDecoration
+            permission = PermissionUtil
             updateLocation()
 
             btnFloating.singleClickListener {
                 val transValue = if (btnRefresh.isVisible) 0f else -200f
+                val alphaValue = if (btnRefresh.isVisible) Pair(1f, 0f) else Pair(0f, 1f)
 
-                showAnimation(btnRefresh, transValue)
-                showAnimation(btnLocation, transValue * 2)
-            }
-
-            btnLocation.singleClickListener {
-                if (PermissionUtil.checkPermission(it.context)) {
-                    viewModel.getNearStation()
-                }
+                setAnimation(btnRefresh, transValue, alphaValue)
+                setAnimation(btnLocation, transValue * 2, alphaValue)
             }
 
             btnLeft.singleClickListener {
-                setScroll(START_POSITION)
+                setScroller(START_POSITION)
             }
 
             btnRight.singleClickListener {
-                setScroll(viewModel.transferPosition() + offsetPosition())
+                setScroller(viewModel.transferPosition())
             }
 
             recyclerviewStation.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -93,36 +91,39 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             viewModel.locationFlow.flowWithLifecycle(
                 lifecycle,
                 Lifecycle.State.STARTED
-            ).collectLatest { location ->
-                error(location.distance.toString())
+            ).collectLatest {
+                error(it.distance.toString())
 
-                if (location.distance > THREE_KILO) {
+                if (it.distance > THREE_KILO) {
                     binding.root.context.showToast(getString(R.string.toast_over_distance))
                     return@collectLatest
                 }
 
-                stationAdapter.updateLocation(location) {
-                    setScroll(it + offsetPosition())
-                }
+                stationAdapter.updateLocation(it, ::setScroller)
             }
         }
     }
 
-    private fun showAnimation(button: FloatingActionButton, transValue: Float) {
-        val alphaValue = if (button.isVisible) Pair(1f, 0f) else Pair(0f, 1f)
+    private fun setAnimation(view: View, transValue: Float, alphaValue: Pair<Float, Float>) {
+        val transAnimation = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, transValue).apply {
+            if (view.isVisible) doOnEnd { view.hide() }
+            else doOnStart { view.show() }
+        }
+        val alphaAnimation =
+            ObjectAnimator.ofFloat(view, View.ALPHA, alphaValue.first, alphaValue.second)
 
-        ObjectAnimator.ofFloat(button, TRANSLATION_Y, transValue).apply {
-            if (button.isVisible) doOnEnd { button.hide() }
-            else doOnStart { button.show() }
+        AnimatorSet().apply {
+            playTogether(transAnimation, alphaAnimation)
+            setTarget(view)
         }.start()
-        ObjectAnimator.ofFloat(button, ALPHA, alphaValue.first, alphaValue.second).start()
     }
 
-    private fun setScroll(position: Int) {
+
+    private fun setScroller(position: Int) {
         object : LinearSmoothScroller(binding.root.context) {
             override fun getVerticalSnapPreference(): Int = SNAP_TO_END
         }.run {
-            targetPosition = position
+            targetPosition = position + offsetPosition()
             binding.recyclerviewStation.layoutManager?.startSmoothScroll(this)
         }
     }
@@ -138,7 +139,5 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     companion object {
         private const val THREE_KILO = 3000
         private const val START_POSITION = 0
-        private const val TRANSLATION_Y = "translationY"
-        private const val ALPHA = "alpha"
     }
 }
