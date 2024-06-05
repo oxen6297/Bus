@@ -11,6 +11,10 @@
         <import type="sb.park.model.ApiResult" />
 
         <variable
+            name="permission"
+            type="sb.park.bus.presentation.utils.PermissionUtil" />
+
+        <variable
             name="vm"
             type="sb.park.bus.presentation.viewmodels.DetailViewModel" />
 
@@ -220,6 +224,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:importantForAccessibility="no"
+            android:onClick="@{() -> permission.checkPermission(context) ? vm.clickLocation() : null}"
             android:src="@drawable/location"
             android:visibility="gone"
             app:backgroundTint="@color/gray_2f2f2f"
