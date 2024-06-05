@@ -80,7 +80,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun getNearStation() {
+    fun clickLocation() {
         viewModelScope.launch {
             nearStationUseCase(argData.value!!).mapNotNull {
                 it.successOrNull()
