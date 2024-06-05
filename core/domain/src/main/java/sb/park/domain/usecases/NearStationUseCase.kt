@@ -11,6 +11,5 @@ class NearStationUseCase @Inject constructor(private val busStationRepository: B
 
     operator fun invoke(
         argumentData: ArgumentData
-    ): Flow<ApiResult<LocationModel>> =
-        busStationRepository.getNearStation(argumentData)
+    ): Flow<ApiResult<LocationModel>> = busStationRepository.getNearStation(argumentData)
 }
