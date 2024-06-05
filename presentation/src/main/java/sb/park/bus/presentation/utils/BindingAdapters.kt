@@ -99,9 +99,9 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("clickFavorite")
-    fun bindCheckedChangedListener(
+    inline fun bindCheckedChangedListener(
         view: ToggleButton,
-        action: () -> Unit
+        crossinline action: () -> Unit
     ) {
         view.setOnClickListener {
             action()
