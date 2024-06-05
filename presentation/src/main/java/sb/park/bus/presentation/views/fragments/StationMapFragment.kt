@@ -50,13 +50,14 @@ class StationMapFragment : BaseFragment<FragmentStationMapBinding>(R.layout.frag
     @UiThread
     override fun onMapReady(p0: NaverMap) {
         viewModel.argData.observe(this@StationMapFragment) {
-            val latLng = LatLng(it.gpsY.toDouble(), it.gpsX.toDouble())
+            val latitude = it.gpsY.toDouble()
+            val longitude = it.gpsX.toDouble()
             p0.apply {
                 locationOverlay.isVisible = true
                 locationSource = FusedLocationSource(this@StationMapFragment, REQUEST_CODE)
-                moveCamera(CameraUpdate.scrollTo(latLng))
+                moveCamera(CameraUpdate.scrollTo(LatLng(latitude, longitude)))
                 binding.btnLocation.map = this
-                setMarker(it.gpsY.toDouble(), it.gpsX.toDouble(), it.stationNm)
+                setMarker(latitude, longitude, it.stationNm)
             }
         }
     }
