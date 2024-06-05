@@ -1,6 +1,7 @@
 package sb.park.bus.data.repository
 
 import android.annotation.SuppressLint
+import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,6 @@ import sb.park.model.response.bus.ArgumentData
 import sb.park.model.response.bus.BusArriveResponse
 import sb.park.model.response.bus.BusLocationResponse
 import sb.park.model.response.bus.BusStationResponse
-import sb.park.model.response.bus.GPSModel
 import sb.park.model.response.bus.LocationModel
 import sb.park.model.response.bus.NearStationResponse
 import sb.park.model.response.bus.StationInfoResponse
@@ -134,7 +134,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
      * 나의 좌표 가져 오기
      */
     @SuppressLint("MissingPermission")
-    private suspend fun getMyLocation(): GPSModel {
+    private suspend fun getMyLocation(): Location {
         val location = suspendCoroutine { continuation ->
             locationClient.lastLocation.addOnSuccessListener {
                 continuation.resume(it)
@@ -143,7 +143,7 @@ internal class BusStationRepositoryImpl @Inject constructor(
             }
         }
 
-        return GPSModel(location.latitude, location.longitude)
+        return location
     }
 
     companion object {
