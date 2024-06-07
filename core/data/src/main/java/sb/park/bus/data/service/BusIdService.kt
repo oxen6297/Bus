@@ -6,5 +6,5 @@ import sb.park.model.response.bus.BusIdResponse
 
 internal interface BusIdService {
     @GET(BUS_ID_SERVICE)
-    suspend fun getBusId(): List<BusIdResponse>
+    suspend fun getBusId(): BusIdResponse
 }

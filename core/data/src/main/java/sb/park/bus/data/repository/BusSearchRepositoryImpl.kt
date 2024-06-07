@@ -25,7 +25,7 @@ internal class BusSearchRepositoryImpl @Inject constructor(
 
         busNumber.ifEmpty { return@safeFlow emptyList<BusSearchResponse>() }
 
-        val busIdList = busIdService.getBusId().asSequence().distinctBy {
+        val busIdList = busIdService.getBusId().body.itemList.asSequence().distinctBy {
             it.routeId
         }.filter {
             it.routeName.startsWith(busNumber, ignoreCase = true)
