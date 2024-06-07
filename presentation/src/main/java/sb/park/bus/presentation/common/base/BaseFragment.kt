@@ -9,7 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId: Int) : Fragment() {
+abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutResource: Int) :
+    Fragment() {
 
     private var _binding: B? = null
     protected val binding get() = _binding!!
@@ -19,7 +20,7 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        _binding = DataBindingUtil.inflate(inflater, layoutResource, container, false)
         return binding.root
     }
 
