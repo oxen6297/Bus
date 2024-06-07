@@ -14,6 +14,8 @@ import sb.park.bus.data.repository.DataStoreRepository
 import sb.park.bus.data.repository.DataStoreRepositoryImpl
 import sb.park.bus.data.repository.FavoriteRepository
 import sb.park.bus.data.repository.FavoriteRepositoryImpl
+import sb.park.bus.data.repository.FileRepository
+import sb.park.bus.data.repository.FileRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,4 +35,7 @@ internal abstract class RepoModule {
 
     @Binds
     abstract fun provideChartPreferencesRepository(chartPreferencesRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository
+
+    @Binds
+    abstract fun provideFile(fileRepositoryImpl: FileRepositoryImpl): FileRepository
 }
