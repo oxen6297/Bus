@@ -26,13 +26,11 @@ private fun BitCoinResponse.toData(): BitCoinResponse {
     )
 }
 
-internal fun BitCoinResponse.toEntity(): BitCoinEntity {
-    return BitCoinEntity(
-        changeRatio = this.changeRatio,
-        openPrice = this.openPrice,
-        closePrice = this.closePrice,
-        maxPrice = this.maxPrice,
-        minPrice = this.minPrice,
-        date = this.date
-    )
-}
+internal fun BitCoinResponse.toEntity(): BitCoinEntity = BitCoinEntity(
+    changeRatio = this.changeRatio,
+    openPrice = this.openPrice,
+    closePrice = this.closePrice,
+    maxPrice = this.maxPrice,
+    minPrice = this.minPrice,
+    date = this.date
+)

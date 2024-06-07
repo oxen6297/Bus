@@ -83,7 +83,10 @@ internal class BusStationRepositoryImpl @Inject constructor(
     override fun getNearStationList(): Flow<ApiResult<List<NearStationResponse>>> = safeFlow {
         val latitude = getMyLocation().latitude.toString()
         val longitude = getMyLocation().longitude.toString()
-        busService.getNearStation(longitude, latitude).msgBody.itemList.toList<NearStationResponse>()
+        busService.getNearStation(
+            longitude,
+            latitude
+        ).msgBody.itemList.toList<NearStationResponse>()
     }
 
     /**
@@ -122,28 +125,24 @@ internal class BusStationRepositoryImpl @Inject constructor(
     /**
      * 버스 도착 시간
      */
-    override suspend fun getArriveTime(busId: String, seq: String, stationId: String): String {
-        return busService.getArrive(
+    override suspend fun getArriveTime(busId: String, seq: String, stationId: String): String =
+        busService.getArrive(
             busId,
             seq,
             stationId
         ).msgBody.itemList.toList<BusArriveResponse>().first().arriveTime
-    }
+
 
     /**
      * 나의 좌표 가져 오기
      */
     @SuppressLint("MissingPermission")
-    private suspend fun getMyLocation(): Location {
-        val location = suspendCoroutine { continuation ->
-            locationClient.lastLocation.addOnSuccessListener {
-                continuation.resume(it)
-            }.addOnFailureListener { e ->
-                e.printStackTrace()
-            }
+    private suspend fun getMyLocation(): Location = suspendCoroutine { continuation ->
+        locationClient.lastLocation.addOnSuccessListener {
+            continuation.resume(it)
+        }.addOnFailureListener { e ->
+            e.printStackTrace()
         }
-
-        return location
     }
 
     companion object {
