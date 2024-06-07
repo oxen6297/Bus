@@ -1,8 +1,6 @@
 package sb.park.bus.presentation.views.fragments
 
-import android.content.Context
 import android.view.View
-import android.view.WindowManager
 import androidx.annotation.UiThread
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -47,10 +45,13 @@ class NearStationMapFragment :
             locationOverlay.isVisible = true
             locationSource = FusedLocationSource(this@NearStationMapFragment, REQUEST_CODE)
             locationTrackingMode = LocationTrackingMode.Follow
-            uiSettings.isLocationButtonEnabled = true
+            uiSettings.apply {
+                setAllGesturesEnabled(false)
+                isLocationButtonEnabled = true
+            }
             addOnLocationChangeListener {
                 binding.layoutLoading.hide()
-                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                uiSettings.setAllGesturesEnabled(true)
             }
         }
 
@@ -64,14 +65,6 @@ class NearStationMapFragment :
                 }
             }
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity?.window?.setFlags(
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-        )
     }
 
     companion object {
