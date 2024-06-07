@@ -54,7 +54,7 @@ internal class BitCoinRepositoryImpl @Inject constructor(
                 add(bitCoinEntity.toCandle(index))
             }
         }
-    }
+    }.flowOn(coroutineDispatcher)
 
     companion object {
         private const val FIFTEEN_MINUTE = 900000
