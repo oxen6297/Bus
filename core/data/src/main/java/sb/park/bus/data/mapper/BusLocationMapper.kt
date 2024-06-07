@@ -3,19 +3,7 @@ package sb.park.bus.data.mapper
 import sb.park.model.response.bus.BusLocationResponse
 
 internal fun BusLocationResponse.toData(): BusLocationResponse = BusLocationResponse(
-    sectOrd = this.sectOrd,
     sectionId = this.sectionId,
-    dataTm = this.dataTm,
-    gpsX = this.gpsX,
-    gpsY = this.gpsY,
-    vehId = this.vehId,
-    plainNo = this.plainNo,
-    nextStTm = if (this.nextStTm.toInt() < 60) {
-        "곧 도착"
-    } else {
-        val minute = (this.nextStTm.toInt() / 60).toString()
-        "$minute ~ ${minute.plus(1)}분"
-    },
     isrunyn = if (this.isrunyn == "1") "운행" else "운행 종료",
     islastyn = if (this.islastyn == "1") "막차" else "막차 아님",
     congetion = when (this.congetion) {
