@@ -22,6 +22,9 @@ internal class BusSearchRepositoryImpl @Inject constructor(
 ) : BusSearchRepository {
 
     override fun getSearch(busNumber: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
+
+        busNumber.ifEmpty { return@safeFlow emptyList<BusSearchResponse>() }
+
         val busIdList = busIdService.getBusId().asSequence().distinctBy {
             it.routeId
         }.filter {
