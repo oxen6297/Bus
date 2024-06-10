@@ -5,5 +5,5 @@ import sb.park.model.ApiResult
 
 interface FileRepository {
 
-    fun downloadFile(): Flow<ApiResult<Float>>
+    fun downloadFile(): Flow<ApiResult<Int>>
 }

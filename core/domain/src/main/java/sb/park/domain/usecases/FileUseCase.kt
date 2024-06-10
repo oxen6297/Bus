@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class FileUseCase @Inject constructor(private val fileRepository: FileRepository) {
 
-    operator fun invoke():Flow<ApiResult<Float>> = fileRepository.downloadFile()
+    operator fun invoke():Flow<ApiResult<Int>> = fileRepository.downloadFile()
 }
