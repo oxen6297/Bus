@@ -7,7 +7,7 @@ data class BusIdResponse(
     @SerializedName("body") val body: Body
 ) {
     data class Body(
-        @SerializedName("itemList") val itemList: List<Item>
+        @SerializedName("itemList") val itemList: Set<Item>
     )
 
     data class Item(
