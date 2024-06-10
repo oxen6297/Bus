@@ -17,6 +17,5 @@ object FileModule {
 
     @Provides
     @Singleton
-    fun provideFile(@ApplicationContext context: Context): File =
-        File(context.filesDir, FILE_NAME)
+    fun provideFile(@ApplicationContext context: Context): File = File(context.filesDir, FILE_NAME)
 }
