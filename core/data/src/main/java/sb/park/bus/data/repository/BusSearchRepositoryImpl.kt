@@ -26,8 +26,6 @@ internal class BusSearchRepositoryImpl @Inject constructor(
 
     override fun getSearch(busNumber: String): Flow<ApiResult<List<BusSearchResponse>>> = safeFlow {
 
-        busNumber.ifEmpty { return@safeFlow emptyList<BusSearchResponse>() }
-
         val busIdList = Gson().fromJson<BusIdResponse>(
             String(file.readBytes()),
             object : TypeToken<BusIdResponse>() {}.type

@@ -10,6 +10,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -27,9 +28,8 @@ class SearchViewModel @Inject constructor(
     val busNumber = MutableLiveData<String>()
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    val uiState = busNumber.asFlow().debounce(1_000L).flatMapLatest {
-        busSearchUseCase(it)
-    }.stateIn(
+    val uiState = busNumber.asFlow().debounce(1_000L).filter(String::isNotEmpty)
+        .flatMapLatest(busSearchUseCase::invoke).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
         initialValue = ApiResult.Success(emptyList())
