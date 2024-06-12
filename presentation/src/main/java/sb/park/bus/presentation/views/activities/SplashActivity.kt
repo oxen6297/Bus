@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import sb.park.bus.presentation.R
 import sb.park.bus.presentation.common.base.BaseActivity
@@ -54,7 +55,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun goMain() {
         lifecycleScope.launch {
             viewModel.insertBitCoin()
-            viewModel.fileFlow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
+            viewModel.fileFlow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collectLatest {
                 binding.progressbar.progress = it
                 binding.textProgress.text = "$it%"
                 if (it == 100) {
