@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import sb.park.bus.presentation.R
 import sb.park.bus.presentation.adapter.StationAdapter
 import sb.park.bus.presentation.common.base.BaseFragment
-import sb.park.bus.presentation.common.error
 import sb.park.bus.presentation.databinding.FragmentDetailBinding
 import sb.park.bus.presentation.extensions.hide
 import sb.park.bus.presentation.extensions.show
@@ -92,8 +91,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 lifecycle,
                 Lifecycle.State.STARTED
             ).collectLatest {
-                error(it.distance.toString())
-
                 if (it.distance > THREE_KILO) {
                     binding.root.context.showToast(getString(R.string.toast_over_distance))
                     return@collectLatest
